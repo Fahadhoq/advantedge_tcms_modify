@@ -55,6 +55,16 @@
                         </li>
                         <!-- Class end -->
 
+                        <!-- Batch start-->
+                        <li>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> BATCH <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                            <ul class="submenu">
+                                <li><a href="{{ route('batch.index') }}"> {{ __('Show All Batch') }}</a></li>
+                                <li><a href="{{ route('batch.create') }}"> {{ __('Create Batch') }}</a></li>
+                            </ul>
+                        </li>
+                        <!-- Batch end -->
+
                         <!-- Subject start-->
                         <li>
                             <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> SUBJECT <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>

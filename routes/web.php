@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\StudentCourseEnrollmentController;
 use App\Http\Controllers\Admin\TeacherCourseEnrollmentController;
 use App\Http\Controllers\Payment\StudentPaymentController;
 use App\Http\Controllers\Account\DailyExpenseController;
+use App\Http\Controllers\BatchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +94,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/class-delete-{id}', [ClassController::class, 'delete'])->name('class.delete');
     Route::post('/class-edit-{id}', [ClassController::class, 'edit'])->name('class.edit');
     Route::post('/class-update-{id}', [ClassController::class, 'update']);
+});
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/batch', [BatchController::class, 'index'])->name('batch.index');
+    Route::get('/batch-create', [BatchController::class, 'create'])->name('batch.create');
+    Route::post('/batch-create', [BatchController::class, 'store']);
+    Route::post('/batch-show-{id}', [BatchController::class, 'show'])->name('batch.view');
+    Route::post('/batch-delete-{id}', [BatchController::class, 'delete'])->name('batch.delete');
+    Route::post('/batch-edit-{id}', [BatchController::class, 'edit'])->name('batch.edit');
+    Route::post('/batch-update-{id}', [BatchController::class, 'update']);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
