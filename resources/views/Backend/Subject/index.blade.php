@@ -57,7 +57,7 @@
                                                 <thead class="thead-default">
                                                     <tr>
                                                         <th style=text-align:center>SL</th>
-                                                        <th style=text-align:center>Class</th>
+                                                        <th style=text-align:center>Course Name</th>
                                                         <th style=text-align:center>Subject Name</th>
                                                         <th style=text-align:center>Action</th>    
                                                     </tr>
@@ -69,7 +69,7 @@
                                                 @foreach($subjects as $subject)
                                                     <tr>
                                                         <td style=text-align:center scope="row">{{$i++}}</td> 
-                                                        <td style=text-align:center scope="row">{{$subject->class->name}}</td>   
+                                                        <td style=text-align:center scope="row">{{@$subject->classes->name}}</td> 
                                                         <td style=text-align:center>{{$subject->name}}</td>
                                             
                                                         <td style=text-align:center>

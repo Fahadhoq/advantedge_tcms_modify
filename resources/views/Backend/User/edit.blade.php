@@ -86,7 +86,7 @@
                                 @foreach($UserTypes as $UserType)
                                             @if( ($UserType->name == 'student') || ($UserType->name == 'Student') || ($UserType->name == 'STUDENT') )
                                                 <li class="nav-item">
-                                                        <a class="nav-link inactive_tab1" id="list_academic_details" style="border:1px solid #ccc">Academic Details</a>
+                                                        <a class="nav-link inactive_tab1" id="list_academic_details" style="border:1px solid #ccc">Career Details</a>
                                                 </li>
                                             @endif
                                 @endforeach
@@ -379,7 +379,7 @@
                             <!-- 2nd row     -->
                             <div class="row hide" id="academic_details">
                                 <div class="col-lg-12" >  
-                                    <div class="heading">Academic Details</div>
+                                    <div class="heading">Career Details</div>
                                 </div>  
               
                             <!-- 1st part              -->

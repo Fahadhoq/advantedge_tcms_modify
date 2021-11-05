@@ -51,10 +51,10 @@
                                 <form action="{{ route( 'subject.create' ) }}" method="post" >
                                 @csrf
                                     <div class="form-group "> 
-                                        <label >Class</label>
+                                        <label >Course</label>
                                             <div >
                                                 <select class="form-control" name="Class" id="Class" value="{{ old('Class') }}">
-                                                    <option value="">Choose one class </option>
+                                                    <option value="">Choose one course </option>
                                                     @foreach($Classes as $Class)
                                                      <option  id="{{$Class->id}}" value="{{$Class->id}}">{{$Class->name}}</option>
                                                     @endforeach          

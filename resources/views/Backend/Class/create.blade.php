@@ -18,14 +18,14 @@
                         <div class="row align-items-center">
                             
                             <div class="col-sm-6">
-                                <h4 class="page-title">CLASS CREATE</h4>
+                                <h4 class="page-title">COURSE CREATE</h4>
                             </div>
                             
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-right">
                                     <li class="breadcrumb-item"><a href="javascript:void(0);">Training Center Management System</a></li>
-                                    <li class="breadcrumb-item active">CLASS </li>
-                                    <li class="breadcrumb-item active">CLASS CREATE</li>
+                                    <li class="breadcrumb-item active">COURSE </li>
+                                    <li class="breadcrumb-item active">COURSE CREATE</li>
                                 </ol>
                             </div>
                        
@@ -52,11 +52,11 @@
                                 @csrf
 
                                 <div class="form-group">
-                                    <lable style=font-weight:bold>Class Name </lable>
+                                    <lable style=font-weight:bold>Course Name </lable>
                                     <input type="text" class="form-control" name="ClassName" value="{{ old('ClassName') }}" placeholder="Enter Class name" >
                                 </div>
 
-                                <div class="form-group "> 
+                                <!-- <div class="form-group "> 
                                     <label >School / Collage / University</label>
                                         <div >
                                             <select class="form-control" name="AcademicType" id="AcademicType" >
@@ -67,7 +67,7 @@
                                                     <option   value="4" > Other</option> 
                                             </select>
                                         </div>
-                                </div>
+                                </div> -->
                                 
                             
 

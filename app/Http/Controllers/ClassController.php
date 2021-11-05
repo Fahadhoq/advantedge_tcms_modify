@@ -26,10 +26,7 @@ class ClassController extends Controller
                 'required',
                 'regex:/^[A-Za-z0-9 ]+$/',
                 'unique:classes,name',
-            ],
-            'AcademicType' => [
-                'required',
-            ]  
+            ] 
         ]);
 
         if($validator->fails()){
@@ -40,7 +37,6 @@ class ClassController extends Controller
 
             $Classes = new Classes;
             $Classes->name = $request->ClassName;
-            $Classes->academic_type = $request->AcademicType;
             $Classes->save();
             
             $this->SetMessage('Class Create Successfull' , 'success');
@@ -77,13 +73,6 @@ class ClassController extends Controller
                                <tr>  
                                     <td width="30%"><label>name</label></td>  
                                     <td width="70%">'.$class->name.'</td>  
-                               </tr>
-                               <tr>  
-                                    <td width="30%"><label>Academic Type</label></td>  
-                                    <td width="70%">'; if($class->academic_type == 1){ $output.= 'School';}
-                                                       if($class->academic_type == 2){ $output.= 'Collage';}
-                                                       if($class->academic_type == 3){ $output.= 'Universtty';}
-                                    '</td>  
                                </tr>
                        
                                ';   
@@ -123,17 +112,12 @@ class ClassController extends Controller
           if($validator->fails()){
                 return response()->json([ 'error' => 'Class name has already taken']);
           }
-
-          if($request->AcademicType == null){
-            return response()->json([ 'error' => 'Academic Type Required']);
-          }
   
         if($id != null)  
         {  
               $Classes = Classes::where('id', $id)->first();
   
               $Classes->name = $request->name;
-              $Classes->academic_type = $request->AcademicType;
               $Classes->save();
              // return response()->json([ 'success' => 'Permission Update Successfull']);
              
@@ -152,7 +136,6 @@ class ClassController extends Controller
                                     <th style=text-align:center>SL</th>
                                     <th style=text-align:center>ID</th>
                                     <th style=text-align:center>Class Name</th>
-                                    <th style=text-align:center>Academic Type</th>
                                     <th style=text-align:center>Action</th>
                                                      
                                 </tr>
@@ -171,15 +154,6 @@ class ClassController extends Controller
                                                           
                             <td style=text-align:center>' .$Class->id. '</td>  
                             <td style=text-align:center>' .$Class->name. '</td>
-                            <td style=text-align:center>'; if($Class->academic_type == 1){ 
-                                                                $output .= 'School';
-                                                            }elseif($Class->academic_type == 2){
-                                                                $output .= 'Collage';
-                                                            }elseif($Class->academic_type == 3){
-                                                                $output .= 'Univerdity';
-                                                            }elseif($Class->academic_type == 4){ 
-                                                                $output .= 'Other';
-                                                            }   $output .= '</td>
                                         
                     ';
               $output .= '
