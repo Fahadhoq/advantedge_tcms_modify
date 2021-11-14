@@ -36,6 +36,9 @@ th {
   background-color: #f0f4f7;
   color:black;
 }
+.input_field_size{
+    width: 80%;
+}
 
 </style>
 
@@ -55,13 +58,13 @@ th {
                         <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4  class="page-title">COURSE CREATE </h4>
+                                    <h4  class="page-title">STUDENT ENROLLMENT </h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a href="javascript:void(0);">Training Center Management System</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript:void(0);">COURSE</a></li>
-                                        <li class="breadcrumb-item active">COURSE CREATE</li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">STUDENT ENROLLMENT</a></li>
+                                        <li class="breadcrumb-item active">ENROLL</li>
                                     </ol>
                                 </div>
                             </div> <!-- end row -->
@@ -121,7 +124,7 @@ th {
                                     <!-- 2nd part              -->
                                         <div class="col-lg-6">
                                                 <div class="p-20">
-                                                       <label>Course List </label>
+                                                       <label>Offer Course List </label>
 
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered ">
@@ -129,13 +132,15 @@ th {
                                                             <tr class="course_table_head_tr">
                                                                 <th>Select</th>
                                                                 <th>ID</th>
-                                                                <th>Class</th>
+                                                                <th>Course Name</th>
                                                                 <th>Subject Name</th>
                                                                 <th>Day</th>
                                                                 <th>Start Time</th>
                                                                 <th>End Time</th>
                                                                 <th>Class Type</th>
                                                                 <th>Course Fee</th>
+                                                                <th>Discount Amount</th>
+                                                                <th>Negotiated Amount</th>
                                                                 <th>Limit</th>
                                                                 <th>Enrollment Last Date</th>  
                                                             </tr>
@@ -151,13 +156,13 @@ th {
                                                                 <!-- class -->
                                                                 <td align= "center">@php 
                                                                                       $class = App\Models\Classes::select('name')->where('id' , $offer_course->class)->first();
-                                                                                         echo $class->name;
+                                                                                         echo @$class->name;
                                                                                       @endphp</td>
                                                                 <!-- class end -->
                                                                 <!-- subject name -->
                                                                 <td align= "center"> @php 
-                                                                                      $subject = App\Models\Subject::select('name')->where('id' , $offer_course->subject)->first();
-                                                                                         echo $subject->name;
+                                                                                      $subjects = App\Models\Subject::select('name')->where('class_id' , $offer_course->class)->get();
+                                                                                        foreach($subjects as $subject){ echo @$subject->name; echo ',</br>';}
                                                                                       @endphp  
                                                                 </td>
                                                                 <!-- subject name end -->
@@ -183,6 +188,8 @@ th {
                                                                 <td align= "center">{{ date('h:i:s a', strtotime($offer_course->end_time)) }}</td>
                                                                 <td align= "center">@if($offer_course->class_type == 0) Offline  @else Online @endif</td>
                                                                 <td align= "center">{{ $offer_course->course_fee }}</td>
+                                                                <td align= "center"><input  class="input_field_size" id="Discount_input_field" ></td>
+                                                                <td align= "center"><input  class="input_field_size" id="negotiated_input_field" value="{{ $offer_course->course_fee }}"  readonly></td>
                                                                 <td align= "center"> @php 
                                                                                          $enroll_course = App\Models\Student_Course_Enrollment::where('course_id' , $offer_course->id)->get();
                                                                                          $count_enroll_course = count($enroll_course);
@@ -550,6 +557,21 @@ $('.select_course').click(function(){
 //forntend selected course end
 
 //check selected course is clash (day,time) for student end 
+
+//calculate negotiated course fee
+$('.select_course').click(function(){
+    $('#SearchStudent').keyup(function(){
+
+    });
+
+        var discount_amount = $('#Discount_input_field').val(); 
+        console.log(discount_amount);
+        if(discount_amount > 0)
+        {
+            $(this).closest('tr').addClass('selectRow');
+        }
+});       
+//negotiated course fee course end  
 
 //offer course store
 $("#StudentEnrolmentFormsubmit").click(function(){        

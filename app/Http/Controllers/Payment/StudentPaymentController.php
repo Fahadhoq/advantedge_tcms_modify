@@ -20,6 +20,7 @@ class StudentPaymentController extends Controller
     {
         $data['StudentsInfos'] = Student_Course_Enrollment::select('user_id')->groupBy('user_id')->get();
         $data['StudentsEnrollmentCourses'] = Student_Course_Enrollment::get();
+        $data['Student_Enroll_Courses']= Student_Course_Enrollment::select('user_id')->groupBy('user_id')->get();
         $data['StudentsPayment'] = StudentPayment::get();
         
         return view('Backend.Payment.student_payment.index' , $data);
@@ -49,8 +50,8 @@ class StudentPaymentController extends Controller
                         <tr>
                             <th>Select</th>
                             <th>ID</th>
-                            <th>Class</th>
-                            <th>Subject Name</th>
+                            <th>Course Name</th>
+                            <th>Batch </th>
                             <th>Course Fee</th>
                             <th>Enrolled Date</th> 
                         </tr>';
@@ -79,7 +80,7 @@ class StudentPaymentController extends Controller
                         //class end  
 
                         //subject        
-                        $output .=  '<td align= "center">'. $offer_Course->subjectss->name .'</td>';  
+                        $output .=  '<td align= "center">'. $offer_Course->batches->batch_name .'</td>';  
                         //subject end
                         $output .=  '<td align= "center" >'. $offer_Course->course_fee.'</td>
                                     <td align= "center">'. $offer_Course->created_at->format('d-m-Y').'</td>';
@@ -129,10 +130,7 @@ class StudentPaymentController extends Controller
                                 <td></td>
                             </tr>';
             }else{
-                $output .= '<tr class="selectRow">
-                                <td align= "center">
-                                    <input type="checkbox" class="select_course_due_payment" value="'.$due_payment.'" >
-                                </td>
+                $output .= '<tr class="">
                                 <td></td>
                                 <td></td>
                                 <td align= "center">Due Amount</td>             
@@ -588,7 +586,7 @@ class StudentPaymentController extends Controller
                 if(isset($student_id)){
         
                 $student = User::where('id', $student_id)->first();
-                $student_academic_info = User_Academic_Info::select('user_academic_type','user_class','user_institute_name')
+                $student_academic_info = User_Academic_Info::select('user_designation','user_institute_address','user_institute_name')
                                                                        ->where('user_id', $student_id)
                                                                        ->first();
              

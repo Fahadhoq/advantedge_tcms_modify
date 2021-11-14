@@ -142,7 +142,7 @@ class StudentCourseEnrollmentController extends Controller
          
             </tr>
             ';
-              $data['User_Academic_Info'] = User_Academic_Info::select('user_academic_type','user_class','user_institute_name')
+              $data['User_Academic_Info'] = User_Academic_Info::select('user_institute_address','user_designation','user_institute_name')
                                                                ->where('user_id', $row_users->id)
                                                                ->get();
               
@@ -150,46 +150,29 @@ class StudentCourseEnrollmentController extends Controller
             $output .= '</table>';
             //student info end
       
-            //student academic info
+            //student academic/carrer info
             
             $output .= '
             <div class="col-sm-12">
-               <h5 style="text-align: center"  class="page-title">Student Academic Info </h5>
+               <h5 style="text-align: center"  class="page-title">Student Carrer Info </h5>
             </div>
 
             <table class="table table-bordered table-striped">
             <tr>
-                <th>Academic Type</th>
-                <th>Class</th>
                 <th>Institute Name</th>
+                <th>Designation</th>
+                <th>Institute/Organization Address</th>
             </tr>
             ';
-        
-       
 
             foreach($data['User_Academic_Info'] as $User_Academic_Info)
             {
-                //academic_type
-                if($User_Academic_Info->user_academic_type == 1){
-                    $academic_type = "School";
-                }elseif($User_Academic_Info->user_academic_type == 2){
-                    $academic_type = "Collage";
-                }elseif($User_Academic_Info->user_academic_type == 3){
-                    $academic_type = "University";
-                }elseif($User_Academic_Info->user_academic_type == 4){
-                    $academic_type = "Other";
-                }
-                //academic_type end
-
-                //class
-                $class = Classes::select('name')->where('id' , $User_Academic_Info->user_class)->first();
-                //class end
 
             $output .= '
             <tr>
-                <td align= "center">'.$academic_type.'</td>
-                <td align= "center">'.$class->name .'</td>
                 <td align= "center">'.$User_Academic_Info->user_institute_name.'</td>
+                <td align= "center">'.$User_Academic_Info->user_designation.'</td>
+                <td align= "center">'.$User_Academic_Info->user_institute_address.'</td>
             </tr>
             ';
             }
@@ -825,9 +808,8 @@ class StudentCourseEnrollmentController extends Controller
 
            
            foreach($Student_Enroll_Courses as $Student_Enroll_Course){
-            $Student_total_Enroll_Courses = Student_Course_Enrollment::select('course_id')->where('user_id' , $Student_Enroll_Course->user_id)->count();
-                    
-                    $output .= '<tr>
+           
+                    $output .=     '<tr>
                                         <td style=text-align:center scope="row">' .$i++. '</td> 
                                         
                                         <!-- student info -->
@@ -835,7 +817,16 @@ class StudentCourseEnrollmentController extends Controller
                                         <td style=text-align:center scope="row">' .$Student_Enroll_Course->user->name. '</td>
                                         <!-- student info end -->
 
-                                        <td style=text-align:center scope="row">' .$Student_total_Enroll_Courses. '</td>
+                                        <td style=text-align:center scope="row">';
+                                        $Student_total_Enroll_Courses = Student_Course_Enrollment::select('course_id')->where('user_id' , $Student_Enroll_Course->user_id)->get();
+                                        foreach ($Student_total_Enroll_Courses as $Student_total_Enroll_Course) {
+                                            $offer_course_classes = Course::select('class')->where('id' , $Student_total_Enroll_Course->course_id)->get();
+                                            foreach ($offer_course_classes as $offer_course_class) {
+                                                $classes = Classes::select('name')->where('id' , $offer_course_class->class)->first();
+                                                $output .=  $classes->name ; $output .= '</br>';
+                                            }
+                                        } 
+                                        $output .= '</td>
 
                                         <td style=text-align:center>
                                             <!-- <a href="" class="btn btn-info btn-sm" title="View course"><i class="fa fa-eye"></i></a> -->
@@ -858,7 +849,7 @@ class StudentCourseEnrollmentController extends Controller
      public function enrolled_course_edit($student_id){
 
         $student = User::where('id', $student_id)->first();
-        $student_academic_info = User_Academic_Info::select('user_academic_type','user_class','user_institute_name')
+        $student_academic_info = User_Academic_Info::select('user_designation','user_institute_address','user_institute_name')
                                                                ->where('user_id', $student_id)
                                                                ->first();
 

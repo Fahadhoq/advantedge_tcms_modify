@@ -16,7 +16,7 @@ class CreateOfferCoursesTable extends Migration
         Schema::create('offer_courses', function (Blueprint $table) {
             $table->id();
             $table->string('class'); 
-            $table->string('subject');
+            $table->string('batch');
             $table->integer('class_type');
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();

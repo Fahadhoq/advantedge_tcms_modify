@@ -14,13 +14,13 @@
                         <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4  class="page-title">COURSE EDIT </h4>
+                                    <h4  class="page-title">OFFER COURSE EDIT </h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a href="javascript:void(0);">Training Center Management System</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript:void(0);">COURSE</a></li>
-                                        <li class="breadcrumb-item active">COURSE EDIT</li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">OFFERCOURSE</a></li>
+                                        <li class="breadcrumb-item active">OFFER COURSE EDIT</li>
                                     </ol>
                                 </div>
                             </div> <!-- end row -->
@@ -71,14 +71,16 @@
                                                </div>
 
                                                <div class="form-group"> 
-                                                    <label >Subject</label>
+                                                    <label >Batch</label>
                                                     <div >
-                                                        <select class="form-control" name="Subject" id="Subject" value="{{ old('Subject') }}">
-                                                                      <option value="">Choose One Subject</option>
+                                                        <select class="form-control" name="Batch" id="Batch" value="{{ old('Batch') }}">
+                                                                      <option value="">Choose One Batch</option>
                                                                 
                                                         </select>
                                                     </div>
                                                </div>
+
+                                            
 
                                                <div class="form-group">
                                                     <label>Day</label>
@@ -235,16 +237,16 @@
 <script>
 $(document).ready(function(){
 
-    //dynamicly subject select
-    dynamicly_subject_select();
+    //dynamicly batch select
+    dynamicly_batch_select();
 
-    function dynamicly_subject_select(){
+    function dynamicly_batch_select(){
         if($('#Class_Edit').val() != ''){
 
             var action = $('#Class_Edit').attr("id");
             var offer_course_id = $('#offer_course_id').val();
             var class_id = $('#Class_Edit').val();
-            var url = '/dynamic-subject-select-';
+            var url = '/dynamic-batch-select-';
             var csrf_token = $('input[name=_token]').val();
             console.log(offer_course_id);
 
@@ -265,7 +267,7 @@ $(document).ready(function(){
                     },
                 
                 success:function (data) {
-                    $('#Subject').html(data);
+                    $('#Batch').html(data);
                 // console.log(data);
                 }
 
@@ -277,10 +279,12 @@ $(document).ready(function(){
     $('#Class_Edit').change(function(){
         if($(this).val() != '')
         {
-            dynamicly_subject_select();
+            dynamicly_batch_select();
         }
     });
-    //dynamicly subject select
+    //dynamicly batch select
+
+    
         
         //phone number validation   
         $('#phone').blur(function(){

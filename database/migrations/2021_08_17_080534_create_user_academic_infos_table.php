@@ -17,9 +17,9 @@ class CreateUserAcademicInfosTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('user_info_id');
-            $table->integer('user_academic_type')->nullable();
-            $table->integer('user_class')->nullable();
             $table->string('user_institute_name')->nullable();
+            $table->string('user_designation')->nullable();
+            $table->string('user_institute_address')->nullable();
             $table->timestamps();
         });
     }

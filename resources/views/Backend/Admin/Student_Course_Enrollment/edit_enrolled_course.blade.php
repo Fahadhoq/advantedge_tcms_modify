@@ -67,13 +67,13 @@ th {
                         <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4  class="page-title">COURSE CREATE </h4>
+                                    <h4  class="page-title">STUDENT ENROLLMENT EDIT </h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a href="javascript:void(0);">Training Center Management System</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript:void(0);">COURSE</a></li>
-                                        <li class="breadcrumb-item active">COURSE CREATE</li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">STUDENT ENROLLMENT</a></li>
+                                        <li class="breadcrumb-item active">STUDENT ENROLLMENT EDIT </li>
                                     </ol>
                                 </div>
                             </div> <!-- end row -->
@@ -141,35 +141,23 @@ th {
                                    </br></br>
 
                                     <div class="col-sm-12 col-lg-12 table_lable">
-                                         <label class="page-title">Student Academic Info </label> 
+                                         <label class="page-title">Student Career Info </label> 
                                     </div>
 
                                      <div class="table-responsive">
                                         <table class="table table-bordered">
                                         
                                                 <tr>
-                                                    <th class="course_table_head_tr">Academic Type</th>
-                                                    <td  align= "center">
-                                                       @if(@$student_academic_info->user_academic_type == 1)
-                                                            School
-                                                       @elseif(@$student_academic_info->user_academic_type == 2)
-                                                            Collage
-                                                       @elseif(@$student_academic_info->user_academic_type == 3)
-                                                            University
-                                                       @elseif(@$student_academic_info->user_academic_type == 4)
-                                                             Other
-                                                       @endif
-                                                       
-                                                    </td>    
-                                                </tr>
-                                                <tr>
-                                                    <th class="course_table_head_tr">Class</th>
-                                                    @php $student_academic_Type = App\Models\Classes::select('name')->where('id' , @$student_academic_info->user_class)->first(); @endphp
-                                                    <td align= "center">{{@$student_academic_Type->name}}</td>   
-                                                </tr>
-                                                <tr>
                                                     <th class="course_table_head_tr">Institute Name</th>
                                                     <td align= "center">{{@$student_academic_info->user_institute_name}}</td>  
+                                                </tr>
+                                                <tr>
+                                                    <th class="course_table_head_tr">Designation</th>
+                                                    <td align= "center">{{@$student_academic_info->user_designation}}</td>  
+                                                </tr>
+                                                <tr>
+                                                    <th class="course_table_head_tr">Institute/Organization Address</th>
+                                                    <td align= "center">{{@$student_academic_info->user_institute_address}}</td>  
                                                 </tr>
                                                
                                         </table>
@@ -200,7 +188,7 @@ th {
                                                                     
                                                                 <th>Select</th>
                                                                 <th>ID</th>
-                                                                <th>Class</th>
+                                                                <th>Course Name</th>
                                                                 <th>Subject Name</th>
                                                                 <th>Day</th>
                                                                 <th>Start Time</th>
@@ -228,14 +216,14 @@ th {
                                                                 <!-- class -->
                                                                 <td align= "center"> @php 
                                                                                       $class = App\Models\Classes::select('name')->where('id' , $offer_course->class)->first();
-                                                                                         echo $class->name;
+                                                                                         echo @$class->name;
                                                                                       @endphp
                                                                 </td>
                                                                 <!-- class end -->
                                                                 <!-- subject name -->
                                                                 <td align= "center"> @php 
-                                                                                      $subject = App\Models\Subject::select('name')->where('id' , $offer_course->subject)->first();
-                                                                                         echo $subject->name;
+                                                                                      $subjects = App\Models\Subject::select('name')->where('class_id' , $offer_course->class)->get();
+                                                                                        foreach($subjects as $subject){ echo @$subject->name; echo ',</br>';} 
                                                                                       @endphp  
                                                                 </td>
                                                                 <!-- subject name end -->

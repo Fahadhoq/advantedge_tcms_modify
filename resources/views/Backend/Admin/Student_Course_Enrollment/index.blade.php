@@ -82,7 +82,7 @@
                                                         <th style=text-align:center> ID</th>
                                                         <th style=text-align:center> Student ID</th>
                                                         <th style=text-align:center> Student Name</th>
-                                                        <th style=text-align:center> Course ID</th>
+                                                        <th style=text-align:center> Offer Course ID</th>
                                                         <th style=text-align:center> Course Name</th>
                                                         <th style=text-align:center> Is Pay </th>
                                                         <th style=text-align:center> Status</th>    
@@ -105,8 +105,8 @@
 
                                                         <!-- course info -->
                                                         <td style=text-align:center scope="row">{{$StudentEnrollmentCourse->course_id}}</td>
-                                                             @php $course = App\Models\Subject::select('name')->where('id' , $StudentEnrollmentCourse->course->subject)->first(); @endphp
-                                                        <td style=text-align:center scope="row">{{$course->name}}</td>
+                                                             @php $course = App\Models\Classes::select('name')->where('id' , $StudentEnrollmentCourse->course->class)->first(); @endphp
+                                                        <td style=text-align:center scope="row">{{@$course->name}}</td>
                                                         <!-- course info end -->
                                                        
                                                         <td style=text-align:center scope="row"> @if($StudentEnrollmentCourse->is_pay == 1 ) Payment Compleated @else Not Paid Yet @endif </td>

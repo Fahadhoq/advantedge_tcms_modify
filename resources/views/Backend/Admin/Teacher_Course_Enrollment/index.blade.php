@@ -104,8 +104,8 @@
 
                                                         <!-- course info -->
                                                         <td style=text-align:center scope="row">{{$TeachersEnrollmentCourse->course_id}}</td>
-                                                             @php $course = App\Models\Subject::select('name')->where('id' , $TeachersEnrollmentCourse->course->subject)->first(); @endphp
-                                                        <td style=text-align:center scope="row">{{$course->name}}</td>
+                                                             @php $course_classes = App\Models\Classes::select('name')->where('id' , $TeachersEnrollmentCourse->course->class)->get(); @endphp
+                                                        <td style=text-align:center scope="row">@php foreach($course_classes as $course_class){ echo $course_class->name;  echo ', </br>'; } @endphp  </td>
                                                         <!-- course info end -->
                                                        
                                                          <!-- status -->

@@ -14,13 +14,13 @@
                         <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4  class="page-title">COURSE CREATE </h4>
+                                    <h4  class="page-title">OFFER COURSE </h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a href="javascript:void(0);">Training Center Management System</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript:void(0);">COURSE</a></li>
-                                        <li class="breadcrumb-item active">COURSE CREATE</li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">OFFER COURSE</a></li>
+                                        <li class="breadcrumb-item active">OFFER </li>
                                     </ol>
                                 </div>
                             </div> <!-- end row -->
@@ -54,10 +54,10 @@
                                     <div class="p-20">
 
                                                <div class="form-group "> 
-                                                    <label >Class</label>
+                                                    <label >Course</label>
                                                     <div >
                                                         <select class="form-control" name="Class" id="Class_Select" value="{{ old('Class') }}">
-                                                           <option value="">Choose One Class</option>
+                                                           <option value="">Choose One course</option>
                                                                 @foreach($Classes as $Classe)
                                                                     <option  id="{{$Classe->id}}" value="{{$Classe->id}}">{{$Classe->name}}</option>
                                                                 @endforeach
@@ -66,14 +66,15 @@
                                                </div>
 
                                                <div class="form-group"> 
-                                                    <label >Subject</label>
+                                                    <label >Batch</label>
                                                     <div>
-                                                        <select class="form-control" name="Subject" id="Subject" value="{{ old('Subject') }}">
-                                                           <option value="">Choose One Subject</option>
+                                                        <select class="form-control" name="Batch" id="Batch" value="{{ old('Batch') }}">
+                                                           <option value="">Choose One Batch</option>
                                                                
                                                         </select>
                                                     </div>
                                                </div>
+
 
                                                <div class="form-group">
                                                     <label>Day</label>
@@ -213,14 +214,14 @@
 <script>
 $(document).ready(function(){
 
-    //dynamicly subject select
+    //dynamicly batch select
     $('#Class_Select').change(function(){
     
     if($(this).val() != '')
     {
         var action = $(this).attr("id");
         var class_id = $(this).val();
-        var url = '/dynamic-subject-select-';
+        var url = '/dynamic-batch-select-';
         var csrf_token = $('input[name=_token]').val();
         console.log(action);
 
@@ -240,14 +241,15 @@ $(document).ready(function(){
                  },
             
             success:function (data) {
-                $('#Subject').html(data);
+                $('#Batch').html(data);
              }
 
         });
     }
 
     });
-    //dynamicly subject select
+    //dynamicly batch select
+
         
         //phone number validation   
         $('#phone').blur(function(){

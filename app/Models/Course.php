@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Classes;
 use App\Models\Subject;
+use App\Models\Batch;
 
 class Course extends Model
 {
@@ -15,6 +16,7 @@ class Course extends Model
 
     protected $fillable = [
         'class',
+        'batch',
         'subject',
         'class_type',
         'start_time',
@@ -34,6 +36,11 @@ class Course extends Model
     public function subjectss()
     {
         return $this->belongsTo(Subject::class ,'subject');
+    }
+
+    public function batches()
+    {
+        return $this->belongsTo(Batch::class ,'batch');
     }
 
 

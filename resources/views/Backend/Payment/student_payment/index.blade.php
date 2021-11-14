@@ -102,8 +102,22 @@
                                                         <!-- student info end -->
 
                                                         <!-- course info -->
-                                                             @php $courses = App\Models\Student_Course_Enrollment::select('course_id')->where('user_id' , $StudentsInfo->user_id)->count(); @endphp
-                                                        <td style=text-align:center scope="row">{{$courses}}</td>
+                                                        <td style=text-align:center scope="row">
+                                                             @php
+                                                               foreach($Student_Enroll_Courses as $Student_Enroll_Course){
+                                                                   if($Student_Enroll_Course->user_id == $StudentsInfo->user->id){
+                                                                    $Student_total_Enroll_Courses = App\Models\Student_Course_Enrollment::select('course_id')->where('user_id' , $Student_Enroll_Course->user_id)->get();
+                                                                        foreach ($Student_total_Enroll_Courses as $Student_total_Enroll_Course) {
+                                                                            $offer_course_classes = App\Models\Course::select('class')->where('id' , $Student_total_Enroll_Course->course_id)->get();
+                                                                                foreach ($offer_course_classes as $offer_course_class) {
+                                                                                    $classes = App\Models\Classes::select('name')->where('id' , $offer_course_class->class)->first();
+                                                                                    echo  $classes->name ; echo '</br>';
+                                                                                }
+                                                                        }
+                                                                    }
+                                                               }     
+                                                             @endphp 
+                                                        </td>
                                                         
                                                         @php $student_total_course_fee = 0  @endphp
                                                         @foreach($StudentsEnrollmentCourses as $StudentsEnrollmentCourse)

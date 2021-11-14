@@ -163,7 +163,7 @@ th {
                                                                     
                                                                 <th>Select</th>
                                                                 <th>ID</th>
-                                                                <th>Class</th>
+                                                                <th>Course Name</th>
                                                                 <th>Subject Name</th>
                                                                 <th>Day</th>
                                                                 <th>Start Time</th>
@@ -186,13 +186,13 @@ th {
                                                                 <!-- class -->
                                                                 <td align= "center">@php 
                                                                                       $class = App\Models\Classes::select('name')->where('id' , $offer_course->class)->first();
-                                                                                         echo $class->name;
+                                                                                         echo @$class->name;
                                                                                       @endphp</td>
                                                                 <!-- class end -->
                                                                 <!-- subject name -->
                                                                 <td align= "center"> @php 
-                                                                                      $subject = App\Models\Subject::select('name')->where('id' , $offer_course->subject)->first();
-                                                                                         echo $subject->name;
+                                                                                      $subjects = App\Models\Subject::select('name')->where('class_id' , $offer_course->class)->get();
+                                                                                        foreach($subjects as $subject){ echo @$subject->name; echo ',</br>'; } 
                                                                                       @endphp  
                                                                 </td>
                                                                 <!-- subject name end -->

@@ -60,14 +60,14 @@ th {
                         <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-5">
-                                    <h4  class="page-title">ENROLL COURSE </h4>
+                                    <h4  class="page-title">TEACHER ASSING COURSE </h4>
                                 </div>
                                 <div class="col-sm-7">
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a href="javascript:void(0);">Training Center Management System</a></li>
                                         <li class="breadcrumb-item"><a href="javascript:void(0);">COURSE ENROLLMENT</a></li>
                                         <li class="breadcrumb-item"><a href="javascript:void(0);">TEACHER COURSE ENROLLMENT</a></li>
-                                        <li class="breadcrumb-item active">ENROLL COURSE</li>
+                                        <li class="breadcrumb-item active">TEACHER ASSING </li>
                                     </ol>
                                 </div>
                             </div> <!-- end row -->
@@ -135,7 +135,7 @@ th {
                                                             <tr class="course_table_head_tr">
                                                                 <th>Select</th>
                                                                 <th>ID</th>
-                                                                <th>Class</th>
+                                                                <th>Course Name</th>
                                                                 <th>Subject Name</th>
                                                                 <th>Day</th>
                                                                 <th>Start Time</th>
@@ -155,13 +155,13 @@ th {
                                                                 <!-- class -->
                                                                 <td align= "center">@php 
                                                                                       $class = App\Models\Classes::select('name')->where('id' , $offer_course->class)->first();
-                                                                                         echo $class->name;
+                                                                                         echo @$class->name;
                                                                                       @endphp</td>
                                                                 <!-- class end -->
                                                                 <!-- subject name -->
                                                                 <td align= "center"> @php 
-                                                                                      $subject = App\Models\Subject::select('name')->where('id' , $offer_course->subject)->first();
-                                                                                         echo $subject->name;
+                                                                                      $subjects = App\Models\Subject::select('name')->where('class_id' , $offer_course->class)->get();
+                                                                                        foreach($subjects as $subject){ echo $subject->name; echo ',</br>'; } 
                                                                                       @endphp  
                                                                 </td>
                                                                 <!-- subject name end -->

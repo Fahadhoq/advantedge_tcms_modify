@@ -334,12 +334,12 @@ class UserController extends Controller
 
             $user_info->save();
             
-            //update User_Academic_Info table
+            //update User_Academic_Info/carrer info table
             $user_academic_info = User_Academic_Info::where('user_id' , $id)->first();
             
             if($user_academic_info == null){ 
                 // create User_Academic_Info
-                if( ($request->UserAcademicType != 0) || ($request->UserClass != 0) || isset($request->UserInstituteName)){
+                if( isset($request->UserDesignation) || isset($request->UserInstituteAddress) || isset($request->UserInstituteName)){
                     $New_User_Academic_Info = new User_Academic_Info;
 
                     $New_User_Academic_Info->user_id      = $user_info->user_id;
@@ -358,35 +358,30 @@ class UserController extends Controller
                 }
                
 
-                if( $request->UserAcademicType != 0 ){
+                if(isset($request->UserDesignation)){
                     $validator = Validator::make($request->all(), [
-                        'UserAcademicType' => 'required|numeric|gt:0',
-                        'UserClass' => 'required|numeric|gt:0'
+                        'UserDesignation' => ['required', 'string', 'max:255']
                     ]);
                     if($validator->fails()){
-                        $SetMessage = 1 ;
-                        $this->SetMessage('Class Is Required  When Add Academic Type' , 'danger');
-                        return redirect()->back();
+                        return redirect()->back()->WithErrors($validator)->WithInput();
                      }
-                    $New_User_Academic_Info->user_academic_type  = $request->UserAcademicType;
+                    $New_User_Academic_Info->user_designation = $request->UserDesignation;
                 }
 
-                if($request->UserClass != 0){
+                if(isset($request->UserInstituteAddress)){
                     $validator = Validator::make($request->all(), [
-                        'UserClass' => 'required|numeric|gt:0'
+                        'UserInstituteAddress' => ['required', 'string', 'max:255']
                     ]);
                     if($validator->fails()){
-                        $SetMessage = 1 ;
-                        $this->SetMessage('Class Is Required' , 'danger');
-                        return redirect()->back();
+                        return redirect()->back()->WithErrors($validator)->WithInput();
                      }
-                    $New_User_Academic_Info->user_class  = $request->UserClass;
+                    $New_User_Academic_Info->user_institute_address = $request->UserInstituteAddress;
                 }
                 
-                if( ($request->UserAcademicType != 0) || ($request->UserClass != 0) || isset($request->UserInstituteName)){
+                if( ($request->UserDesignation != 0) || ($request->UserInstituteAddress != 0) || isset($request->UserInstituteName)){
                     $New_User_Academic_Info->save();
                 }
-                // create User_Academic_Info end
+                // create User_Academic_Info /carrer info end
 
             }else{
                 // update User_Academic_Info
@@ -402,33 +397,28 @@ class UserController extends Controller
                     $user_academic_info->user_institute_name = null;
                 }
 
-                if( $request->UserAcademicType != 0 ){
+                if(isset($request->UserDesignation)){
                     $validator = Validator::make($request->all(), [
-                        'UserAcademicType' => 'required|numeric|gt:0',
-                        'UserClass' => 'required|numeric|gt:0'
+                        'UserDesignation' => ['required', 'string', 'max:255']
                     ]);
                     if($validator->fails()){
-                        $SetMessage = 1 ;
-                        $this->SetMessage('Class Is Required  When Add Academic Type' , 'danger');
-                        return redirect()->back();
+                        return redirect()->back()->WithErrors($validator)->WithInput();
                      }
-                    $user_academic_info->user_academic_type = $request->UserAcademicType;
+                    $user_academic_info->user_designation = $request->UserDesignation;
                 }else{
-                    $user_academic_info->user_academic_type = null;
+                    $user_academic_info->user_designation = null;
                 }
 
-                if($request->UserClass != 0){
+                if(isset($request->UserInstituteAddress)){
                     $validator = Validator::make($request->all(), [
-                        'UserClass' => 'required|numeric|gt:0'
+                        'UserInstituteAddress' => ['required', 'string', 'max:255']
                     ]);
                     if($validator->fails()){
-                        $SetMessage = 1 ;
-                        $this->SetMessage('Class Is Required' , 'danger');
-                        return redirect()->back();
+                        return redirect()->back()->WithErrors($validator)->WithInput();
                      }
-                    $user_academic_info->user_class = $request->UserClass;
+                    $user_academic_info->user_institute_address = $request->UserInstituteAddress;
                 }else{
-                    $user_academic_info->user_class = null;
+                    $user_academic_info->user_institute_address = null;
                 }
 
                 $user_academic_info->save();

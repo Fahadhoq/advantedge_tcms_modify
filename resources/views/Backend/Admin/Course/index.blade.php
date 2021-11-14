@@ -58,9 +58,9 @@
                                                     <tr>
                                                         <th style=text-align:center> SL</th>
                                                         <th style=text-align:center> ID</th>
-                                                        <th style=text-align:center> Class</th>
+                                                        <th style=text-align:center> Course Name</th>
+                                                        <th style=text-align:center> Batch</th>
                                                         <th style=text-align:center> Subject</th>
-                                                        <th style=text-align:center> Student Limit</th>
                                                         <th style=text-align:center> Course Fee</th>
                                                         <th style=text-align:center> Enrollment Last Date</th>
                                                         <th style=text-align:center> Status</th>    
@@ -76,14 +76,20 @@
                                                         <td style=text-align:center scope="row">{{$i++}}</td> 
                                                         <td style=text-align:center scope="row">{{$course->id}}</td>
                                                         <!-- class -->
-                                                            @php $course_class= App\Models\Classes::select('name')->where('id' , $course->class)->first(); @endphp
-                                                            <td style=text-align:center>{{$course_class->name}}</td>
+                                                            @php $course_class = App\Models\Classes::select('name')->where('id' , $course->class)->first(); @endphp
+                                                            <td style=text-align:center>{{@$course_class->name}}</td>
                                                         <!-- class end -->
+                                                        <!-- batch -->
+                                                        @php $course_batch = App\Models\Batch::select('batch_name')->where('id' , $course->batch)->first(); @endphp
+                                                            <td style=text-align:center>{{@$course_batch->batch_name}}</td>
+                                                        <!-- batch end -->
                                                         <!-- subject -->
-                                                            @php $course_subject = App\Models\Subject::select('name')->where('id' , $course->subject)->first(); @endphp
-                                                            <td style=text-align:center>{{$course_subject->name}}</td>
+                                                            @php $course_subjects = App\Models\Subject::select('name')->where('class_id' , $course->class)->get(); @endphp
+                                                            <td style=text-align:center>@foreach($course_subjects as $course_subject)
+                                                                                                {{$course_subject->name}} </br>
+                                                                                        @endforeach
+                                                            </td>
                                                         <!-- subject end -->
-                                                        <td style=text-align:center>{{$course->student_limit}}</td>
                                                         <td style=text-align:center>{{$course->course_fee}}</td>
                                                         <td style=text-align:center>{{$course->enrollment_last_date}}</td>
                                                         <!-- status -->

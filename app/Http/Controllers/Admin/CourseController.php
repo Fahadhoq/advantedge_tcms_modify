@@ -10,6 +10,7 @@ use App\Models\Course;
 use App\Models\Classes;
 use App\Models\Subject;
 use App\Models\Day;
+use App\Models\Batch;
 
 class CourseController extends Controller
 {
@@ -33,7 +34,7 @@ class CourseController extends Controller
        
         $validator = Validator::make($request->all(), [
             'Class' => 'required',
-            'Subject' => 'required',
+            'Batch' => 'required',
             'Course_days' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -74,7 +75,7 @@ class CourseController extends Controller
             
             $course = Course::create([
                 'class'            => $request->Class,
-                'subject'          => $request->Subject,
+                'batch'            => $request->Batch,
                 'class_type'       => $request->ClassType,
                 'start_time'       => $start_time,
                 'end_time'         => $end_time,
@@ -118,14 +119,15 @@ class CourseController extends Controller
     // jquery view
     public function show(Request $request){
   
-        $id = $request->id;
+        $id = $request->course_id;
         if(isset($id))
          {  
               $output = '';    
               
               $course = Course::where('id', $id)->first();
               $Classe = Classes::select('name')->where('id' , $course->class)->first();
-              $Subject = Subject::select('id', 'name')->where('id' , $course->subject)->first();
+              $Subjects = Subject::select('id', 'name')->where('class_id' , $course->class)->get();
+              $Batch = Batch::select('id', 'batch_name')->where('id' , $course->batch)->first();
               
               //class type
               if($course->class_type == 0){
@@ -157,8 +159,14 @@ class CourseController extends Controller
                              <td width="70%">'.$Classe->name.'</td>  
                         </tr>
                         <tr>  
+                             <td width="30%"><label>Batch</label></td>  
+                             <td width="70%">'.$Batch->batch_name.'</td>  
+                        </tr>
+                        <tr>  
                              <td width="30%"><label>Subject</label></td>  
-                             <td width="70%">'.$Subject->name.'</td>  
+                             <td width="70%">'; foreach($Subjects as $Subject) {
+                                echo $Subject->name;
+                             }  $output .= '</td>  
                         </tr>
                         <tr>  
                              <td width="30%"><label>Class Type</label></td>  
@@ -231,7 +239,7 @@ class CourseController extends Controller
       
         $validator = Validator::make($request->all(), [
             'Class' => 'required',
-            'Subject' => 'required',
+            'Batch' => 'required',
             'Course_days' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -269,7 +277,7 @@ class CourseController extends Controller
 
             $course = Course::find($id);
             $course->class            = $request->Class;
-            $course->subject          = $request->Subject;
+            $course->batch            = $request->Batch;
             $course->class_type       = $request->ClassType;
             $course->start_time       = $request->start_time;
             $course->end_time         = $request->end_time;
@@ -284,19 +292,19 @@ class CourseController extends Controller
 
             $data['courses'] = Course::get();
         
-            $Array_Classes = array();
-            foreach($data['courses'] as $courses){
-                $Classes = Classes::select('id', 'name')->where('id' , $courses->class)->first();
-                array_push($Array_Classes , $Classes);
-            }
-            $data['Classes'] = $Array_Classes;
+            // $Array_Classes = array();
+            // foreach($data['courses'] as $courses){
+            //     $Classes = Classes::select('id', 'name')->where('id' , $courses->class)->first();
+            //     array_push($Array_Classes , $Classes);
+            // }
+            // $data['Classes'] = $Array_Classes;
 
-            $Array_Subjects = array();
-            foreach($data['courses'] as $courses){
-                $Subject = Subject::select('id', 'name')->where('id' , $courses->subject)->first();
-                array_push($Array_Subjects , $Subject);
-            }
-            $data['Subjects'] = $Array_Subjects;
+            // $Array_Subjects = array();
+            // foreach($data['courses'] as $courses){
+            //     $Subject = Subject::select('id', 'name')->where('id' , $courses->subject)->first();
+            //     array_push($Array_Subjects , $Subject);
+            // }
+            // $data['Subjects'] = $Array_Subjects;
             
             return redirect('/course')->with($data);
             
@@ -346,29 +354,30 @@ class CourseController extends Controller
 
      }
 
-     public function dynamic_subject_select(Request $request){
+
+     public function dynamic_batch_select(Request $request){
 
         
         $Classes = Classes::select('id', 'name')->get();
 
         if($request->action == "Class_Select"){
-            $Subjects = Subject::select('id' , 'name' , 'class_id')->where('class_id' , $request->class_id)->get();
+            $Batchs = Batch::select('id' , 'batch_name' , 'class_id')->where('class_id' , $request->class_id)->get();
        
-            $output = '<option value="">Choose One Subject</option>';
-            foreach($Subjects as $Subject){
-                $output .= '<option  id="'.$Subject->id.'" value="'.$Subject->id.'">'.$Subject->name.'</option>';
+            $output = '<option value="">Choose One Batch</option>';
+            foreach($Batchs as $Batch){
+                $output .= '<option  id="'.$Batch->id.'" value="'.$Batch->id.'">'.$Batch->batch_name.'</option>';
             }
         }elseif ($request->action == "Class_Edit") {
-            $offer_course = Course::select('id', 'class', 'subject')->where('id' , $request->offer_course_id)->first();
-            $Subjects = Subject::select('id' , 'name' , 'class_id')->where('class_id' , $request->class_id)->get();
+            $offer_course = Course::select('id', 'class', 'batch')->where('id' , $request->offer_course_id)->first();
+            $Batchs = Batch::select('id' , 'batch_name' , 'class_id')->where('class_id' , $request->class_id)->get();
            
-            $output = '<option value="">Choose One Subject</option>';
+            $output = '<option value="">Choose One Batch</option>';
           
-            foreach($Subjects as $Subject){
-                if($offer_course->subject == $Subject->id){
-                    $output .= '<option  id="'.$Subject->id.'" value="'.$Subject->id.'" selected>'.$Subject->name.'</option>';
+            foreach($Batchs as $Batch){
+                if($offer_course->batch == $Batch->id){
+                    $output .= '<option  id="'.$Batch->id.'" value="'.$Batch->id.'" selected>'.$Batch->batch_name.'</option>';
                 }else{
-                    $output .= '<option  id="'.$Subject->id.'" value="'.$Subject->id.'" >'.$Subject->name.'</option>';
+                    $output .= '<option  id="'.$Batch->id.'" value="'.$Batch->id.'" >'.$Batch->batch_name.'</option>';
                 }
             }
         }

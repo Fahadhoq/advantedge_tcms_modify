@@ -388,32 +388,20 @@
                                         
                                         </br>
                                         <div class="form-group "> 
-                                                        <label >School / Collage / University</label>
-                                                        <div >
-                                                            <select class="form-control action" name="UserAcademicType" id="UserAcademicType" >
-                                                                <option value="0">Choose any one </option>
-                                                                @if($User_Academic_Info != null)
-                                                                <option value="1"  @if ( $User_Academic_Info->user_academic_type == 1 ) selected @endif> School</option> 
-                                                                <option value="2"  @if ( $User_Academic_Info->user_academic_type == 2 ) selected @endif> Collage</option> 
-                                                                <option value="3"  @if ( $User_Academic_Info->user_academic_type == 3 ) selected @endif> University</option> 
-                                                                <option value="4"  @if ( $User_Academic_Info->user_academic_type == 4 ) selected @endif> Other</option> 
-                                                                @else
-                                                                <option value="1" > School</option> 
-                                                                <option value="2" > Collage</option> 
-                                                                <option value="3" > University</option> 
-                                                                <option value="4" > Other</option> 
-                                                                @endif
-                                                            </select>
+                                                        <label>Institute/Organization Name</label>
+                                                        <div>
+                                                            <input type="text" name="UserInstituteName" @if($User_Academic_Info != null) value="{{ $User_Academic_Info->user_institute_name }}" @endif
+                                                                    class="form-control"
+                                                                    placeholder="Enter User Institute / Organization Name"/>
                                                         </div>
                                         </div>
 
                                         <div class="form-group "> 
-                                                        <label >Class</label>
-                                                        <div >
-                                                            <select class="form-control UserClass" name="UserClass" id="UserClass" >
-                                                                <option value="0">Choose any one </option>        
-                                                            </select>
-                                                            <span id="error_class" class="text-danger"></span>
+                                                        <label>Designation </label>
+                                                        <div>
+                                                            <input type="text" name="UserDesignation" @if($User_Academic_Info != null) value="{{ $User_Academic_Info->user_designation }}" @endif
+                                                                    class="form-control"
+                                                                    placeholder="Enter User Institute / Organization Designation"/>
                                                         </div>
                                         </div>
 
@@ -430,11 +418,11 @@
                                             
                                             </br>
                                             <div class="form-group">
-                                                <label>Institute Name</label>
+                                                <label>Institute/Organization Address</label>
                                                 <div>
-                                                    <input type="text" name="UserInstituteName" @if($User_Academic_Info != null) value="{{ $User_Academic_Info->user_institute_name }}" @endif
+                                                    <input type="text" name="UserInstituteAddress" @if($User_Academic_Info != null) value="{{ $User_Academic_Info->user_institute_address }}" @endif
                                                             class="form-control"
-                                                            placeholder="Enter User Institute Name"/>
+                                                            placeholder="Enter User Institute / Organization Address"/>
                                                 </div>
                                             </div>
 
@@ -639,106 +627,106 @@ $(document).ready(function(){
 //multi step user edit end 
 
 // school/collage/university selected
-        var csrf_token = $('input[name=_token]').val();
-        var user_id = $('.remove_button').data("id"); 
-        var UserAcademicType = $('.action').attr("id");
-        var user_academic_type_id = $('.action').val();
-        //console.log(user_id);
-        var result_id = '';
-        var url = 'dynamicly-user-class-select-'; 
+        // var csrf_token = $('input[name=_token]').val();
+        // var user_id = $('.remove_button').data("id"); 
+        // var UserAcademicType = $('.action').attr("id");
+        // var user_academic_type_id = $('.action').val();
+        // //console.log(user_id);
+        // var result_id = '';
+        // var url = 'dynamicly-user-class-select-'; 
 
-        if(UserAcademicType == "UserAcademicType")
-        {
-            action = "Selected_Class_Show";
-            result_id = 'UserClass';
-        }
+        // if(UserAcademicType == "UserAcademicType")
+        // {
+        //     action = "Selected_Class_Show";
+        //     result_id = 'UserClass';
+        // }
 
-        $.ajax({
-            url: url + user_academic_type_id,
-            type: 'post',
-            data: {
-                    action : action, 
-                    user_id : user_id,
-                    user_academic_type_id : user_academic_type_id,
-                    "_token": "{{ csrf_token() }}"
-                },
+        // $.ajax({
+        //     url: url + user_academic_type_id,
+        //     type: 'post',
+        //     data: {
+        //             action : action, 
+        //             user_id : user_id,
+        //             user_academic_type_id : user_academic_type_id,
+        //             "_token": "{{ csrf_token() }}"
+        //         },
                     
-            success: function (result) {
-                         $('#'+result_id).html(result);
-                    }
+        //     success: function (result) {
+        //                  $('#'+result_id).html(result);
+        //             }
                     
-                });
+        //         });
 //school/collage/university selected end
 
 //dynamicly school/collage/university select
-$('.action').change(function(){
+// $('.action').change(function(){
  
-        var csrf_token = $('input[name=_token]').val(); 
-        var UserAcademicType = $(this).attr("id");
-        var user_academic_type_id = $(this).val();
-       // console.log(user_academic_type_id);
-        var result_id = '';
-        var url = 'dynamicly-user-class-select-'; 
+//         var csrf_token = $('input[name=_token]').val(); 
+//         var UserAcademicType = $(this).attr("id");
+//         var user_academic_type_id = $(this).val();
+//        // console.log(user_academic_type_id);
+//         var result_id = '';
+//         var url = 'dynamicly-user-class-select-'; 
 
-        if(UserAcademicType == "UserAcademicType")
-        {   
-            action = "All_Class_Show";
-            result_id = 'UserClass';
-        }
+//         if(UserAcademicType == "UserAcademicType")
+//         {   
+//             action = "All_Class_Show";
+//             result_id = 'UserClass';
+//         }
 
-        $.ajax({
-            url: url + user_academic_type_id,
-            type: 'post',
-            data: {
-                    action : action, 
-                    user_academic_type_id : user_academic_type_id,
-                    "_token": "{{ csrf_token() }}"
-                },
+//         $.ajax({
+//             url: url + user_academic_type_id,
+//             type: 'post',
+//             data: {
+//                     action : action, 
+//                     user_academic_type_id : user_academic_type_id,
+//                     "_token": "{{ csrf_token() }}"
+//                 },
                     
-            success: function (result) {
-                         $('#'+result_id).html(result);
-                    }
+//             success: function (result) {
+//                          $('#'+result_id).html(result);
+//                     }
                     
-                });   
+//                 });   
 
-});
+// });
 //dynamicly school/collage/university select end
 
 //user class validation
     
-$('.action').change(function(){
-        var error_class = '';
-        var action = $(this).attr("id");
-        var user_academic_type_id = $(this).val();
+// $('.action').change(function(){
+//         var error_class = '';
+//         var action = $(this).attr("id");
+//         var user_academic_type_id = $(this).val();
     
-        if((action == "UserAcademicType") && (user_academic_type_id != 0)){
+//         if((action == "UserAcademicType") && (user_academic_type_id != 0)){
     
-                var user_class_id = $('#UserClass').val();
+//                 var user_class_id = $('#UserClass').val();
             
-                if(user_class_id == 0){       
-                        error_class = 'class is required';
-                        $('#error_class').text(error_class);
-                        $('#UserClass').addClass('has-error');
+//                 if(user_class_id == 0){       
+//                         error_class = 'class is required';
+//                         $('#error_class').text(error_class);
+//                         $('#UserClass').addClass('has-error');
                     
-                        $('#UserClass').change(function(){
-                            var class_id = $(this).val();
-                           // console.log(class_id);
-                            if(class_id != 0){ 
-                                error_class = '';
-                                $('#error_class').text(error_class);
-                                $('#UserClass').removeClass('has-error');
-                            }else{
-                                error_class = 'class is required';
-                                $('#error_class').text(error_class);
-                                $('#UserClass').addClass('has-error');
-                            }
+//                         $('#UserClass').change(function(){
+//                             var class_id = $(this).val();
+//                            // console.log(class_id);
+//                             if(class_id != 0){ 
+//                                 error_class = '';
+//                                 $('#error_class').text(error_class);
+//                                 $('#UserClass').removeClass('has-error');
+//                             }else{
+//                                 error_class = 'class is required';
+//                                 $('#error_class').text(error_class);
+//                                 $('#UserClass').addClass('has-error');
+//                             }
 
-                         });
-                }
+//                          });
+//                 }
             
-        }
+//         }
     
-    });
+//     });
     
 //user class validation end
 

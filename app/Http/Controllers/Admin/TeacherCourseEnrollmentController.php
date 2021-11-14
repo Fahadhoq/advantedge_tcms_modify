@@ -719,7 +719,16 @@ class TeacherCourseEnrollmentController extends Controller
                                         <td style=text-align:center scope="row">' .$Teacher_Enroll_Course->user->name. '</td>
                                         <!-- teacher info end -->
 
-                                        <td style=text-align:center scope="row">' .$Teacher_total_Enroll_Courses. '</td>
+                                        <td style=text-align:center scope="row">';
+                                        $Teacher_total_Enroll_Courses = Teacher_Course_Enrollment::select('course_id')->where('user_id' , $Teacher_Enroll_Course->user_id)->get();
+                                        foreach ($Teacher_total_Enroll_Courses as $Teacher_total_Enroll_Course) {
+                                            $offer_course_classes = Course::select('class')->where('id' , $Teacher_total_Enroll_Course->course_id)->get();
+                                            foreach ($offer_course_classes as $offer_course_class) {
+                                                $classes = Classes::select('name')->where('id' , $offer_course_class->class)->first();
+                                                $output .=  $classes->name ; $output .= '</br>';
+                                            }
+                                        } 
+                                        $output .= '</td>
 
                                         <td style=text-align:center>
                                             <!-- <a href="" class="btn btn-info btn-sm" title="View course"><i class="fa fa-eye"></i></a> -->
@@ -743,10 +752,24 @@ class TeacherCourseEnrollmentController extends Controller
 
         $data['teacher'] = User::where('id', $teacher_id)->first();
 
-        $data['offer_courses'] = Course::get();
-        $data['teacher_enrolled_courses'] = Teacher_Course_Enrollment::select('course_id')->where('user_id' , $teacher_id)->get();
+        $TeachersEnrollmentCourses = Teacher_Course_Enrollment::select('course_id')->where('user_id' , $teacher_id)->get();
+
+        $OtherTeachersEnrollmentCourses = Teacher_Course_Enrollment::select('course_id')->where('user_id' , '!=' ,$teacher_id)->get();
+        $other_Teachers_Enrollment_Courses_array = array();
+        foreach ($OtherTeachersEnrollmentCourses as $OtherTeachersEnrollmentCourse) {
+            array_push($other_Teachers_Enrollment_Courses_array , $OtherTeachersEnrollmentCourse->course_id);
+        } 
+
+        $offer_courses = Course::get();
+        $offer_courses_array = array();
+        foreach ($offer_courses as $offer_course){
+            if(!in_array($offer_course->id, $other_Teachers_Enrollment_Courses_array)){
+                array_push($offer_courses_array , $offer_course);
+            }
+        }
       
-        return view('Backend.Admin.Teacher_Course_Enrollment.edit_enrolled_course' , $data);
+        return view('Backend.Admin.Teacher_Course_Enrollment.edit_enrolled_course' , $data)->with('teacher_enrolled_courses', $TeachersEnrollmentCourses)
+                                                                                            ->with('offer_courses', $offer_courses_array);
        
      }
 
