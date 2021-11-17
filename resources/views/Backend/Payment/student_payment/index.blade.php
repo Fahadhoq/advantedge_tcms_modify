@@ -118,13 +118,12 @@
                                                                }     
                                                              @endphp 
                                                         </td>
-                                                        
+                                                        <!-- total course fee -->
                                                         @php $student_total_course_fee = 0  @endphp
                                                         @foreach($StudentsEnrollmentCourses as $StudentsEnrollmentCourse)
                                                              @if($StudentsEnrollmentCourse->user_id == $StudentsInfo->user->id)
-                                                                @php $courses_fee = App\Models\Course::select('course_fee')->where('id' , $StudentsEnrollmentCourse->course_id)->first(); @endphp
                                                                 
-                                                                  @php $student_total_course_fee = $student_total_course_fee + $courses_fee->course_fee; @endphp
+                                                                  @php $student_total_course_fee = $student_total_course_fee + $StudentsEnrollmentCourse->negotiated_amount; @endphp
                                                                
                                                              @endif
                                                         @endforeach

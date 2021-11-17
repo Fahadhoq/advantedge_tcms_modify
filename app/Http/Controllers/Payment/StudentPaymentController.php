@@ -609,8 +609,8 @@ class StudentPaymentController extends Controller
                 $Student_Enrolled_Courses = Student_Course_Enrollment::where('user_id', $student_id)->get(); 
                 $Total_Enroll_Course_Fee = 0;
                 foreach ($Student_Enrolled_Courses as $Student_Enrolled_Course) {
-                    $Student_Enroll_Course_Fee = Course::select('course_fee')->where('id' , $Student_Enrolled_Course->course_id)->first();
-                    $Total_Enroll_Course_Fee = $Total_Enroll_Course_Fee + $Student_Enroll_Course_Fee->course_fee;
+                  //  $Student_Enroll_Course_Fee = Course::select('course_fee')->where('id' , $Student_Enrolled_Course->course_id)->first();
+                    $Total_Enroll_Course_Fee = $Total_Enroll_Course_Fee + $Student_Enrolled_Course->negotiated_amount;
                 }
         
                 return view('Backend.Payment.student_payment.payment_view')->with('student', $student)
