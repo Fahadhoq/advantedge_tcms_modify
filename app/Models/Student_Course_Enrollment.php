@@ -19,6 +19,9 @@ class Student_Course_Enrollment extends Model
         'course_id',
         'is_pay',
         'status',
+        'discount_amount',
+        'negotiated_amount',
+        'remark',
     ];
 
     public function user()

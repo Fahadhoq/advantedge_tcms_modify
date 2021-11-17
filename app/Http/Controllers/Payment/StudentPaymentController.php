@@ -53,6 +53,8 @@ class StudentPaymentController extends Controller
                             <th>Course Name</th>
                             <th>Batch </th>
                             <th>Course Fee</th>
+                            <th>Discount</th>
+                            <th>Negotiated Fee</th>
                             <th>Enrolled Date</th> 
                         </tr>';
            
@@ -83,12 +85,14 @@ class StudentPaymentController extends Controller
                         $output .=  '<td align= "center">'. $offer_Course->batches->batch_name .'</td>';  
                         //subject end
                         $output .=  '<td align= "center" >'. $offer_Course->course_fee.'</td>
+                                    <td align= "center" >'. $Student_Course_Enrollment->discount_amount.'</td>
+                                    <td align= "center" >'. $Student_Course_Enrollment->negotiated_amount.'</td>
                                     <td align= "center">'. $offer_Course->created_at->format('d-m-Y').'</td>';
                                      
                        
                        $output .=  ' </tr>
                         
-                        <input type="hidden" class="course_fee'.$Student_Course_Enrollment->id.'" value="'.$offer_Course->course_fee.'" >';
+                        <input type="hidden" class="course_fee'.$Student_Course_Enrollment->id.'" value="'.$Student_Course_Enrollment->negotiated_amount.'" >';
                         
                         //student info end
                    }
@@ -105,7 +109,7 @@ class StudentPaymentController extends Controller
             foreach ($offer_Courses_paid as $offer_Course_paid) {
                 foreach ($Student_Courses_Enrollment_paid as $Student_Course_Enrollment_paid) {
                    if($offer_Course_paid->id == $Student_Course_Enrollment_paid->course_id){ 
-                      $paid_total_enrolled_course_fee = $paid_total_enrolled_course_fee + $offer_Course_paid->course_fee;
+                      $paid_total_enrolled_course_fee = $paid_total_enrolled_course_fee + $Student_Course_Enrollment_paid->negotiated_amount;
                    }
                 }
             }
@@ -125,12 +129,16 @@ class StudentPaymentController extends Controller
                                 </td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
+                                <td></td>
                                 <td align= "center">Due Amount</td>             
                                 <td align= "center"><input  class="total_due_course_fee" value="'.$due_payment.'" readonly></td> 
                                 <td></td>
                             </tr>';
             }else{
                 $output .= '<tr class="">
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td align= "center">Due Amount</td>             
@@ -142,7 +150,9 @@ class StudentPaymentController extends Controller
                            <td></td>
                            <td></td>
                            <td></td>
-                           <td align= "center">Total Amount</td>             
+                           <td></td>
+                           <td></td>
+                           <td align= "center">Total Pay Amount</td>             
                            <td align= "center"><input  class="total_course_fee" value="'.$total_course_fee.'" readonly></td>
                            <input type="hidden" class="count_total_course_fee" value="'.$count_total_course_fee.'" >
                        </tr>';

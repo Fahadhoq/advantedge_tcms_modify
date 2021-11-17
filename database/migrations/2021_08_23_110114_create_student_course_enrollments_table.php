@@ -17,6 +17,9 @@ class CreateStudentCourseEnrollmentsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('course_id');
+            $table->integer('discount_amount')->default('0');
+            $table->integer('negotiated_amount');
+            $table->integer('remark')->nullable();            
             $table->integer('is_pay')->default('0');
             $table->integer('status')->default('0');
             $table->timestamps();

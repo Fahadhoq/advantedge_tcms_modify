@@ -669,14 +669,73 @@ class StudentCourseEnrollmentController extends Controller
             if(count($request->select_course_ids) != 0){
                 $select_course_ids = $request->select_course_ids;
                 $student_id = $request->student_id;
-    
+                $select_course_discount_amount_with_course_ids = $request->select_course_discount_amount_with_course_ids;
+                $select_course_remark_with_course_ids = $request->select_course_remark_with_course_ids;
+
                 foreach ($select_course_ids as  $select_course_id){
                     //Student Course Enrollment table insert
                     $Student_Course_Enrollment = new Student_Course_Enrollment;
                     $Student_Course_Enrollment->course_id = $select_course_id;
                     $Student_Course_Enrollment->user_id = $student_id;
-                    $Student_Course_Enrollment->save();
+                    $Student_Course_Enrollment->save();                  
                 }
+
+                //insert discount amount
+                foreach ($select_course_discount_amount_with_course_ids as $select_course_discount_amount_with_course_id){
+                    $select_course_discount_amount_with_course_id = explode("_", $select_course_discount_amount_with_course_id);
+                    $SelectCourseId = $select_course_discount_amount_with_course_id[0];
+                    $SelectCourseId = intval($SelectCourseId);
+                    $select_course_discount_amount_value = $select_course_discount_amount_with_course_id[1];
+                    $select_course_discount_amount_value = intval($select_course_discount_amount_value);
+
+                    $StudentCourseEnrollment = Student_Course_Enrollment::where('user_id' , $student_id)
+                                                                          ->where('course_id' , $SelectCourseId)
+                                                                          ->first();
+
+                    $StudentCourseEnrollment->discount_amount = $select_course_discount_amount_value;
+                    $StudentCourseEnrollment->save();
+                }
+                //insert discount amount end
+
+                //insert discount & negotited amount
+                foreach ($select_course_discount_amount_with_course_ids as $select_course_discount_amount_with_course_id){
+                    $select_course_discount_amount_with_course_id = explode("_", $select_course_discount_amount_with_course_id);
+                    $SelectCourseId = $select_course_discount_amount_with_course_id[0];
+                    $SelectCourseId = intval($SelectCourseId);
+                    $select_course_discount_amount_value = $select_course_discount_amount_with_course_id[1];
+                    $select_course_discount_amount_value = intval($select_course_discount_amount_value);
+
+                    $StudentCourseEnrollment = Student_Course_Enrollment::where('user_id' , $student_id)
+                                                                          ->where('course_id' , $SelectCourseId)
+                                                                          ->first();
+                    $course = Course::select('course_fee')->where('id' , $SelectCourseId)->first();
+                    $negotited_amount = $course->course_fee - $select_course_discount_amount_value;
+
+                    $StudentCourseEnrollment->discount_amount = $select_course_discount_amount_value;
+                    $StudentCourseEnrollment->negotiated_amount = $negotited_amount;
+                    $StudentCourseEnrollment->save();
+                }
+                //insert discount & negotited amount end
+
+                //insert remark
+                  foreach ($select_course_remark_with_course_ids as $select_course_remark_with_course_id){
+                    $select_course_remark_with_course_id = explode("_", $select_course_remark_with_course_id);
+                    $SelectCourseId = $select_course_remark_with_course_id[0];
+                    $SelectCourseId = intval($SelectCourseId);
+                    $select_course_remark = $select_course_remark_with_course_id[1];
+                  
+                  //  return response()->json([ 'success' => $select_course_remark]);
+
+                    $StudentCourseEnrollment = Student_Course_Enrollment::where('user_id' , $student_id)
+                                                                          ->where('course_id' , $SelectCourseId)
+                                                                          ->first();
+
+                    $StudentCourseEnrollment->remark = $select_course_remark;
+                    $StudentCourseEnrollment->save();
+                }
+                //insert remark end
+
+
               echo  $this->SetMessage('Coures Inserted Successfull' , 'success');
               return response()->json([ 'success' => 'course Inserted']);
               

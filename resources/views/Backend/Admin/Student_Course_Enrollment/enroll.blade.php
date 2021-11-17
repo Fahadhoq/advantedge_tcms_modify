@@ -139,8 +139,9 @@ th {
                                                                 <th>End Time</th>
                                                                 <th>Class Type</th>
                                                                 <th>Course Fee</th>
-                                                                <th>Discount Amount</th>
-                                                                <th>Negotiated Amount</th>
+                                                                <th >Discount Amount</th>
+                                                                <th >Negotiated Amount</th>
+                                                                <th>Remark</th>
                                                                 <th>Limit</th>
                                                                 <th>Enrollment Last Date</th>  
                                                             </tr>
@@ -157,7 +158,7 @@ th {
                                                                 <td align= "center">@php 
                                                                                       $class = App\Models\Classes::select('name')->where('id' , $offer_course->class)->first();
                                                                                          echo @$class->name;
-                                                                                      @endphp</td>
+                                                                                    @endphp</td>
                                                                 <!-- class end -->
                                                                 <!-- subject name -->
                                                                 <td align= "center"> @php 
@@ -187,9 +188,10 @@ th {
                                                                 <td align= "center">{{ date('h:i:s a', strtotime($offer_course->start_time)) }}</td>
                                                                 <td align= "center">{{ date('h:i:s a', strtotime($offer_course->end_time)) }}</td>
                                                                 <td align= "center">@if($offer_course->class_type == 0) Offline  @else Online @endif</td>
-                                                                <td align= "center">{{ $offer_course->course_fee }}</td>
-                                                                <td align= "center"><input  class="input_field_size" id="Discount_input_field" ></td>
-                                                                <td align= "center"><input  class="input_field_size" id="negotiated_input_field" value="{{ $offer_course->course_fee }}"  readonly></td>
+                                                                <td align= "center" id="course_fee_{{$offer_course->id}}">{{ $offer_course->course_fee }}</td>
+                                                                <td align= "center"><input type="text"  class="input_field_size" id="Discount_input_field_{{$offer_course->id}}"  ></td>
+                                                                <td align= "center"><input  class="input_field_size" id="negotiated_input_field_{{$offer_course->id}}" value="{{ $offer_course->course_fee }}"  readonly></td>
+                                                                <td align= "center"><input  type="text"  id="Remark_{{$offer_course->id}}" ></td>
                                                                 <td align= "center"> @php 
                                                                                          $enroll_course = App\Models\Student_Course_Enrollment::where('course_id' , $offer_course->id)->get();
                                                                                          $count_enroll_course = count($enroll_course);
@@ -257,6 +259,7 @@ th {
 
 @section('script')
 <script>
+
 $(document).ready(function(){
            
 //Search Student by email or id
@@ -556,28 +559,39 @@ $('.select_course').click(function(){
 });
 //forntend selected course end
 
-//check selected course is clash (day,time) for student end 
+//check selected course is clash (day,time) for student end   
 
 //calculate negotiated course fee
 $('.select_course').click(function(){
-    $('#SearchStudent').keyup(function(){
-
-    });
-
-        var discount_amount = $('#Discount_input_field').val(); 
-        console.log(discount_amount);
-        if(discount_amount > 0)
-        {
-            $(this).closest('tr').addClass('selectRow');
-        }
-});       
-//negotiated course fee course end  
+    
+    select_course_id = $(this).val(); 
+    Discount_input_field_number = 'Discount_input_field_'+select_course_id;
+    Negotiated_input_field_number = 'negotiated_input_field_'+select_course_id;
+    selected_course_fee = 'course_fee_'+select_course_id;
+    course_fee = $('#'+selected_course_fee).text();
+    
+        $('#'+Discount_input_field_number).keyup(function(){
+            Discount_Amount = $(this).val();
+            if(Discount_Amount != null){
+               // if(Discount_Amount < course_fee){
+                    Negotiated_Amount = course_fee - Discount_Amount ;
+                    $('#'+Negotiated_input_field_number).val(Negotiated_Amount);
+               // }else{
+                    //$.growl.error({message: "Discount Amount is more than Coures Fee"});
+                //}
+            }
+        });
+}); 
+//negotiated course fee end
 
 //offer course store
+var select_course_discount_amount_with_course_id_value = [];
+var select_course_remark_with_course_id_value = [];
 $("#StudentEnrolmentFormsubmit").click(function(){        
        // $("#myForm").submit(); // Submit the form
        var select_student =  $("#student_id").text();
        var select_course_checkbox = $('.select_course:checked');
+
        var csrf_token = $('input[name=_token]').val();
        var url = '/student-course-enrollment-store'; 
        //console.log(select_student);
@@ -589,6 +603,22 @@ $("#StudentEnrolmentFormsubmit").click(function(){
                 $(select_course_checkbox).each(function(){
                     select_course_checkbox_value.push($(this).val());
                 });
+
+
+                jQuery.each(select_course_checkbox_value, function(i, CourseID) {
+            //discount amount
+                var select_course_discount_amount = $("#Discount_input_field_"+CourseID).val();
+                    select_course_discount_amount_with_course_id = CourseID+'_'+select_course_discount_amount;
+                    select_course_discount_amount_with_course_id_value.push(select_course_discount_amount_with_course_id);
+            //discount amount end
+
+            //Remark     
+               var select_course_remark =  $("#Remark_"+CourseID).val();
+               select_course_remark_with_course_id = CourseID+'_'+select_course_remark;
+               select_course_remark_with_course_id_value.push(select_course_remark_with_course_id);
+            //Remark end     
+	  
+               });
 
                 $.ajaxSetup({
                 headers: {
@@ -602,6 +632,9 @@ $("#StudentEnrolmentFormsubmit").click(function(){
                         data:{
                             student_id : select_student,
                             select_course_ids : select_course_checkbox_value,
+                            select_course_discount_amount_with_course_ids : select_course_discount_amount_with_course_id_value,
+                            select_course_remark_with_course_ids : select_course_remark_with_course_id_value,
+
                                 "_token": "{{ csrf_token() }}"
                             },
                                     
