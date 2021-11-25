@@ -48,6 +48,9 @@ th {
     font-size: 20px;
     margin-left: -15px;
 }
+.input_field_size{
+    width: 80%;
+}
 
 </style>
 
@@ -195,6 +198,9 @@ th {
                                                                 <th>End Time</th>
                                                                 <th>Class Type</th>
                                                                 <th>Course Fee</th>
+                                                                <th >Discount Amount</th>
+                                                                <th >Negotiated Amount</th>
+                                                                <th>Remark</th>
                                                                 <th>Limit</th>
                                                                 <th>Enrollment Last Date</th>  
                                                             </tr>
@@ -248,7 +254,28 @@ th {
                                                                 <td align= "center">{{ date('h:i:s a', strtotime($offer_course->start_time)) }}</td>
                                                                 <td align= "center">{{ date('h:i:s a', strtotime($offer_course->end_time)) }}</td>
                                                                 <td align= "center">@if($offer_course->class_type == 0) Offline  @else Online @endif</td>
-                                                                <td align= "center">{{ $offer_course->course_fee }}</td>
+                                                                <td align= "center" id="course_fee_{{$offer_course->id}}">{{ $offer_course->course_fee }}</td>
+                                                                <!-- discount amount -->
+                                                                <td align= "center"><input type="text"  class="input_field_size" id="Discount_input_field_{{$offer_course->id}}"
+                                                                @foreach($student_enrolled_courses as $student_enrolled_course)
+                                                                 @if($offer_course->id == $student_enrolled_course->course_id) 
+                                                                    value={{$student_enrolled_course->discount_amount}}   
+                                                                 @endif 
+                                                                @endforeach
+                                                                ></td>
+                                                                <!-- discount amount end -->
+                                                                
+                                                                <td align= "center"><input  class="input_field_size" id="negotiated_input_field_{{$offer_course->id}}" value="{{ $offer_course->course_fee }}"  readonly></td>
+                                
+                                                                <!-- Remark -->
+                                                                <td align= "center"><input type="text" id="Remark_{{$offer_course->id}}"
+                                                                @foreach($student_enrolled_courses as $student_enrolled_course)
+                                                                 @if($offer_course->id == $student_enrolled_course->course_id) 
+                                                                    value={{$student_enrolled_course->remark}}   
+                                                                 @endif 
+                                                                @endforeach
+                                                                ></td>
+                                                                <!-- Remark end -->
                                                                 <td align= "center"> @php 
                                                                                          $enroll_course = App\Models\Student_Course_Enrollment::where('course_id' , $offer_course->id)->get();
                                                                                          $count_enroll_course = count($enroll_course);
@@ -323,7 +350,7 @@ $(document).ready(function(){
     $('input[name="course_checkbox"]:checked').each(function() {
         selected_courses.push($(this).val());
     });
-    console.log(selected_courses);
+  //  console.log(selected_courses);
 //selected courses end
 
 //drop offer course
@@ -389,7 +416,7 @@ $('.select_course').click(function(){
                                 $('#'+checked_course).closest('tr').addClass('selectRow');
                                 $('#'+checked_course).prop('checked', true);
                                
-                                console.log("cancle"+selected_courses);
+                              //  console.log("cancle"+selected_courses);
                             }
                     }
 
@@ -451,10 +478,10 @@ $('.select_course').click(function(){
                                           $('#'+select_course_id).closest('tr').removeClass('selectRow');
                                           $('#'+select_course_id).prop('checked', false);
                                           selected_courses.splice($.inArray(select_course_id, selected_courses),1);
-                                           console.log("is enrolled"+selected_courses);   
+                                         //  console.log("is enrolled"+selected_courses);   
                                     }else if (data.success){
                                         check_sit_limit(select_course_id);
-                                        console.log("!is enrolled"+selected_courses);
+                                        //console.log("!is enrolled"+selected_courses);
                                     }
                                   
                                 }                
@@ -503,10 +530,10 @@ function check_sit_limit(course_id) {
                                            $('#'+course_id).closest('tr').removeClass('selectRow');
                                            $('#'+course_id).prop('checked', false);
                                            selected_courses.splice($.inArray(course_id, selected_courses),1);
-                                           console.log("is sit full"+selected_courses);
+                                         //  console.log("is sit full"+selected_courses);
                                     } else if (data.success){
                                         backend_check_selected_course_is_clash_day_time(course_id);
-                                        console.log("!is sit full"+selected_courses);
+                                       // console.log("!is sit full"+selected_courses);
                                     }
                                    
                                 }                
@@ -555,9 +582,9 @@ function backend_check_selected_course_is_clash_day_time(course_id) {
                                            $('#'+select_course_id).closest('tr').removeClass('selectRow');
                                            $('#'+select_course_id).prop('checked', false);
                                            selected_courses.splice($.inArray(select_course_id, selected_courses),1);
-                                           console.log("is backend"+selected_courses);
+                                          // console.log("is backend"+selected_courses);
                                     }
-                                    console.log("!is backend"+selected_courses);
+                                   // console.log("!is backend"+selected_courses);
                                 }                
                 });
            
@@ -607,9 +634,9 @@ $('.select_course').click(function(){
                                                 $('#'+forntend_select_course_id).closest('tr').removeClass('selectRow');
                                                 $('#'+forntend_select_course_id).prop('checked', false);
                                                 selected_courses.splice($.inArray(forntend_select_course_id, selected_courses),1);
-                                                console.log("is foentend"+selected_courses);
+                                              //  console.log("is foentend"+selected_courses);
                                         }
-                                        console.log("!is foentend"+selected_courses);
+                                      //  console.log("!is foentend"+selected_courses);
                                         
                                     }                
                     });
@@ -619,6 +646,51 @@ $('.select_course').click(function(){
 //forntend selected course end 
 
 //check selected course is clash (day,time) for student end 
+
+//calculate negotiated course fee
+//checked courses
+if($('.select_course').is(':checked')){
+        select_course_id = $('.select_course').val(); 
+        Discount_input_field_number = 'Discount_input_field_'+select_course_id;
+        Negotiated_input_field_number = 'negotiated_input_field_'+select_course_id;
+        selected_course_fee = 'course_fee_'+select_course_id;
+        course_fee = $('#'+selected_course_fee).text();
+        
+            $('#'+Discount_input_field_number).keyup(function(){
+                Discount_Amount = $(this).val();
+                if(Discount_Amount != null){
+                // if(Discount_Amount < course_fee){
+                        Negotiated_Amount = course_fee - Discount_Amount ;
+                        $('#'+Negotiated_input_field_number).val(Negotiated_Amount);
+                // }else{
+                        //$.growl.error({message: "Discount Amount is more than Coures Fee"});
+                    //}
+                }
+            });
+        console.log(select_course_id);
+    }
+//checked courses end
+$('.select_course').click(function(){
+    
+    select_course_id = $(this).val(); 
+    Discount_input_field_number = 'Discount_input_field_'+select_course_id;
+    Negotiated_input_field_number = 'negotiated_input_field_'+select_course_id;
+    selected_course_fee = 'course_fee_'+select_course_id;
+    course_fee = $('#'+selected_course_fee).text();
+    
+        $('#'+Discount_input_field_number).keyup(function(){
+            Discount_Amount = $(this).val();
+            if(Discount_Amount != null){
+               // if(Discount_Amount < course_fee){
+                    Negotiated_Amount = course_fee - Discount_Amount ;
+                    $('#'+Negotiated_input_field_number).val(Negotiated_Amount);
+               // }else{
+                    //$.growl.error({message: "Discount Amount is more than Coures Fee"});
+                //}
+            }
+        });
+}); 
+//negotiated course fee end
 
 //offer course update
 $("#StudentEnrolmentFormsubmit").click(function(){        

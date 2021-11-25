@@ -912,7 +912,7 @@ class StudentCourseEnrollmentController extends Controller
                                                                ->where('user_id', $student_id)
                                                                ->first();
 
-        $student_enrolled_courses = Student_Course_Enrollment::select('course_id')->where('user_id' , $student_id)->get();
+        $student_enrolled_courses = Student_Course_Enrollment::where('user_id' , $student_id)->get();
 
         // $Students_Enrollment_Courses_array = array();
         // foreach ($student_enrolled_courses as $student_enrolled_course) {

@@ -522,7 +522,7 @@ $('.select_course').click(function(){
         var uncheck_request = 0;
     } else {
         var uncheck_course_id = ($(this).val());
-        frontend_select_course_checkbox_value.splice($.inArray(uncheck_course_id, frontend_select_course_checkbox_value),1); console.log("forntend uncheck"+frontend_select_course_checkbox_value);
+        frontend_select_course_checkbox_value.splice($.inArray(uncheck_course_id, frontend_select_course_checkbox_value),1); //console.log("forntend uncheck"+frontend_select_course_checkbox_value);
         uncheck_request = 1;
     }
 
@@ -562,6 +562,7 @@ $('.select_course').click(function(){
 //check selected course is clash (day,time) for student end   
 
 //calculate negotiated course fee
+
 $('.select_course').click(function(){
     
     select_course_id = $(this).val(); 
