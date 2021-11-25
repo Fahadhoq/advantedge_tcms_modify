@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         $data['users'] = User::get();
              
-        $data['User_Infos'] = User_Info::select('user_id' , 'verified_by')->get();
+        $data['User_Infos'] = User_Info::select('user_id' , 'verified_by' , 'user_type_id')->get();
 
         $data['de_users'] = User::onlyTrashed()->get();
         //dd(storage_path());
@@ -35,7 +35,8 @@ class UserController extends Controller
 
     public function create(Type $var = null)
     {
-        $data['user_types'] = User_Type::select('id' , 'name')->get();
+        $data['user_types'] = User_Type::select('id' , 'name')
+                                         ->where('name', '!=' , 'student')->get();
                              
         return view('Backend.User.Create' , $data);
     }

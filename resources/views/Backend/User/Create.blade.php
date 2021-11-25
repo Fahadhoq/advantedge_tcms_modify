@@ -117,7 +117,9 @@
                                                         <select class="form-control" name="UserType" id="UserType" value="{{ old('UserType') }}">
                                                            <option value="">Choose one User Type</option>
                                                             @foreach($user_types as $user_type)
+                                                            @if($user_type->name != "admin")
                                                             <option  id="{{$user_type->id}}" value="{{$user_type->id}}">{{$user_type->name}}</option>
+                                                            @endif
                                                             @endforeach
                                                         </select>
                                                     </div>

@@ -97,6 +97,8 @@
                        
                         @endrole
 
+                        
+
                         <!-- Student Course Enrollment start -->
                         <li>
                             <a href="javascript:void(0);" class="waves-effect"><i class="icon-pencil-ruler"></i> <span> STUDENT ENROLLMENT <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
