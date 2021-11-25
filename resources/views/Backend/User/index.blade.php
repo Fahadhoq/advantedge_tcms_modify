@@ -110,17 +110,16 @@
                                                         <td style=text-align:center>
 
                                                         <a href="{{ route('user.view' , $user->id) }}" class="btn btn-info btn-sm" title="View USer"><i class="fa fa-eye"></i></a>
-                                                        @can('user edit')
+                                                       
                                                         <a href="{{ route('user.edit' , $user->id) }}" class="btn btn-warning btn-sm" title="Edit User"><i class="fa fa-edit"></i></a>
-                                                        @endcan
-                                                        
-                                                        @can('delete')<!-- 
+                                                     
+                                                        <!-- 
                                                         <a href="{{ route('user.delete' , $user->id) }}" class="btn btn-danger btn-sm" title="delete User" onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash"></i></a> -->
                                                         <!-- jquery delete -->
                                                         <button class="btn btn-danger btn-sm delete" data-id="{{$user->id}}" value="{{$user->id}}"><i
                                                         class="fa fa-trash"></i></button>
                                                         <!-- jquery delete end -->
-                                                        @endcan
+                                                       
                                                        
                                                         </td>
 

@@ -5,7 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Spatie\Permission\Contracts\Role;
-use App\Models\UsersRole;
+//use App\Models\UsersRole;
+
 
 class UsersTableSeeder extends Seeder
 {
@@ -17,8 +18,8 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
        $user = User::create([
-            'name' => 'superadmin',
-            'email' => 'superadmin@gmail.com',
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
             'password' =>  bcrypt('12345678'),
             'phone' => '01827537225',
         ]);
@@ -29,10 +30,10 @@ class UsersTableSeeder extends Seeder
 
         $user->assignRole($role);
 
-            $UserRole = new UsersRole;
-            $UserRole->user_id = $user->id;
-            $UserRole->role_id = $role->id;
-            $UserRole->save();
+            // $UserRole = new UsersRole;
+            // $UserRole->user_id = $user->id;
+            // $UserRole->role_id = $role->id;
+            // $UserRole->save();
 
     }
 }

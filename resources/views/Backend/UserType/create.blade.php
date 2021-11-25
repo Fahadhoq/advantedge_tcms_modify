@@ -61,7 +61,9 @@
                                     <select class="form-control" name="UserRole" id="UserRole" value="{{ old('UserRole') }}">
                                         <option value="">Choose one role</option>
                                             @foreach($Roles as $role)
-                                               <option  id="{{$role->id}}" value="{{$role->id}}">{{$role->name}}</option>     
+                                              @if($role->id != 1)
+                                               <option  id="{{$role->id}}" value="{{$role->id}}">{{$role->name}}</option> 
+                                              @endif     
                                             @endforeach
                                     </select>
                                 </div>
