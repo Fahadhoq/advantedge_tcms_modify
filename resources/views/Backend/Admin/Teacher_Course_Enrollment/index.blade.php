@@ -98,8 +98,8 @@
                                                         <td style=text-align:center scope="row">{{$TeachersEnrollmentCourse->id}}</td>
                                                         
                                                         <!-- student info -->
-                                                        <td style=text-align:center scope="row">{{$TeachersEnrollmentCourse->user->id}}</td>
-                                                        <td style=text-align:center scope="row">{{$TeachersEnrollmentCourse->user->name}}</td>
+                                                        <td style=text-align:center scope="row">{{@$TeachersEnrollmentCourse->user->id}}</td>
+                                                        <td style=text-align:center scope="row">{{@$TeachersEnrollmentCourse->user->name}}</td>
                                                         <!-- student info end -->
 
                                                         <!-- course info -->

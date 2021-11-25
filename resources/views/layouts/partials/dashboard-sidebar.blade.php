@@ -45,45 +45,44 @@
                         </li>
                         <!-- User Type end -->
 
-                         <!-- Class/course start-->
-                         <li>
-                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> COURSE <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                            <ul class="submenu">
-                                <li><a href="{{ route('class.index') }}"> {{ __('Show All Course') }}</a></li>
-                                <li><a href="{{ route('class.create') }}"> {{ __('Create Course ') }}</a></li>
-                            </ul>
-                        </li>
-                        <!-- Class/course end -->
-
-                        <!-- Batch start-->
+                       <!-- offer Course start-->
                         <li>
-                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> BATCH <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-share"></i><span> COURSE <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                             <ul class="submenu">
-                                <li><a href="{{ route('batch.index') }}"> {{ __('Show All Batch') }}</a></li>
-                                <li><a href="{{ route('batch.create') }}"> {{ __('Create Batch') }}</a></li>
-                            </ul>
-                        </li>
-                        <!-- Batch end -->
+                               
+                                <!-- Class/course start-->
+                                <li>
+                                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> COURSE CREATE <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                    <ul class="submenu">
+                                        <li><a href="{{ route('class.index') }}"> {{ __('Show All Course') }}</a></li>
+                                        <li><a href="{{ route('class.create') }}"> {{ __('Create Course ') }}</a></li>
+                                    </ul>
+                                </li>
+                                <!-- Class/course end -->
 
-                        <!-- Subject start-->
-                        <li>
-                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> SUBJECT <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                            <ul class="submenu">
-                                <li><a href="{{ route('subject.index') }}"> {{ __('Show All Subject') }}</a></li>
-                                <li><a href="{{ route('subject.create') }}"> {{ __('Create Subject ') }}</a></li>
-                            </ul>
-                        </li>
-                        <!-- Subject end -->
+                                 <!-- Batch start-->
+                                <li>
+                                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> BATCH <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                    <ul class="submenu">
+                                        <li><a href="{{ route('batch.index') }}"> {{ __('Show All Batch') }}</a></li>
+                                        <li><a href="{{ route('batch.create') }}"> {{ __('Create Batch') }}</a></li>
+                                    </ul>
+                                </li>
+                                <!-- Batch end -->
 
-                         <!-- offer Course start-->
-                         <li>
-                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> OFFER COURSE <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                            <ul class="submenu">
-                                <li><a href="{{ route('course.index') }}"> {{ __('Show All Course') }}</a></li>
-                                <li><a href="{{ route('course.create') }}"> {{ __('Offer Course ') }}</a></li>
+                                 <!-- offer Course start-->
+                                <li>
+                                    <a href="javascript:void(0);" class="waves-effect"><i class="icon-mail-open"></i><span> OFFER COURSE <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                                    <ul class="submenu">
+                                        <li><a href="{{ route('course.index') }}"> {{ __('Show All Course') }}</a></li>
+                                        <li><a href="{{ route('course.create') }}"> {{ __('Offer Course ') }}</a></li>
+                                    </ul>
+                                </li>
+                                <!-- offer Course end -->
+
                             </ul>
                         </li>
-                        <!-- offer Course end -->
+                       <!-- offer Course end -->
 
                         <!-- user start -->
                         <li>

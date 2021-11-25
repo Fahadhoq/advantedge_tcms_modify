@@ -11,7 +11,6 @@ use App\Models\User_Type;
 use App\Models\User_Academic_Info;
 use App\Models\Classes;
 use App\Models\Course;
-use App\Models\Subject;
 use App\Models\Student_Course_Enrollment;
 use DB;
 use Carbon\Carbon;
@@ -218,448 +217,448 @@ class StudentCourseEnrollmentController extends Controller
     }
 
     //frontend day,time clash check
-    public function check_selected_courses_is_clash(Request $request){ 
-        $sizeof_select_course_ids = $request->frontend_select_course_checkbox_value;
-        $select_course_ids = $request->frontend_select_course_checkbox_value;
+    // public function check_selected_courses_is_clash(Request $request){ 
+    //     $sizeof_select_course_ids = $request->frontend_select_course_checkbox_value;
+    //     $select_course_ids = $request->frontend_select_course_checkbox_value;
        
-        for($i = 0 ; $i < sizeof($sizeof_select_course_ids) ; $i++ ){
+    //     for($i = 0 ; $i < sizeof($sizeof_select_course_ids) ; $i++ ){
 
-            //1st index
-            $select_first_course_id = $select_course_ids[0]; 
-            $select_first_offer_course = Course::select('day', 'start_time', 'end_time')->where('id' , $select_first_course_id)->first();
-            $select_first_offer_course_start_time = $select_first_offer_course->start_time;
-            $select_first_offer_course_end_time = $select_first_offer_course->end_time;
+    //         //1st index
+    //         $select_first_course_id = $select_course_ids[0]; 
+    //         $select_first_offer_course = Course::select('day', 'start_time', 'end_time')->where('id' , $select_first_course_id)->first();
+    //         $select_first_offer_course_start_time = $select_first_offer_course->start_time;
+    //         $select_first_offer_course_end_time = $select_first_offer_course->end_time;
             
-           // offer courses day check 
-            $select_first_course_days_array = array();
-            $select_first_course_days = explode(',', $select_first_offer_course->day);
+    //        // offer courses day check 
+    //         $select_first_course_days_array = array();
+    //         $select_first_course_days = explode(',', $select_first_offer_course->day);
             
-            foreach($select_first_course_days as $select_first_course_day){
-                $select_first_course_day = str_replace(' ' , '' , $select_first_course_day);
-                array_push($select_first_course_days_array, $select_first_course_day);        
-            }
-            //1st index end
+    //         foreach($select_first_course_days as $select_first_course_day){
+    //             $select_first_course_day = str_replace(' ' , '' , $select_first_course_day);
+    //             array_push($select_first_course_days_array, $select_first_course_day);        
+    //         }
+    //         //1st index end
 
-            //rest of index
-            array_splice($select_course_ids, 0, 1);
+    //         //rest of index
+    //         array_splice($select_course_ids, 0, 1);
 
-            foreach ($select_course_ids as $select_course_id) {
-                $select_offer_course = Course::select('id' , 'day')->where('id' , $select_course_id)->first();
+    //         foreach ($select_course_ids as $select_course_id) {
+    //             $select_offer_course = Course::select('id' , 'day')->where('id' , $select_course_id)->first();
                
-                $select_offer_course_days_array = array();
-                $select_offer_course_days = explode(',', $select_offer_course->day);
+    //             $select_offer_course_days_array = array();
+    //             $select_offer_course_days = explode(',', $select_offer_course->day);
                 
-                foreach($select_offer_course_days as $select_offer_course_day){
-                    $select_offer_course_day = str_replace(' ' , '' , $select_offer_course_day);
-                    array_push($select_offer_course_days_array, $select_offer_course_day);        
-                }
+    //             foreach($select_offer_course_days as $select_offer_course_day){
+    //                 $select_offer_course_day = str_replace(' ' , '' , $select_offer_course_day);
+    //                 array_push($select_offer_course_days_array, $select_offer_course_day);        
+    //             }
                
-                foreach($select_first_course_days_array as $select_first_course_day_array){
-                    foreach($select_offer_course_days_array as $select_offer_course_day){
+    //             foreach($select_first_course_days_array as $select_first_course_day_array){
+    //                 foreach($select_offer_course_days_array as $select_offer_course_day){
 
-                        if($select_first_course_day_array == $select_offer_course_day){
-                                if($select_first_course_day_array == 1){
-                                    $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
-                                                                                         ->where('day' , 'LIKE','%1%')
-                                                                                         ->get();
+    //                     if($select_first_course_day_array == $select_offer_course_day){
+    //                             if($select_first_course_day_array == 1){
+    //                                 $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
+    //                                                                                      ->where('day' , 'LIKE','%1%')
+    //                                                                                      ->get();
 
-                                    // time check
-                                    foreach($select_offer_courses_time as $select_offer_course_time){
-                                        $select_offer_course_start_time = $select_offer_course_time->start_time;
-                                        $select_offer_course_end_time = $select_offer_course_time->end_time;
+    //                                 // time check
+    //                                 foreach($select_offer_courses_time as $select_offer_course_time){
+    //                                     $select_offer_course_start_time = $select_offer_course_time->start_time;
+    //                                     $select_offer_course_end_time = $select_offer_course_time->end_time;
 
-                                        if($select_first_offer_course_start_time == $select_offer_course_start_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }
+    //                                     if($select_first_offer_course_start_time == $select_offer_course_start_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }
                                 
-                                    }
-                                    // time check end 
-                                }elseif ($select_first_course_day_array == 2) {
-                                    $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
-                                                                                         ->where('day' , 'LIKE','%2%')
-                                                                                         ->get();
+    //                                 }
+    //                                 // time check end 
+    //                             }elseif ($select_first_course_day_array == 2) {
+    //                                 $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
+    //                                                                                      ->where('day' , 'LIKE','%2%')
+    //                                                                                      ->get();
 
-                                    // time check
-                                    foreach($select_offer_courses_time as $select_offer_course_time){
-                                        $select_offer_course_start_time = $select_offer_course_time->start_time;
-                                        $select_offer_course_end_time = $select_offer_course_time->end_time;
+    //                                 // time check
+    //                                 foreach($select_offer_courses_time as $select_offer_course_time){
+    //                                     $select_offer_course_start_time = $select_offer_course_time->start_time;
+    //                                     $select_offer_course_end_time = $select_offer_course_time->end_time;
 
-                                        if($select_first_offer_course_start_time == $select_offer_course_start_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }
+    //                                     if($select_first_offer_course_start_time == $select_offer_course_start_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }
                                 
-                                    }
-                                    // time check end 
-                                }elseif ($select_first_course_day_array == 3) {
-                                    $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
-                                                                                         ->where('day' , 'LIKE','%3%')
-                                                                                         ->get();
+    //                                 }
+    //                                 // time check end 
+    //                             }elseif ($select_first_course_day_array == 3) {
+    //                                 $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
+    //                                                                                      ->where('day' , 'LIKE','%3%')
+    //                                                                                      ->get();
 
-                                    // time check
-                                    foreach($select_offer_courses_time as $select_offer_course_time){
-                                        $select_offer_course_start_time = $select_offer_course_time->start_time;
-                                        $select_offer_course_end_time = $select_offer_course_time->end_time;
+    //                                 // time check
+    //                                 foreach($select_offer_courses_time as $select_offer_course_time){
+    //                                     $select_offer_course_start_time = $select_offer_course_time->start_time;
+    //                                     $select_offer_course_end_time = $select_offer_course_time->end_time;
 
-                                        if($select_first_offer_course_start_time == $select_offer_course_start_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }
+    //                                     if($select_first_offer_course_start_time == $select_offer_course_start_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }
                                 
-                                    }
-                                    // time check end 
-                                }elseif ($select_first_course_day_array == 4) {
-                                    $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
-                                                                                         ->where('day' , 'LIKE','%4%')
-                                                                                         ->get();
+    //                                 }
+    //                                 // time check end 
+    //                             }elseif ($select_first_course_day_array == 4) {
+    //                                 $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
+    //                                                                                      ->where('day' , 'LIKE','%4%')
+    //                                                                                      ->get();
 
-                                    // time check
-                                    foreach($select_offer_courses_time as $select_offer_course_time){
-                                        $select_offer_course_start_time = $select_offer_course_time->start_time;
-                                        $select_offer_course_end_time = $select_offer_course_time->end_time;
+    //                                 // time check
+    //                                 foreach($select_offer_courses_time as $select_offer_course_time){
+    //                                     $select_offer_course_start_time = $select_offer_course_time->start_time;
+    //                                     $select_offer_course_end_time = $select_offer_course_time->end_time;
 
-                                        if($select_first_offer_course_start_time == $select_offer_course_start_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }
+    //                                     if($select_first_offer_course_start_time == $select_offer_course_start_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }
                                 
-                                    }
-                                    // time check end 
-                                }elseif ($select_first_course_day_array == 5) {
-                                    $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
-                                                                                         ->where('day' , 'LIKE','%5%')
-                                                                                         ->get();
+    //                                 }
+    //                                 // time check end 
+    //                             }elseif ($select_first_course_day_array == 5) {
+    //                                 $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
+    //                                                                                      ->where('day' , 'LIKE','%5%')
+    //                                                                                      ->get();
 
-                                    // time check
-                                    foreach($select_offer_courses_time as $select_offer_course_time){
-                                        $select_offer_course_start_time = $select_offer_course_time->start_time;
-                                        $select_offer_course_end_time = $select_offer_course_time->end_time;
+    //                                 // time check
+    //                                 foreach($select_offer_courses_time as $select_offer_course_time){
+    //                                     $select_offer_course_start_time = $select_offer_course_time->start_time;
+    //                                     $select_offer_course_end_time = $select_offer_course_time->end_time;
 
-                                        if($select_first_offer_course_start_time == $select_offer_course_start_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }
+    //                                     if($select_first_offer_course_start_time == $select_offer_course_start_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }
                                 
-                                    }
-                                    // time check end 
-                                }elseif ($select_first_course_day_array == 6) {
-                                    $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
-                                                                                         ->where('day' , 'LIKE','%6%')
-                                                                                         ->get();
+    //                                 }
+    //                                 // time check end 
+    //                             }elseif ($select_first_course_day_array == 6) {
+    //                                 $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
+    //                                                                                      ->where('day' , 'LIKE','%6%')
+    //                                                                                      ->get();
 
-                                    // time check
-                                    foreach($select_offer_courses_time as $select_offer_course_time){
-                                        $select_offer_course_start_time = $select_offer_course_time->start_time;
-                                        $select_offer_course_end_time = $select_offer_course_time->end_time;
+    //                                 // time check
+    //                                 foreach($select_offer_courses_time as $select_offer_course_time){
+    //                                     $select_offer_course_start_time = $select_offer_course_time->start_time;
+    //                                     $select_offer_course_end_time = $select_offer_course_time->end_time;
 
-                                        if($select_first_offer_course_start_time == $select_offer_course_start_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }
+    //                                     if($select_first_offer_course_start_time == $select_offer_course_start_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }
                                 
-                                    }
-                                    // time check end 
-                                }elseif ($select_first_course_day_array == 7) {
-                                   $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
-                                                                                         ->where('day' , 'LIKE','%7%')
-                                                                                         ->get();
+    //                                 }
+    //                                 // time check end 
+    //                             }elseif ($select_first_course_day_array == 7) {
+    //                                $select_offer_courses_time = Course::select('start_time', 'end_time')->where('id' , $select_offer_course->id)
+    //                                                                                      ->where('day' , 'LIKE','%7%')
+    //                                                                                      ->get();
 
-                                    // time check
-                                    foreach($select_offer_courses_time as $select_offer_course_time){
-                                        $select_offer_course_start_time = $select_offer_course_time->start_time;
-                                        $select_offer_course_end_time = $select_offer_course_time->end_time;
+    //                                 // time check
+    //                                 foreach($select_offer_courses_time as $select_offer_course_time){
+    //                                     $select_offer_course_start_time = $select_offer_course_time->start_time;
+    //                                     $select_offer_course_end_time = $select_offer_course_time->end_time;
 
-                                        if($select_first_offer_course_start_time == $select_offer_course_start_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
-                                            return response()->json([ 'error' => 'Time Clash with selected courses']);
-                                        }
+    //                                     if($select_first_offer_course_start_time == $select_offer_course_start_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif($select_first_offer_course_end_time == $select_offer_course_end_time){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time > $select_offer_course_start_time) && ($select_offer_course_end_time > $select_first_offer_course_start_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_end_time > $select_offer_course_start_time) && ($select_first_offer_course_end_time < $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }elseif( ($select_first_offer_course_start_time < $select_offer_course_start_time) && ($select_first_offer_course_end_time > $select_offer_course_end_time) ){
+    //                                         return response()->json([ 'error' => 'Time Clash with selected courses']);
+    //                                     }
                                 
-                                    }
-                                    // time check end 
-                                }
+    //                                 }
+    //                                 // time check end 
+    //                             }
                                 
-                        }
+    //                     }
 
-                    }
-                }
-            }
-            //rest of index
+    //                 }
+    //             }
+    //         }
+    //         //rest of index
 
-           //offer courses day check end
-        }
+    //        //offer courses day check end
+    //     }
         
-    }
+    // }
     //frontend day,time clash check end
     
     //backend day,time clash check
-    public function check_student_courde_is_clash(Request $request){
+    // public function check_student_courde_is_clash(Request $request){
             
-        $student_enrolled_offer_courses = Student_Course_Enrollment::select('course_id')->where('user_id' , $request->student_id)->get();
+    //     $student_enrolled_offer_courses = Student_Course_Enrollment::select('course_id')->where('user_id' , $request->student_id)->get();
         
-        $select_offer_course = Course::select('day', 'start_time', 'end_time')->where('id' , $request->course_id)->first(); 
+    //     $select_offer_course = Course::select('day', 'start_time', 'end_time')->where('id' , $request->course_id)->first(); 
 
-        $select_offer_course_start_time = $select_offer_course->start_time;
-        $select_offer_course_end_time = $select_offer_course->end_time;
+    //     $select_offer_course_start_time = $select_offer_course->start_time;
+    //     $select_offer_course_end_time = $select_offer_course->end_time;
 
-        // offer courses days,time exect check
+    //     // offer courses days,time exect check
 
-        //offer courses day check 
-        $select_offer_course_days_array = array();
-        $select_offer_course_days = explode(',', $select_offer_course->day);
+    //     //offer courses day check 
+    //     $select_offer_course_days_array = array();
+    //     $select_offer_course_days = explode(',', $select_offer_course->day);
          
-        foreach($select_offer_course_days as $select_offer_course_day){
-             $select_offer_course_day = str_replace(' ' , '' , $select_offer_course_day);
-             array_push($select_offer_course_days_array, $select_offer_course_day);        
-        }
+    //     foreach($select_offer_course_days as $select_offer_course_day){
+    //          $select_offer_course_day = str_replace(' ' , '' , $select_offer_course_day);
+    //          array_push($select_offer_course_days_array, $select_offer_course_day);        
+    //     }
         
-        foreach ($student_enrolled_offer_courses as $student_enrolled_offer_course) {
+    //     foreach ($student_enrolled_offer_courses as $student_enrolled_offer_course) {
             
-            $offer_course_days = Course::select('day')->where('id' , $student_enrolled_offer_course->course_id)->first(); 
+    //         $offer_course_days = Course::select('day')->where('id' , $student_enrolled_offer_course->course_id)->first(); 
 
-            $offer_course_days_array = array();
-            $offer_course_days = explode(',', $offer_course_days->day);
+    //         $offer_course_days_array = array();
+    //         $offer_course_days = explode(',', $offer_course_days->day);
             
-            foreach($offer_course_days as $offer_course_day){
-                $offer_course_day = str_replace(' ' , '' , $offer_course_day);
-                array_push($offer_course_days_array, $offer_course_day);        
-            }
+    //         foreach($offer_course_days as $offer_course_day){
+    //             $offer_course_day = str_replace(' ' , '' , $offer_course_day);
+    //             array_push($offer_course_days_array, $offer_course_day);        
+    //         }
             
-            foreach($offer_course_days_array as $offer_course_day){
-                foreach($select_offer_course_days_array as $select_offer_course_day){
-                    if($offer_course_day == $select_offer_course_day){
-                        if($offer_course_day == 1){
-                            $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
-                                                                                         ->where('day' , 'LIKE','%1%')
-                                                                                         ->get();
+    //         foreach($offer_course_days_array as $offer_course_day){
+    //             foreach($select_offer_course_days_array as $select_offer_course_day){
+    //                 if($offer_course_day == $select_offer_course_day){
+    //                     if($offer_course_day == 1){
+    //                         $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
+    //                                                                                      ->where('day' , 'LIKE','%1%')
+    //                                                                                      ->get();
 
-                             // time check
-                             foreach($offer_courses_time_exect as $offer_course_time_exect){
-                                 $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
-                                 $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
+    //                          // time check
+    //                          foreach($offer_courses_time_exect as $offer_course_time_exect){
+    //                              $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
+    //                              $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
 
-                                if($select_offer_course_start_time == $offer_courses_start_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }
+    //                             if($select_offer_course_start_time == $offer_courses_start_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }
                         
-                             }
-                             // time check end 
+    //                          }
+    //                          // time check end 
 
-                        }elseif ($offer_course_day == 2) {
-                            $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
-                                                                                         ->where('day' , 'LIKE','%2%')
-                                                                                         ->get(); 
+    //                     }elseif ($offer_course_day == 2) {
+    //                         $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
+    //                                                                                      ->where('day' , 'LIKE','%2%')
+    //                                                                                      ->get(); 
                            
-                            // time check
-                            foreach($offer_courses_time_exect as $offer_course_time_exect){
-                                $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
-                                $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
+    //                         // time check
+    //                         foreach($offer_courses_time_exect as $offer_course_time_exect){
+    //                             $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
+    //                             $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
 
-                                if($select_offer_course_start_time == $offer_courses_start_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }
+    //                             if($select_offer_course_start_time == $offer_courses_start_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }
                        
-                            }
-                            // time check end 
-                        }elseif ($offer_course_day == 3) {
-                            $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
-                                                                                         ->where('day' , 'LIKE','%3%')
-                                                                                         ->get(); 
+    //                         }
+    //                         // time check end 
+    //                     }elseif ($offer_course_day == 3) {
+    //                         $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
+    //                                                                                      ->where('day' , 'LIKE','%3%')
+    //                                                                                      ->get(); 
                          
-                            // time check
-                            foreach($offer_courses_time_exect as $offer_course_time_exect){
-                                $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
-                                $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
+    //                         // time check
+    //                         foreach($offer_courses_time_exect as $offer_course_time_exect){
+    //                             $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
+    //                             $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
 
-                                if($select_offer_course_start_time == $offer_courses_start_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }
+    //                             if($select_offer_course_start_time == $offer_courses_start_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }
                        
-                            }
-                            // time check end 
-                        }elseif ($offer_course_day == 4) {
-                            $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
-                                                                                         ->where('day' , 'LIKE','%4%')
-                                                                                         ->get();
+    //                         }
+    //                         // time check end 
+    //                     }elseif ($offer_course_day == 4) {
+    //                         $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
+    //                                                                                      ->where('day' , 'LIKE','%4%')
+    //                                                                                      ->get();
                         
-                            // time check
-                            foreach($offer_courses_time_exect as $offer_course_time_exect){
-                                $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
-                                $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
+    //                         // time check
+    //                         foreach($offer_courses_time_exect as $offer_course_time_exect){
+    //                             $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
+    //                             $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
 
-                                if($select_offer_course_start_time == $offer_courses_start_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }
+    //                             if($select_offer_course_start_time == $offer_courses_start_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }
                        
-                            }
-                            // time check end 
-                        }elseif ($offer_course_day == 5) {
-                            $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
-                                                                                         ->where('day' , 'LIKE','%5%')
-                                                                                         ->get(); 
-                            print_r("5");
-                            // time check
-                            foreach($offer_courses_time_exect as $offer_course_time_exect){
-                                $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
-                                $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
+    //                         }
+    //                         // time check end 
+    //                     }elseif ($offer_course_day == 5) {
+    //                         $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
+    //                                                                                      ->where('day' , 'LIKE','%5%')
+    //                                                                                      ->get(); 
+    //                         print_r("5");
+    //                         // time check
+    //                         foreach($offer_courses_time_exect as $offer_course_time_exect){
+    //                             $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
+    //                             $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
 
-                                if($select_offer_course_start_time == $offer_courses_start_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }
+    //                             if($select_offer_course_start_time == $offer_courses_start_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }
                        
-                            }
-                            // time check end 
-                        }elseif ($offer_course_day == 6) {
-                            $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
-                                                                                         ->where('day' , 'LIKE','%6%')
-                                                                                         ->get();
+    //                         }
+    //                         // time check end 
+    //                     }elseif ($offer_course_day == 6) {
+    //                         $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
+    //                                                                                      ->where('day' , 'LIKE','%6%')
+    //                                                                                      ->get();
                            
-                            // time check
-                            foreach($offer_courses_time_exect as $offer_course_time_exect){
-                                $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
-                                $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
+    //                         // time check
+    //                         foreach($offer_courses_time_exect as $offer_course_time_exect){
+    //                             $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
+    //                             $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
 
-                                if($select_offer_course_start_time == $offer_courses_start_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }
+    //                             if($select_offer_course_start_time == $offer_courses_start_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }
                        
-                            }
-                            // time check end 
-                        }elseif ($offer_course_day == 7) {
-                            $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
-                                                                                         ->where('day' , 'LIKE','%7%')
-                                                                                         ->get(); 
+    //                         }
+    //                         // time check end 
+    //                     }elseif ($offer_course_day == 7) {
+    //                         $offer_courses_time_exect = Course::select('start_time', 'end_time')->where('id' , $student_enrolled_offer_course->course_id)
+    //                                                                                      ->where('day' , 'LIKE','%7%')
+    //                                                                                      ->get(); 
                            
-                            // time check
-                            foreach($offer_courses_time_exect as $offer_course_time_exect){
-                                $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
-                                $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
+    //                         // time check
+    //                         foreach($offer_courses_time_exect as $offer_course_time_exect){
+    //                             $offer_courses_start_time_exect = $offer_course_time_exect->start_time;
+    //                             $offer_courses_end_time_exect = $offer_course_time_exect->end_time;
 
-                                if($select_offer_course_start_time == $offer_courses_start_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
-                                    return response()->json([ 'error' => 'Time Clash with enrolled courses']);
-                                }
+    //                             if($select_offer_course_start_time == $offer_courses_start_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif($select_offer_course_end_time == $offer_courses_end_time_exect){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time > $offer_courses_start_time_exect) && ($offer_courses_end_time_exect > $select_offer_course_start_time) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_end_time > $offer_courses_start_time_exect) && ($select_offer_course_end_time < $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }elseif( ($select_offer_course_start_time < $offer_courses_start_time_exect) && ($select_offer_course_end_time > $offer_courses_end_time_exect) ){
+    //                                 return response()->json([ 'error' => 'Time Clash with enrolled courses']);
+    //                             }
                        
-                            }
-                            // time check end 
-                        }
-                    }
-                }
-            }
-        }
+    //                         }
+    //                         // time check end 
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
 
-      //  echo $output;
-      // dd();
+    //   //  echo $output;
+    //   // dd();
         
-        //offer courses day check end
+    //     //offer courses day check end
     
-    // offer courses days,time exect check end
+    // // offer courses days,time exect check end
            
-    }
+    // }
     //backend day,time clash check end
     
 

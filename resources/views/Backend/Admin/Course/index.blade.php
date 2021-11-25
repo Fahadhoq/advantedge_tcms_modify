@@ -60,7 +60,6 @@
                                                         <th style=text-align:center> ID</th>
                                                         <th style=text-align:center> Course Name</th>
                                                         <th style=text-align:center> Batch</th>
-                                                        <th style=text-align:center> Subject</th>
                                                         <th style=text-align:center> Course Fee</th>
                                                         <th style=text-align:center> Enrollment Last Date</th>
                                                         <th style=text-align:center> Status</th>    
@@ -83,13 +82,7 @@
                                                         @php $course_batch = App\Models\Batch::select('batch_name')->where('id' , $course->batch)->first(); @endphp
                                                             <td style=text-align:center>{{@$course_batch->batch_name}}</td>
                                                         <!-- batch end -->
-                                                        <!-- subject -->
-                                                            @php $course_subjects = App\Models\Subject::select('name')->where('class_id' , $course->class)->get(); @endphp
-                                                            <td style=text-align:center>@foreach($course_subjects as $course_subject)
-                                                                                                {{$course_subject->name}} </br>
-                                                                                        @endforeach
-                                                            </td>
-                                                        <!-- subject end -->
+                                                        
                                                         <td style=text-align:center>{{$course->course_fee}}</td>
                                                         <td style=text-align:center>{{$course->enrollment_last_date}}</td>
                                                         <!-- status -->

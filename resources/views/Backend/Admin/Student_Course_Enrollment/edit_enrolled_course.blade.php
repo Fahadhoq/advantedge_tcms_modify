@@ -192,10 +192,6 @@ th {
                                                                 <th>Select</th>
                                                                 <th>ID</th>
                                                                 <th>Course Name</th>
-                                                                <th>Subject Name</th>
-                                                                <th>Day</th>
-                                                                <th>Start Time</th>
-                                                                <th>End Time</th>
                                                                 <th>Class Type</th>
                                                                 <th>Course Fee</th>
                                                                 <th >Discount Amount</th>
@@ -226,33 +222,6 @@ th {
                                                                                       @endphp
                                                                 </td>
                                                                 <!-- class end -->
-                                                                <!-- subject name -->
-                                                                <td align= "center"> @php 
-                                                                                      $subjects = App\Models\Subject::select('name')->where('class_id' , $offer_course->class)->get();
-                                                                                        foreach($subjects as $subject){ echo @$subject->name; echo ',</br>';} 
-                                                                                      @endphp  
-                                                                </td>
-                                                                <!-- subject name end -->
-                                                                <!-- day -->
-                                                                <td align= "center">
-                                                                                    @php 
-                                                                                    $offer_course_days = explode(',', $offer_course->day);
-                                                                                    $days = App\Models\Day::select('id' ,'name')->get();
-
-                                                                                    foreach($days as $day){
-                                                                                        $day_id = $day->id;
-                                                                                          foreach($offer_course_days as $offer_course_day){
-                                                                                            if($offer_course_day == $day_id){
-                                                                                                echo $day->name;
-                                                                                                echo '</br>';
-                                                                                            }
-                                                                                          }
-                                                                                    }
-                                                                                    @endphp
-                                                                </td>
-                                                                <!-- day end -->
-                                                                <td align= "center">{{ date('h:i:s a', strtotime($offer_course->start_time)) }}</td>
-                                                                <td align= "center">{{ date('h:i:s a', strtotime($offer_course->end_time)) }}</td>
                                                                 <td align= "center">@if($offer_course->class_type == 0) Offline  @else Online @endif</td>
                                                                 <td align= "center" id="course_fee_{{$offer_course->id}}">{{ $offer_course->course_fee }}</td>
                                                                 <!-- discount amount -->
@@ -531,10 +500,11 @@ function check_sit_limit(course_id) {
                                            $('#'+course_id).prop('checked', false);
                                            selected_courses.splice($.inArray(course_id, selected_courses),1);
                                          //  console.log("is sit full"+selected_courses);
-                                    } else if (data.success){
-                                        backend_check_selected_course_is_clash_day_time(course_id);
-                                       // console.log("!is sit full"+selected_courses);
-                                    }
+                                    } 
+                                    // else if (data.success){
+                                    //     backend_check_selected_course_is_clash_day_time(course_id);
+                                    //    // console.log("!is sit full"+selected_courses);
+                                    // }
                                    
                                 }                
                 });
@@ -549,100 +519,100 @@ function check_sit_limit(course_id) {
 //check selected course is clash (day,time) for student
 
 //backend selected coures with db 
-function backend_check_selected_course_is_clash_day_time(course_id) {
+// function backend_check_selected_course_is_clash_day_time(course_id) {
     
-      if($('#'+course_id).is(':checked')){
+//       if($('#'+course_id).is(':checked')){
 
-            var select_course_id =  $('#'+course_id).val();
-            var select_student_id =  $("#student_id").text();
-            var csrf_token = $('input[name=_token]').val();
-            var url = '/student-course-enrollment-check-student-course-is-clash-'; 
-           // console.log(select_course_id);
+//             var select_course_id =  $('#'+course_id).val();
+//             var select_student_id =  $("#student_id").text();
+//             var csrf_token = $('input[name=_token]').val();
+//             var url = '/student-course-enrollment-check-student-course-is-clash-'; 
+//            // console.log(select_course_id);
         
               
-                $.ajaxSetup({
-                headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        }
-                });
+//                 $.ajaxSetup({
+//                 headers: {
+//                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
+//                         }
+//                 });
 
-                $.ajax({
-                        url: url + select_student_id,
-                        type: 'post',
-                        data:{
-                            student_id : select_student_id,
-                            course_id : select_course_id,
-                                "_token": "{{ csrf_token() }}"
-                            },
+//                 $.ajax({
+//                         url: url + select_student_id,
+//                         type: 'post',
+//                         data:{
+//                             student_id : select_student_id,
+//                             course_id : select_course_id,
+//                                 "_token": "{{ csrf_token() }}"
+//                             },
                                     
-                                success : function(data)
-                                {
-                                    if(data.error) {
-                                          $.growl.error({message: data.error});
-                                           $('#'+select_course_id).closest('tr').removeClass('selectRow');
-                                           $('#'+select_course_id).prop('checked', false);
-                                           selected_courses.splice($.inArray(select_course_id, selected_courses),1);
-                                          // console.log("is backend"+selected_courses);
-                                    }
-                                   // console.log("!is backend"+selected_courses);
-                                }                
-                });
+//                                 success : function(data)
+//                                 {
+//                                     if(data.error) {
+//                                           $.growl.error({message: data.error});
+//                                            $('#'+select_course_id).closest('tr').removeClass('selectRow');
+//                                            $('#'+select_course_id).prop('checked', false);
+//                                            selected_courses.splice($.inArray(select_course_id, selected_courses),1);
+//                                           // console.log("is backend"+selected_courses);
+//                                     }
+//                                    // console.log("!is backend"+selected_courses);
+//                                 }                
+//                 });
            
-        }
-}
+//         }
+// }
 //backend selected coures with db
 
 //forntend selected course
 // var frontend_select_course_checkbox_value = [];
-$('.select_course').click(function(){
+// $('.select_course').click(function(){
     
-    var select_student_id =  $("#student_id").text();
-    var csrf_token = $('input[name=_token]').val();
-    var url = '/student-course-enrollment-check-selected-courses-is-clash';
+//     var select_student_id =  $("#student_id").text();
+//     var csrf_token = $('input[name=_token]').val();
+//     var url = '/student-course-enrollment-check-selected-courses-is-clash';
     
-    if ($(this).is(':checked')) {
-        var forntend_select_course_id = ($(this).val());
-        selected_courses.push(forntend_select_course_id);
-        var uncheck_request = 0;
-    }
-    //  else {
-    //     var uncheck_course_id = ($(this).val()); 
-    //     frontend_select_course_checkbox_value.splice($.inArray(uncheck_course_id, frontend_select_course_checkbox_value),1);
-    //     uncheck_request = 1; 
-    // }
+//     if ($(this).is(':checked')) {
+//         var forntend_select_course_id = ($(this).val());
+//         selected_courses.push(forntend_select_course_id);
+//         var uncheck_request = 0;
+//     }
+//     //  else {
+//     //     var uncheck_course_id = ($(this).val()); 
+//     //     frontend_select_course_checkbox_value.splice($.inArray(uncheck_course_id, frontend_select_course_checkbox_value),1);
+//     //     uncheck_request = 1; 
+//     // }
 
-        if(uncheck_request == 0){
-                $.ajaxSetup({
-                    headers: {
-                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                            }
-                    });
+//         if(uncheck_request == 0){
+//                 $.ajaxSetup({
+//                     headers: {
+//                                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
+//                             }
+//                     });
 
-                    $.ajax({
-                            url: url,
-                            type: 'post',
-                            data:{
-                                student_id : select_student_id,
-                                frontend_select_course_checkbox_value : selected_courses,
-                                    "_token": "{{ csrf_token() }}"
-                                },
+//                     $.ajax({
+//                             url: url,
+//                             type: 'post',
+//                             data:{
+//                                 student_id : select_student_id,
+//                                 frontend_select_course_checkbox_value : selected_courses,
+//                                     "_token": "{{ csrf_token() }}"
+//                                 },
                                         
-                                    success : function(data)
-                                    {
-                                        if(data.error) {
-                                                $.growl.error({message: data.error});
-                                                $('#'+forntend_select_course_id).closest('tr').removeClass('selectRow');
-                                                $('#'+forntend_select_course_id).prop('checked', false);
-                                                selected_courses.splice($.inArray(forntend_select_course_id, selected_courses),1);
-                                              //  console.log("is foentend"+selected_courses);
-                                        }
-                                      //  console.log("!is foentend"+selected_courses);
+//                                     success : function(data)
+//                                     {
+//                                         if(data.error) {
+//                                                 $.growl.error({message: data.error});
+//                                                 $('#'+forntend_select_course_id).closest('tr').removeClass('selectRow');
+//                                                 $('#'+forntend_select_course_id).prop('checked', false);
+//                                                 selected_courses.splice($.inArray(forntend_select_course_id, selected_courses),1);
+//                                               //  console.log("is foentend"+selected_courses);
+//                                         }
+//                                       //  console.log("!is foentend"+selected_courses);
                                         
-                                    }                
-                    });
-            }
+//                                     }                
+//                     });
+//             }
 
-});
+// });
 //forntend selected course end 
 
 //check selected course is clash (day,time) for student end 

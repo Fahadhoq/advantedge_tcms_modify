@@ -7,7 +7,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserTypeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ClassController;
-use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\StudentCourseEnrollmentController;
 use App\Http\Controllers\Admin\TeacherCourseEnrollmentController;
@@ -106,15 +105,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/batch-update-{id}', [BatchController::class, 'update']);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/subject', [SubjectController::class, 'index'])->name('subject.index');
-    Route::get('/subject-create', [SubjectController::class, 'create'])->name('subject.create');
-    Route::post('/subject-create', [SubjectController::class, 'store']);
-    Route::post('/subject-show-{id}', [SubjectController::class, 'show'])->name('subject.view');
-    Route::post('/subject-delete-{id}', [SubjectController::class, 'delete'])->name('subject.delete');
-    Route::post('/subject-edit-{id}', [SubjectController::class, 'edit'])->name('subject.edit');
-    Route::post('/subject-update-{id}', [SubjectController::class, 'update']);
-});
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/course', [CourseController::class, 'index'])->name('course.index');

@@ -18,9 +18,8 @@ class CreateOfferCoursesTable extends Migration
             $table->string('class'); 
             $table->string('batch');
             $table->integer('class_type');
-            $table->time('start_time')->nullable();
-            $table->time('end_time')->nullable();
-            $table->integer('day');
+            $table->date('class_start_date');
+            $table->date('class_end_date');
             $table->integer('student_limit');
             $table->integer('course_fee');
             $table->date('enrollment_last_date')->nullable();

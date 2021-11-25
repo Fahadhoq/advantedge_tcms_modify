@@ -74,34 +74,30 @@
                                                         </select>
                                                     </div>
                                                </div>
-
-
-                                               <div class="form-group">
-                                                    <label>Day</label>
-                                                    <div> 
-                                                        <select class="form-control" id="Course_days" name="Course_days[]" multiple >
-                                                                @foreach($Days as $Day)
-                                                                    <option  id="{{$Day->id}}" value="{{$Day->id}}">{{$Day->name}}</option>
-                                                                @endforeach   
-                                                        </select>
-                                                    </div>
-                                               </div>
         
-                                                <div class="form-group">
-                                                    <label>Start Time</label>
+                                               <div class="form-group">
+                                                    <label>Class Start Date </label>
                                                     <div>
-                                                         <input class="form-control" type="time" value="{{ old('start_time') }}" name="start_time" id="course_start_time"> 
+                                                        <input class="form-control" type="date" value="{{ old('EnrollmentLastDate') }}" name="EnrollmentLastDate" id="EnrollmentLastDate">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label>End time</label>
+                                                    <label>Class End Date </label>
                                                     <div>
-                                                            <input class="form-control" type="time" value="{{ old('end_time') }}" name="end_time" id="course_end_time">
+                                                        <input class="form-control" type="date" value="{{ old('EnrollmentLastDate') }}" name="EnrollmentLastDate" id="EnrollmentLastDate">
                                                     </div>
                                                 </div>
 
-                                        
+                                                <div class="form-group">
+                                                    <label>Course Fee </label>
+                                                    <div>
+                                                        <input type="text" id="CourseFee" name="CourseFee" value="{{ old('CourseFee') }}"
+                                                            class="form-control" 
+                                                            placeholder="Enter Course Fee "/>    
+                                                    </div>
+                                                </div>
+
 
                                     </div>
                                     <!-- col-lg-6 -->
@@ -131,15 +127,6 @@
                                                     <input type="text" id="StudentLimite" name="StudentLimite" value="{{ old('StudentLimite') }}"
                                                            class="form-control"
                                                            placeholder="Enter Student Limite "/>    
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label>Course Fee </label>
-                                                <div>
-                                                    <input type="text" id="CourseFee" name="CourseFee" value="{{ old('CourseFee') }}"
-                                                           class="form-control" 
-                                                           placeholder="Enter Course Fee "/>    
                                                 </div>
                                             </div>
 

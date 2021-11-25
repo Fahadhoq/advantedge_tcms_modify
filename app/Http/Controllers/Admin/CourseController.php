@@ -8,7 +8,6 @@ use Validator;
 
 use App\Models\Course;
 use App\Models\Classes;
-use App\Models\Subject;
 use App\Models\Day;
 use App\Models\Batch;
 
@@ -24,7 +23,6 @@ class CourseController extends Controller
     public function create(){
 
         $data['Classes'] = Classes::get();
-        $data['Subjects'] = Subject::get();
         $data['Days'] = Day::get();
 
         return view('Backend.Admin.Course.create' , $data);
@@ -35,9 +33,6 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [
             'Class' => 'required',
             'Batch' => 'required',
-            'Course_days' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'ClassType' => 'required',
             'StudentLimite' => 'required',
             'CourseFee' => 'required',
@@ -77,9 +72,6 @@ class CourseController extends Controller
                 'class'            => $request->Class,
                 'batch'            => $request->Batch,
                 'class_type'       => $request->ClassType,
-                'start_time'       => $start_time,
-                'end_time'         => $end_time,
-                'day'              => $course_days,
                 'student_limit'    => $request->StudentLimite,
                 'course_fee'       => $request->CourseFee,
                 'enrollment_last_date' => $request->EnrollmentLastDate,
@@ -97,12 +89,7 @@ class CourseController extends Controller
             }
             $data['Classes'] = $Array_Classes;
 
-            $Array_Subjects = array();
-            foreach($data['courses'] as $courses){
-                $Subject = Subject::select('id', 'name')->where('id' , $courses->subject)->first();
-                array_push($Array_Subjects , $Subject);
-            }
-            $data['Subjects'] = $Array_Subjects;
+
             
             return redirect('/course');
             
@@ -126,7 +113,6 @@ class CourseController extends Controller
               
               $course = Course::where('id', $id)->first();
               $Classe = Classes::select('name')->where('id' , $course->class)->first();
-              $Subjects = Subject::select('id', 'name')->where('class_id' , $course->class)->get();
               $Batch = Batch::select('id', 'batch_name')->where('id' , $course->batch)->first();
               
               //class type
@@ -163,35 +149,8 @@ class CourseController extends Controller
                              <td width="70%">'.$Batch->batch_name.'</td>  
                         </tr>
                         <tr>  
-                             <td width="30%"><label>Subject</label></td>  
-                             <td width="70%">'; foreach($Subjects as $Subject) {
-                                echo $Subject->name;
-                             }  $output .= '</td>  
-                        </tr>
-                        <tr>  
                              <td width="30%"><label>Class Type</label></td>  
                              <td width="70%">'.$class_type.'</td>  
-                        </tr>  
-                        <tr>  
-                             <td width="30%"><label>Class Start Time</label></td>  
-                             <td width="70%">'. date('h:i:s a', strtotime($course->start_time)) .'</td>  
-                        </tr>
-                        <tr>  
-                             <td width="30%"><label>Class End Time</label></td>  
-                             <td width="70%">'. date('h:i:s a', strtotime($course->end_time)) .'</td>  
-                        </tr>
-
-                        <tr>  
-                             <td width="30%"><label>Class Days</label></td>  
-                             <td width="70%">'; 
-
-                             foreach ($course_days as $course_day) {
-                                $Day = Day::select('id','name')->where('id' , $course_day)->first();
-                                        $output .= $Day->name; 
-                                        $output .= '<br>';                                          
-                                } 
-                             
-                             $output .='</td>  
                         </tr>
 
                         <tr>  
@@ -226,7 +185,6 @@ class CourseController extends Controller
 
         $data['course'] = Course::find($id);
         $data['Classes'] = Classes::get();
-        $data['Subjects'] = Subject::get();
         $data['Days'] = Day::get();
 
         $data['course_days'] = explode(',', $data['course']->day);
@@ -240,9 +198,6 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [
             'Class' => 'required',
             'Batch' => 'required',
-            'Course_days' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'ClassType' => 'required',
             'StudentLimite' => 'required',
             'CourseFee' => 'required',
@@ -279,9 +234,6 @@ class CourseController extends Controller
             $course->class            = $request->Class;
             $course->batch            = $request->Batch;
             $course->class_type       = $request->ClassType;
-            $course->start_time       = $request->start_time;
-            $course->end_time         = $request->end_time;
-            $course->day              = $course_days;
             $course->student_limit    = $request->StudentLimite;
             $course->course_fee       = $request->CourseFee;
             $course->enrollment_last_date = $request->EnrollmentLastDate;
@@ -292,19 +244,6 @@ class CourseController extends Controller
 
             $data['courses'] = Course::get();
         
-            // $Array_Classes = array();
-            // foreach($data['courses'] as $courses){
-            //     $Classes = Classes::select('id', 'name')->where('id' , $courses->class)->first();
-            //     array_push($Array_Classes , $Classes);
-            // }
-            // $data['Classes'] = $Array_Classes;
-
-            // $Array_Subjects = array();
-            // foreach($data['courses'] as $courses){
-            //     $Subject = Subject::select('id', 'name')->where('id' , $courses->subject)->first();
-            //     array_push($Array_Subjects , $Subject);
-            // }
-            // $data['Subjects'] = $Array_Subjects;
             
             return redirect('/course')->with($data);
             

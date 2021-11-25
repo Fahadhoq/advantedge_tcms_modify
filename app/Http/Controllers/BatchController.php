@@ -90,7 +90,7 @@ class BatchController extends Controller
                                     <td width="70%">'.$class->name.'</td>  
                                </tr>  
                                <tr>  
-                                    <td width="30%"><label>Subject Name</label></td>  
+                                    <td width="30%"><label>Batch Name</label></td>  
                                     <td width="70%">'.$Batch->batch_name.'</td>  
                                </tr>
                        
