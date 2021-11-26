@@ -189,6 +189,7 @@ th {
                                                             <th style=text-align:center> Payment Transaction Number </th>
                                                             <th style=text-align:center> Cheque Transit Number </th>
                                                             <th style=text-align:center> Remark </th>
+                                                            <th style=text-align:center> Recived BY</th> 
                                                             <th style=text-align:center> Payment Date </th>
                                                         </tr>
                                                      </thead>
@@ -214,6 +215,12 @@ th {
                                                         <td style=text-align:center scope="row">{{$Student_Payment->payment_transaction_number}}</td>
                                                         <td style=text-align:center scope="row">{{$Student_Payment->cheque_transit_number}}</td>
                                                         <td style=text-align:center scope="row">{{$Student_Payment->payment_remark}}</td>
+                                                        <td style=text-align:center scope="row">
+                                                          @php 
+                                                                 $User = App\Models\User::select('name')->where('id' , $Student_Payment->receiver)->first();
+                                                                 echo $User->name;
+                                                          @endphp   
+                                                        </td>
                                                         <td style=text-align:center scope="row">{{$Student_Payment->payment_date}}</td>
                                                         <!-- payment info end -->   
                                                     </tr>
@@ -224,6 +231,7 @@ th {
                                                           <th style=text-align:center;color:blue>Course Fee = {{$Total_Enroll_Course_Fee}}</th>
                                                           <th style=text-align:center;color:green>Paid = {{$Total_Paid_Amount}}</th>
                                                           <th style=text-align:center;color:red> Due = {{$Total_Enroll_Course_Fee - $Total_Paid_Amount}}</th>
+                                                          <td></td>
                                                           <td></td>
                                                           <td></td>
                                                           <td></td>

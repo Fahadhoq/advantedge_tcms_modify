@@ -577,7 +577,6 @@ $("#StudentEnrolmentFormsubmit").click(function(){
                     select_course_checkbox_value.push($(this).val());
                 });
 
-
                 jQuery.each(select_course_checkbox_value, function(i, CourseID) {
             //discount amount
                 var select_course_discount_amount = $("#Discount_input_field_"+CourseID).val();
@@ -592,7 +591,8 @@ $("#StudentEnrolmentFormsubmit").click(function(){
             //Remark end     
 	  
                });
-
+              
+              
                 $.ajaxSetup({
                 headers: {
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"

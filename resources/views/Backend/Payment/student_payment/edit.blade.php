@@ -150,28 +150,16 @@ th {
                                         <table class="table table-bordered">
                                         
                                                 <tr>
-                                                    <th class="course_table_head_tr">Academic Type</th>
-                                                    <td  align= "center">
-                                                       @if(@$student_academic_info->user_academic_type == 1)
-                                                            School
-                                                       @elseif(@$student_academic_info->user_academic_type == 2)
-                                                            Collage
-                                                       @elseif(@$student_academic_info->user_academic_type == 3)
-                                                            University
-                                                       @elseif(@$student_academic_info->user_academic_type == 4)
-                                                             Other
-                                                       @endif
-                                                       
-                                                    </td>    
-                                                </tr>
-                                                <tr>
-                                                    <th class="course_table_head_tr">Class</th>
-                                                    @php $student_academic_Type = App\Models\Classes::select('name')->where('id' , @$student_academic_info->user_class)->first(); @endphp
-                                                    <td align= "center">{{@$student_academic_Type->name}}</td>   
-                                                </tr>
-                                                <tr>
                                                     <th class="course_table_head_tr">Institute Name</th>
                                                     <td align= "center">{{@$student_academic_info->user_institute_name}}</td>  
+                                                </tr>
+                                                <tr>
+                                                    <th class="course_table_head_tr">Designation</th>
+                                                    <td align= "center">{{@$student_academic_info->user_designation}}</td>  
+                                                </tr>
+                                                <tr>
+                                                    <th class="course_table_head_tr">Institute Address</th>
+                                                    <td align= "center">{{@$student_academic_info->user_institute_address}}</td>  
                                                 </tr>
                                                
                                         </table>

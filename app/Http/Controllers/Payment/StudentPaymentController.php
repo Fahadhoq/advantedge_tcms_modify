@@ -228,10 +228,12 @@ class StudentPaymentController extends Controller
                                     $Student_Payment->payment_date = $request->payment_date;
                                     $Student_Payment->payment_mobile_number = $request->payment_mobile_number;
                                     $Student_Payment->payment_transaction_number = $request->payment_transaction_number;
+                                    $Student_Payment->receiver = auth()->user()->id;
                                     if($payment_remark != null){
                                         $Student_Payment->payment_remark = $request->payment_remark;
                                     }
                                     $Student_Payment->save();
+                                    return response()->json([ 'error' => auth()->user()->id]);
             
                                 }else{
                                     return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
@@ -252,6 +254,7 @@ class StudentPaymentController extends Controller
                                     $Student_Payment->payment_date = $request->payment_date;
                                     $Student_Payment->payment_mobile_number = $request->payment_mobile_number;
                                     $Student_Payment->payment_transaction_number = $request->payment_transaction_number;
+                                    $Student_Payment->receiver = auth()->user()->id;
                                     if($payment_remark != null){
                                         $Student_Payment->payment_remark = $request->payment_remark;
                                     }
@@ -302,6 +305,7 @@ class StudentPaymentController extends Controller
                                 $Student_Payment->payment_date = $request->payment_date;
                                 $Student_Payment->payment_mobile_number = $request->payment_mobile_number;
                                 $Student_Payment->payment_transaction_number = $request->payment_transaction_number;
+                                $Student_Payment->receiver = auth()->user()->id;
                                 if($payment_remark != null){
                                     $Student_Payment->payment_remark = $request->payment_remark;
                                 }
@@ -369,6 +373,7 @@ class StudentPaymentController extends Controller
                                     $Student_Payment->payment_type = $request->payment_type;
                                     $Student_Payment->payment_date = $request->payment_date;
                                     $Student_Payment->cheque_transit_number  = $request->cheque_transit_number;
+                                    $Student_Payment->receiver = auth()->user()->id;
                                     if($payment_remark != null){
                                         $Student_Payment->payment_remark = $request->payment_remark;
                                     }
@@ -392,6 +397,7 @@ class StudentPaymentController extends Controller
                                     $Student_Payment->payment_type = $request->payment_type;
                                     $Student_Payment->payment_date = $request->payment_date;
                                     $Student_Payment->cheque_transit_number = $request->cheque_transit_number;
+                                    $Student_Payment->receiver = auth()->user()->id;
                                     if($payment_remark != null){
                                         $Student_Payment->payment_remark = $request->payment_remark;
                                     }
@@ -441,6 +447,7 @@ class StudentPaymentController extends Controller
                                 $Student_Payment->payment_type = $request->payment_type;
                                 $Student_Payment->payment_date = $request->payment_date;
                                 $Student_Payment->cheque_transit_number  = $request->cheque_transit_number;
+                                $Student_Payment->receiver = auth()->user()->id;
                                 if($payment_remark != null){
                                     $Student_Payment->payment_remark = $request->payment_remark;
                                 }
@@ -499,6 +506,7 @@ class StudentPaymentController extends Controller
                                 $Student_Payment->payment_amount = $request->Pay_Amount;
                                 $Student_Payment->payment_type = $request->payment_type;
                                 $Student_Payment->payment_date = $request->payment_date;
+                                $Student_Payment->receiver = auth()->user()->id;
                                 if($payment_remark != null){
                                     $Student_Payment->payment_remark = $request->payment_remark;
                                 }
@@ -521,6 +529,7 @@ class StudentPaymentController extends Controller
                                 $Student_Payment->payment_amount = $request->Pay_Amount;
                                 $Student_Payment->payment_type = $request->payment_type;
                                 $Student_Payment->payment_date = $request->payment_date;
+                                $Student_Payment->receiver = auth()->user()->id;
                                 if($payment_remark != null){
                                     $Student_Payment->payment_remark = $request->payment_remark;
                                 }
@@ -569,6 +578,7 @@ class StudentPaymentController extends Controller
                             $Student_Payment->payment_amount = $request->Pay_Amount;
                             $Student_Payment->payment_type = $request->payment_type;
                             $Student_Payment->payment_date = $request->payment_date;
+                            $Student_Payment->receiver = auth()->user()->id;
                             if($payment_remark != null){
                                 $Student_Payment->payment_remark = $request->payment_remark;
                             }
@@ -628,7 +638,7 @@ class StudentPaymentController extends Controller
         $student_id = $request->id;
 
         $student = User::where('id', $student_id)->first();
-        $student_academic_info = User_Academic_Info::select('user_academic_type','user_class','user_institute_name')
+        $student_academic_info = User_Academic_Info::select('user_institute_name','user_designation','user_institute_address')
                                                                ->where('user_id', $student_id)
                                                                ->first();
 

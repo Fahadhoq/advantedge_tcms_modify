@@ -671,6 +671,8 @@ class StudentCourseEnrollmentController extends Controller
                 $select_course_discount_amount_with_course_ids = $request->select_course_discount_amount_with_course_ids;
                 $select_course_remark_with_course_ids = $request->select_course_remark_with_course_ids;
 
+               // return response()->json([ 'success' => $select_course_remark_with_course_ids]);
+
                 foreach ($select_course_ids as  $select_course_id){
                     //Student Course Enrollment table insert
                     $Student_Course_Enrollment = new Student_Course_Enrollment;
@@ -723,8 +725,6 @@ class StudentCourseEnrollmentController extends Controller
                     $SelectCourseId = intval($SelectCourseId);
                     $select_course_remark = $select_course_remark_with_course_id[1];
                   
-                  //  return response()->json([ 'success' => $select_course_remark]);
-
                     $StudentCourseEnrollment = Student_Course_Enrollment::where('user_id' , $student_id)
                                                                           ->where('course_id' , $SelectCourseId)
                                                                           ->first();

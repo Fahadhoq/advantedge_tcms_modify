@@ -23,6 +23,7 @@ class CreateStudentPaymentsTable extends Migration
             $table->integer('cheque_transit_number')->nullable();
             $table->string('payment_remark')->nullable();
             $table->date('payment_date');
+            $table->integer('receiver');
             $table->timestamps();
         });
     }

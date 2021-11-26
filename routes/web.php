@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\TeacherCourseEnrollmentController;
 use App\Http\Controllers\Payment\StudentPaymentController;
 use App\Http\Controllers\Account\DailyExpenseController;
 use App\Http\Controllers\BatchController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +84,23 @@ Route::middleware(['auth:sanctum', 'verified'])->namespace('Admin')->group(funct
     Route::post('/email-availability-{email}', [UserController::class, 'email_availability']);
     Route::post('/create-at-date-filter', [UserController::class, 'create_at_date_filter']);
     Route::post('/dynamicly-user-class-select-{id}', [UserController::class, 'dynamicly_user_class_select']);
+});
+
+Route::middleware(['auth:sanctum', 'verified'])->namespace('Admin')->group(function () {
+    Route::get('/student', [StudentController::class, 'index'])->name('student.index');
+    Route::get('/student-create', [StudentController::class, 'create'])->name('student.create');
+    Route::post('/student-create', [StudentController::class, 'store']);
+    Route::get('/student-show-{id}', [StudentController::class, 'show'])->name('student.view');
+    Route::post('/student-view-tooltip-{id}', [StudentController::class, 'view']);
+    Route::get('/student-edit-{id}', [StudentController::class, 'edit'])->name('student.edit');
+    Route::post('/student-edit-{id}', [StudentController::class, 'update']);
+    Route::post('/student-image-delete-{id}', [StudentController::class, 'image_delete']);
+    Route::post('/student-delete-{id}', [StudentController::class, 'student_delete'])->name('student.delete');
+    Route::post('/student-verify-{id}', [StudentController::class, 'student_Verify']);
+    Route::post('/student-phone-number-availability-{phone}', [StudentController::class, 'phone_number_availability']);
+    Route::post('/student-email-availability-{email}', [StudentController::class, 'email_availability']);
+    Route::post('/student-create-at-date-filter', [StudentController::class, 'create_at_date_filter']);
+    Route::post('/dynamicly-student-class-select-{id}', [StudentController::class, 'dynamicly_student_class_select']);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {

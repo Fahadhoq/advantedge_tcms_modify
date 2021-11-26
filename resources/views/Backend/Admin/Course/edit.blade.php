@@ -84,14 +84,14 @@
                                                <div class="form-group">
                                                     <label>Class Start Date </label>
                                                     <div>
-                                                        <input class="form-control" type="date" value="{{ old('EnrollmentLastDate') }}" name="EnrollmentLastDate" id="EnrollmentLastDate">
+                                                        <input class="form-control" type="date" value="{{ $course->class_start_date }}" name="ClassStartDate" id="ClassStartDate">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label>Class End Date </label>
                                                     <div>
-                                                        <input class="form-control" type="date" value="{{ old('EnrollmentLastDate') }}" name="EnrollmentLastDate" id="EnrollmentLastDate">
+                                                        <input class="form-control" type="date" value="{{ $course->class_end_date }}" name="ClassEndDate" id="ClassEndDate">
                                                     </div>
                                                 </div>
 

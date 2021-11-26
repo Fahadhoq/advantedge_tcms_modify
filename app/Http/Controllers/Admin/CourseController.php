@@ -37,34 +37,15 @@ class CourseController extends Controller
             'StudentLimite' => 'required',
             'CourseFee' => 'required',
             'EnrollmentLastDate' => 'required',
+            'ClassStartDate' => 'required',
+            'ClassEndDate' => 'required',
             'CourseStatus' => 'required',       
         ]);
 
         if($validator->fails()){
             return redirect()->back()->WithErrors($validator)->WithInput();
         }
-       
-        //course time
-         $start_time = $request->start_time.':00';
-         $end_time = $request->end_time.':00';
-        //course time end 
-
-        //start time end time validation
-        if($start_time > $end_time){
-            $this->SetMessage('end time not smaller than start time ' , 'success');
-            return redirect()->back();
-        }
-        //start time end time validation end
-
-         //course days
-            $CourseDays = $request->Course_days;
-            $course_days = '';
-            foreach($CourseDays as $row)
-            {
-                $course_days .= $row . ', ';
-            }
-            $course_days = substr($course_days, 0, -2);
-        //course days end 
+     //  dd($request->ClassEndDate);
 
         try{
             
@@ -75,6 +56,8 @@ class CourseController extends Controller
                 'student_limit'    => $request->StudentLimite,
                 'course_fee'       => $request->CourseFee,
                 'enrollment_last_date' => $request->EnrollmentLastDate,
+                'class_start_date' => $request->ClassStartDate,
+                'class_end_date' => $request->ClassEndDate,
                 'status'           => $request->CourseStatus
                 ]);
 
@@ -187,7 +170,7 @@ class CourseController extends Controller
         $data['Classes'] = Classes::get();
         $data['Days'] = Day::get();
 
-        $data['course_days'] = explode(',', $data['course']->day);
+       // $data['course_days'] = explode(',', $data['course']->day);
        // dd($data['course_days']);
                                                    
         return view('Backend.Admin.Course.edit' , $data);
@@ -202,6 +185,8 @@ class CourseController extends Controller
             'StudentLimite' => 'required',
             'CourseFee' => 'required',
             'EnrollmentLastDate' => 'required',
+            'ClassStartDate' => 'required',
+            'ClassEndDate' => 'required',
             'CourseStatus' => 'required',       
         ]);
 
@@ -210,20 +195,20 @@ class CourseController extends Controller
         }
         
         //start time end time validation
-        if($request->start_time > $request->end_time){
-            $this->SetMessage('end time not smaller than start time ' , 'success');
-            return redirect()->back();
-        }
+        // if($request->start_time > $request->end_time){
+        //     $this->SetMessage('end time not smaller than start time ' , 'success');
+        //     return redirect()->back();
+        // }
         //start time end time validation end
 
          //course days
-            $CourseDays = $request->Course_days;
-            $course_days = '';
-            foreach($CourseDays as $row)
-            {
-                $course_days .= $row . ', ';
-            }
-            $course_days = substr($course_days, 0, -2);
+            // $CourseDays = $request->Course_days;
+            // $course_days = '';
+            // foreach($CourseDays as $row)
+            // {
+            //     $course_days .= $row . ', ';
+            // }
+            // $course_days = substr($course_days, 0, -2);
         //course days end 
 
         try{
@@ -237,6 +222,8 @@ class CourseController extends Controller
             $course->student_limit    = $request->StudentLimite;
             $course->course_fee       = $request->CourseFee;
             $course->enrollment_last_date = $request->EnrollmentLastDate;
+            $course->class_start_date = $request->ClassStartDate;
+            $course->class_end_date = $request->ClassEndDate;
             $course->status           = $request->CourseStatus;
             $course->save();
            

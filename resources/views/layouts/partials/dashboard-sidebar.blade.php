@@ -97,7 +97,16 @@
                        
                         @endrole
 
-                        
+                         <!-- student Registration start -->
+                         <li>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-pencil-ruler"></i> <span> STUDENT/CUSTOMER  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
+                            <ul class="submenu">
+                                <li><a href="{{ route('student.index') }}"> {{ __('Show All Students') }}</a></li>
+                                <li><a href="{{ route('student.create') }}"> {{ __('Create Student/Customer') }}</a></li>
+                                
+                            </ul>
+                        </li>
+                        <!-- student Registration end -->
 
                         <!-- Student Course Enrollment start -->
                         <li>
@@ -144,17 +153,11 @@
 
                         <!-- payment start -->
                         <li>
-                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-share"></i><span> PAYMENT <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                            <ul class="submenu">
-                                <li>
-                                    <a href="javascript:void(0);">Student Payment<span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-share"></i><span> STUDENT FEE <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
                                     <ul class="submenu">
                                         <li><a href="{{ route('StudentPayment.pay') }}">pay</a></li>
-                                        <li><a href="{{ route('StudentsPayment.index') }}">show all students payment</a></li>
+                                        <li><a href="{{ route('StudentsPayment.index') }}">show all students Fee</a></li>
                                     </ul>
-                                </li>
-                            </ul>
-
                         </li>
                         <!-- payment end -->
                         

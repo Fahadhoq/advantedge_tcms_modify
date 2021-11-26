@@ -61,6 +61,8 @@
                                                         <th style=text-align:center> Course Name</th>
                                                         <th style=text-align:center> Batch</th>
                                                         <th style=text-align:center> Course Fee</th>
+                                                        <th style=text-align:center> Class Start Date</th>
+                                                        <th style=text-align:center> Class End Date</th>
                                                         <th style=text-align:center> Enrollment Last Date</th>
                                                         <th style=text-align:center> Status</th>    
                                                         <th style=text-align:center> Action</th>  
@@ -84,6 +86,8 @@
                                                         <!-- batch end -->
                                                         
                                                         <td style=text-align:center>{{$course->course_fee}}</td>
+                                                        <td style=text-align:center>{{$course->class_start_date}}</td>
+                                                        <td style=text-align:center>{{$course->class_end_date}}</td>
                                                         <td style=text-align:center>{{$course->enrollment_last_date}}</td>
                                                         <!-- status -->
                                                         @if($course->status == 0)

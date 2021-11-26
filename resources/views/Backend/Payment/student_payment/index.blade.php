@@ -84,7 +84,7 @@
                                                         <th style=text-align:center> Total Course </th>
                                                         <th style=text-align:center> Total Course Fee</th>
                                                         <th style=text-align:center> Paid Amount </th>
-                                                        <th style=text-align:center> Due Amount</th>    
+                                                        <th style=text-align:center> Due Amount</th>   
                                                         <th style=text-align:center> Action</th>  
                                                     </tr>
                                                 </thead>
@@ -149,7 +149,8 @@
                                                         @php $total_due_amount = $total_course_fee - $total_paid_amount; @endphp
                                                         <!-- due amount end -->
                                                         <!-- amount end  -->
-                                                        
+
+                                                
                                                         <td style=text-align:center>
 
                                                             <a href="{{ route('StudentPayment.view' , $StudentsInfo->user->id) }}" class="btn btn-info btn-sm" title="View Payment details"><i class="fa fa-eye"></i></a>

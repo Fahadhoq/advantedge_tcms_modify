@@ -25,6 +25,8 @@ class Course extends Model
         'student_limit',
         'course_fee',
         'enrollment_last_date',
+        'class_start_date',
+        'class_end_date',
         'status',
     ];
 

@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
-
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -19,7 +17,7 @@ use App\Models\User_Academic_Info;
 use Illuminate\Support\Str;
 use Storage;
 
-class UserController extends Controller
+class StudentController extends Controller
 {
     public function index()
     {
@@ -33,7 +31,7 @@ class UserController extends Controller
         foreach ($data['User_Infos'] as $User_Info) {
             $User_Type = User_Type::select('name')->where('id' , $User_Info->user_type_id)->first();
 
-            if($User_Type->name != 'student' ){
+            if($User_Type->name == 'student' ){
                 array_push($User_Infos , $User_Info);
 
                 $user = User::where('id' , $User_Info->user_id)->first();
@@ -44,7 +42,7 @@ class UserController extends Controller
         $data['de_users'] = User::onlyTrashed()->get();
         //dd(storage_path());
 
-        return view('Backend.User.index')->with('users', $Users)
+        return view('Backend.Student.index')->with('users', $Users)
                                         ->with('User_Infos', $User_Infos)
                                         ->with('de_users', $data['de_users']);
     }
@@ -52,9 +50,9 @@ class UserController extends Controller
     public function create(Type $var = null)
     {
         $data['user_types'] = User_Type::select('id' , 'name')
-                                         ->where('name', '!=' , 'student')->get();
+                                         ->where('name', 'student')->get();
                              
-        return view('Backend.User.Create' , $data);
+        return view('Backend.Student.Create' , $data);
     }
 
     public function store(Request $request )
@@ -99,10 +97,10 @@ class UserController extends Controller
         
 
 
-        $this->SetMessage('User Create Successfull' , 'success');
+        $this->SetMessage('Student Create Successfull' , 'success');
         
 
-        return  redirect('/user');
+        return  redirect('/student');
 
        } catch (Exception $e){
 
@@ -137,7 +135,7 @@ class UserController extends Controller
             $data['verified_by'] = User::select('name')->where('id' , $data['User_Info']->verified_by)->first(); 
         }                                                             
     
-        return view('Backend.User.profile' , $data );
+        return view('Backend.Student.profile' , $data );
     }
 
     public function view(Request $request){
@@ -184,7 +182,7 @@ class UserController extends Controller
 
         $data['User_Academic_Info'] = User_Academic_Info::where('user_id' , $id)->first();
                                      
-        return view('Backend.User.edit' , $data);
+        return view('Backend.Student.edit' , $data);
     }
 
     public function update(Request $request){
@@ -455,12 +453,12 @@ class UserController extends Controller
             $user->assignRole($request->UserRole);
             
             if($SetMessage != 1){
-                $this->SetMessage('User Update Successfull' , 'success');
+                $this->SetMessage('Student Update Successfull' , 'success');
             }
 
             $data['users'] = User::select('id', 'name', 'email', 'phone' , 'profile_photo_path')->get();
             
-            return redirect('/user')->with($data);
+            return redirect('/student')->with($data);
             
         
         }catch (Exception $e){
@@ -490,7 +488,7 @@ class UserController extends Controller
 
      }
 
-    public function delete(Request $request, $id){
+    public function student_delete(Request $request, $id){
                   
         $user = User::find($id);
 
@@ -502,11 +500,11 @@ class UserController extends Controller
             
         // return redirect('/user')->with($data);
 
-        return response()->json([ 'success' => 'Permission Delete Successfull']);
+        return response()->json([ 'success' => 'Student Delete Successfull']);
 
      }
 
-     public function User_Verify(Request $request, $id){
+     public function student_Verify(Request $request, $id){
         try{
 
             $id = $request->id;
@@ -522,7 +520,7 @@ class UserController extends Controller
             $User_Info->verified_by = $verified_by;
             $User_Info->save();
 
-            return response()->json([ 'success' => 'User Verifyed Successfull']);
+            return response()->json([ 'success' => 'Student Verifyed Successfull']);
             
         
         } catch (Exception $e){
@@ -561,14 +559,14 @@ class UserController extends Controller
      //dd($to_date);
 
      if(isset($from_date, $to_date)){
-        
+
         $data['User_Infos'] = User_Info::select('user_id' , 'verified_by' , 'user_type_id')->get();
        
         $Users  = array();
         foreach ($data['User_Infos'] as $User_Info) {
             $User_Type = User_Type::select('name')->where('id' , $User_Info->user_type_id)->first();
 
-            if($User_Type->name != 'student' ){
+            if($User_Type->name == 'student' ){
 
                 $user = User::where('id' , $User_Info->user_id)
                               ->where('created_at' , '>=' , $from_date." 00:00:00")
@@ -578,7 +576,7 @@ class UserController extends Controller
         }
 
       $output = '';  
-      //$Users = User::where('created_at' , '>=' , $from_date." 00:00:00")->where('created_at' , '<=' ,  $to_date." 23:59:59")->get();    
+     // $Users = User::where('created_at' , '>=' , $from_date." 00:00:00")->where('created_at' , '<=' ,  $to_date." 23:59:59")->get();    
         //dd(count($Users));
       $output .= '<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
 
@@ -655,7 +653,7 @@ class UserController extends Controller
     }
 // create_at_date_filter end 
 
-public function dynamicly_user_class_select(Request $request){
+public function dynamicly_student_class_select(Request $request){
 
     $user_academic_type_id = $request->user_academic_type_id;
 

@@ -78,14 +78,14 @@
                                                <div class="form-group">
                                                     <label>Class Start Date </label>
                                                     <div>
-                                                        <input class="form-control" type="date" value="{{ old('EnrollmentLastDate') }}" name="EnrollmentLastDate" id="EnrollmentLastDate">
+                                                        <input class="form-control" type="date" value="{{ old('ClassStartDate') }}" name="ClassStartDate" id="ClassStartDate">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label>Class End Date </label>
                                                     <div>
-                                                        <input class="form-control" type="date" value="{{ old('EnrollmentLastDate') }}" name="EnrollmentLastDate" id="EnrollmentLastDate">
+                                                        <input class="form-control" type="date" value="{{ old('ClassEndDate') }}" name="ClassEndDate" id="ClassEndDate">
                                                     </div>
                                                 </div>
 
