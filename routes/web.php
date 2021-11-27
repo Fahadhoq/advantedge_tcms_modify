@@ -14,6 +14,8 @@ use App\Http\Controllers\Payment\StudentPaymentController;
 use App\Http\Controllers\Account\DailyExpenseController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\Admin\ExpenseGLCodeController;
+use App\Http\Controllers\Admin\ExpenseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -189,6 +191,32 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/account-daily-expense-edit-{id}', [DailyExpenseController::class, 'edit'])->name('daily_expense.edit');
     Route::post('/account-daily-expense-edit-{id}', [DailyExpenseController::class, 'update']);
     Route::post('/account-daily-expense-delete-{id}', [DailyExpenseController::class, 'delete'])->name('daily_expense.delete');
+});
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/expense_gl_code', [ExpenseGLCodeController::class, 'index'])->name('expense_gl_code.index');
+    Route::get('/expense_gl_code-create', [ExpenseGLCodeController::class, 'create'])->name('expense_gl_code.create');
+    Route::post('/expense_gl_code-create', [ExpenseGLCodeController::class, 'store']);
+    Route::post('/expense_gl_code-show-{id}', [ExpenseGLCodeController::class, 'show'])->name('expense_gl_code.view');
+    Route::get('/expense_gl_code-edit-{id}', [ExpenseGLCodeController::class, 'edit'])->name('expense_gl_code.edit');
+    Route::post('/expense_gl_code-edit-{id}', [ExpenseGLCodeController::class, 'update']);
+// jquery edit
+    Route::post('/expense_gl_code-JqueryEdit-{id}', [ExpenseGLCodeController::class, 'jquery_edit']);
+    Route::post('/expense_gl_code-JqueryUpdate-{id}', [ExpenseGLCodeController::class, 'jquery_update']);
+// jquery edit end
+    Route::post('/expense_gl_code-delete-{id}', [ExpenseGLCodeController::class, 'delete'])->name('expense_gl_code.delete');    
+});
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/expense', [ExpenseController::class, 'index'])->name('expense.index');
+    Route::get('/expense-create', [ExpenseController::class, 'create'])->name('expense.create');
+    Route::post('/expense-create', [ExpenseController::class, 'store']);
+    Route::post('/expense-show-{id}', [ExpenseController::class, 'show'])->name('expense.view');
+    Route::get('/expense-edit-{id}', [ExpenseController::class, 'edit'])->name('expense.edit');
+    Route::post('/expense-edit-{id}', [ExpenseController::class, 'update']);
+    Route::post('/expense-money-receipt-delete-{id}', [ExpenseController::class, 'image_delete']);
+    Route::post('/expense-delete-{id}', [ExpenseController::class, 'delete'])->name('expense.delete'); 
+    Route::post('/expense-index-filter-{id}', [ExpenseController::class, 'expense_index_filter']);   
 });
 
 

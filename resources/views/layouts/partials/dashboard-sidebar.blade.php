@@ -169,8 +169,15 @@
                                 <li>
                                     <a href="javascript:void(0);"> EXPENCE  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                                     <ul class="submenu">
-                                        <li><a href="{{ route('daily_expense.index') }}">Daily Expense</a></li>
-                                        <li><a href="{{ route('daily_expense.index') }}">All Expense</a></li>
+                                        <li>
+                                            <a href="javascript:void(0);"> GL CODE  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                                            <ul class="submenu">
+                                                <li><a href="{{ route('expense_gl_code.create') }}"> Create GL Code</a></li>
+                                                <li><a href="{{ route('expense_gl_code.index') }}">All GL Code</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="{{ route('expense.create') }}"> Expense</a></li>
+                                        <li><a href="{{ route('expense.index') }}">All Expense</a></li> 
                                     </ul>
                                 </li>
                                 <!-- daily expense end -->

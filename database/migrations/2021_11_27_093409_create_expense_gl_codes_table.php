@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDailyExpensesTable extends Migration
+class CreateExpenseGlCodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateDailyExpensesTable extends Migration
      */
     public function up()
     {
-        Schema::create('daily_expenses', function (Blueprint $table) {
+        Schema::create('expense_gl_codes', function (Blueprint $table) {
             $table->id();
-            $table->integer('expense_type');
-            $table->integer('expense_amount');
-            $table->string('expense_remark')->nullable();
-            $table->date('expense_date');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateDailyExpensesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('daily_expenses');
+        Schema::dropIfExists('expense_gl_codes');
     }
 }
