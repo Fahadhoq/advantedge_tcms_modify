@@ -184,10 +184,17 @@
 
                                 <!-- daily recive start-->
                                 <li>
-                                    <a href="javascript:void(0);"> RECEIVE   <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                                    <a href="javascript:void(0);"> INCOME   <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                                     <ul class="submenu">
-                                        <li><a href="javascript:void(0);">Daily Receive</a></li>
-                                        <li><a href="javascript:void(0);">All Receive</a></li>
+                                    <li>
+                                            <a href="javascript:void(0);"> GL CODE  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
+                                            <ul class="submenu">
+                                                <li><a href="{{ route('income_gl_code.create') }}"> Create GL Code</a></li>
+                                                <li><a href="{{ route('income_gl_code.index') }}">All GL Code</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="{{ route('income.create') }}"> Income</a></li>
+                                        <li><a href="{{ route('income.index') }}">All Incomes</a></li>
                                     </ul>
                                 </li>
                                 <!-- daily recive end -->

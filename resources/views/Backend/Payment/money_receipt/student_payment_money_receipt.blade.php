@@ -146,28 +146,8 @@ th {
 
                                    </br></br>
 
-                                    <div class="col-sm-12 col-lg-12 table_lable">
-                                         <label class="page-title">Student Academic Info </label> 
-                                    </div>
 
-                                     <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                        
-                                                <tr>
-                                                    <th class="course_table_head_tr">Institute Name</th>
-                                                    <td align= "center">{{@$student_academic_info->user_institute_name}}</td>  
-                                                </tr>
-                                                <tr>
-                                                    <th class="course_table_head_tr">Designation </th>
-                                                    <td align= "center">{{@$student_academic_info->user_designation}}</td>  
-                                                </tr>
-                                                <tr>
-                                                    <th class="course_table_head_tr">Institute/Organization Address </th>
-                                                    <td align= "center">{{@$student_academic_info->user_institute_address}}</td>  
-                                                </tr>
-                                               
-                                        </table>
-                                     </div>
+                                    
 
                                     </div>
                                     <!-- p-20 -->
@@ -185,7 +165,6 @@ th {
                                                     <table id="datatable-buttons"  class="table table-bordered ">           
                                                      <thead class="thead-default ">
                                                         <tr>
-                                                            <th style=text-align:center> SL</th>
                                                             <th style=text-align:center> Invoice Number</th>
                                                             <th style=text-align:center> Payment Amount</th>
                                                             <th style=text-align:center> Payment Type </th>
@@ -200,10 +179,8 @@ th {
         
                                           <!-- all_course_payment_show div -->
                                                 <tbody >
-                                                @php $i=1 ; $total_course_fee = 0 ; $total_paid_amount = 0 ; $total_due_amount = 0 @endphp
-                                                @foreach($Student_Payments as $Student_Payment)
-                                                    <tr>
-                                                        <td style=text-align:center scope="row">{{$i++}}</td> 
+                                               
+                                                   <tr>
                                                         
                                                         <!-- payment info -->
                                                         <td style=text-align:center scope="row">{{$Student_Payment->id}}</td>
@@ -227,22 +204,7 @@ th {
                                                         </td>
                                                         <td style=text-align:center scope="row">{{$Student_Payment->payment_date}}</td>
                                                         <!-- payment info end -->   
-                                                    </tr>
-                                                @endforeach  
-                                                    <!-- total sum   -->
-                                                      <tr>
-                                                          <th style=text-align:right>Total</th>
-                                                          <th style=text-align:center;color:blue>Course Fee = {{$Total_Enroll_Course_Fee}}</th>
-                                                          <th style=text-align:center;color:green>Paid = {{$Total_Paid_Amount}}</th>
-                                                          <th style=text-align:center;color:red> Due = {{$Total_Enroll_Course_Fee - $Total_Paid_Amount}}</th>
-                                                          <td></td>
-                                                          <td></td>
-                                                          <td></td>
-                                                          <td></td>
-                                                          <td></td>
-                                                          <td></td>
-                                                      </tr>
-                                                    <!-- total sum end -->
+                                                    </tr> 
                                                 </tbody>
                                                 <!-- all_course_payment_show div end -->
 

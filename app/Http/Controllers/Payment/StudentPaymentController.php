@@ -13,6 +13,7 @@ use App\Models\Student_Course_Enrollment;
 use App\Models\Classes;
 use App\Models\StudentPayment;
 use App\Models\User_Academic_Info;
+use App\Models\Income;
 
 class StudentPaymentController extends Controller
 {
@@ -233,7 +234,20 @@ class StudentPaymentController extends Controller
                                         $Student_Payment->payment_remark = $request->payment_remark;
                                     }
                                     $Student_Payment->save();
-                                    return response()->json([ 'error' => auth()->user()->id]);
+                                 //   return response()->json([ 'error' => auth()->user()->id]);
+
+                                 //Insert Student payment in Income table 
+                                $Student_Payment_Income = new Income;
+                                $Student_Payment_Income->gl_code_id = 500;
+                                $Student_Payment_Income->amount = $request->Pay_Amount;
+                                if($payment_remark != null){
+                                    $Student_Payment_Income->remark = $request->payment_remark;
+                                }
+                                $Student_Payment_Income->income_date = $request->payment_date;
+                                $Student_Payment_Income->receiver_id = auth()->user()->id;;
+
+                                $Student_Payment_Income->save();
+                                //Insert Student payment in Income table end
             
                                 }else{
                                     return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
@@ -259,6 +273,19 @@ class StudentPaymentController extends Controller
                                         $Student_Payment->payment_remark = $request->payment_remark;
                                     }
                                     $Student_Payment->save();
+
+                                    //Insert Student payment in Income table 
+                                    $Student_Payment_Income = new Income;
+                                    $Student_Payment_Income->gl_code_id = 500;
+                                    $Student_Payment_Income->amount = $request->Pay_Amount;
+                                    if($payment_remark != null){
+                                        $Student_Payment_Income->remark = $request->payment_remark;
+                                    }
+                                    $Student_Payment_Income->income_date = $request->payment_date;
+                                    $Student_Payment_Income->receiver_id = auth()->user()->id;;
+
+                                    $Student_Payment_Income->save();
+                                    //Insert Student payment in Income table end
                                 }else{
                                     return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
                                 }
@@ -310,6 +337,19 @@ class StudentPaymentController extends Controller
                                     $Student_Payment->payment_remark = $request->payment_remark;
                                 }
                                 $Student_Payment->save();
+
+                                //Insert Student payment in Income table 
+                                $Student_Payment_Income = new Income;
+                                $Student_Payment_Income->gl_code_id = 500;
+                                $Student_Payment_Income->amount = $request->Pay_Amount;
+                                if($payment_remark != null){
+                                    $Student_Payment_Income->remark = $request->payment_remark;
+                                }
+                                $Student_Payment_Income->income_date = $request->payment_date;
+                                $Student_Payment_Income->receiver_id = auth()->user()->id;;
+
+                                $Student_Payment_Income->save();
+                                //Insert Student payment in Income table end
                             
                             }else{
                                 return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
@@ -378,6 +418,19 @@ class StudentPaymentController extends Controller
                                         $Student_Payment->payment_remark = $request->payment_remark;
                                     }
                                     $Student_Payment->save();
+
+                                    //Insert Student payment in Income table 
+                                    $Student_Payment_Income = new Income;
+                                    $Student_Payment_Income->gl_code_id = 500;
+                                    $Student_Payment_Income->amount = $request->Pay_Amount;
+                                    if($payment_remark != null){
+                                        $Student_Payment_Income->remark = $request->payment_remark;
+                                    }
+                                    $Student_Payment_Income->income_date = $request->payment_date;
+                                    $Student_Payment_Income->receiver_id = auth()->user()->id;;
+
+                                    $Student_Payment_Income->save();
+                                    //Insert Student payment in Income table end
             
                                 }else{
                                     return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
@@ -402,6 +455,19 @@ class StudentPaymentController extends Controller
                                         $Student_Payment->payment_remark = $request->payment_remark;
                                     }
                                     $Student_Payment->save();
+
+                                    //Insert Student payment in Income table 
+                                    $Student_Payment_Income = new Income;
+                                    $Student_Payment_Income->gl_code_id = 500;
+                                    $Student_Payment_Income->amount = $request->Pay_Amount;
+                                    if($payment_remark != null){
+                                        $Student_Payment_Income->remark = $request->payment_remark;
+                                    }
+                                    $Student_Payment_Income->income_date = $request->payment_date;
+                                    $Student_Payment_Income->receiver_id = auth()->user()->id;;
+
+                                    $Student_Payment_Income->save();
+                                    //Insert Student payment in Income table end
                                 }else{
                                     return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
                                 }
@@ -452,6 +518,19 @@ class StudentPaymentController extends Controller
                                     $Student_Payment->payment_remark = $request->payment_remark;
                                 }
                                 $Student_Payment->save();
+
+                                //Insert Student payment in Income table 
+                                $Student_Payment_Income = new Income;
+                                $Student_Payment_Income->gl_code_id = 500;
+                                $Student_Payment_Income->amount = $request->Pay_Amount;
+                                if($payment_remark != null){
+                                    $Student_Payment_Income->remark = $request->payment_remark;
+                                }
+                                $Student_Payment_Income->income_date = $request->payment_date;
+                                $Student_Payment_Income->receiver_id = auth()->user()->id;;
+
+                                $Student_Payment_Income->save();
+                                //Insert Student payment in Income table end
                             
                             }else{
                                 return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
@@ -511,6 +590,19 @@ class StudentPaymentController extends Controller
                                     $Student_Payment->payment_remark = $request->payment_remark;
                                 }
                                 $Student_Payment->save();
+
+                                //Insert Student payment in Income table 
+                                $Student_Payment_Income = new Income;
+                                $Student_Payment_Income->gl_code_id = 500;
+                                $Student_Payment_Income->amount = $request->Pay_Amount;
+                                if($payment_remark != null){
+                                    $Student_Payment_Income->remark = $request->payment_remark;
+                                }
+                                $Student_Payment_Income->income_date = $request->payment_date;
+                                $Student_Payment_Income->receiver_id = auth()->user()->id;;
+
+                                $Student_Payment_Income->save();
+                                //Insert Student payment in Income table end
         
                             }else{
                                 return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
@@ -534,6 +626,19 @@ class StudentPaymentController extends Controller
                                     $Student_Payment->payment_remark = $request->payment_remark;
                                 }
                                 $Student_Payment->save();
+
+                                //Insert Student payment in Income table 
+                                $Student_Payment_Income = new Income;
+                                $Student_Payment_Income->gl_code_id = 500;
+                                $Student_Payment_Income->amount = $request->Pay_Amount;
+                                if($payment_remark != null){
+                                    $Student_Payment_Income->remark = $request->payment_remark;
+                                }
+                                $Student_Payment_Income->income_date = $request->payment_date;
+                                $Student_Payment_Income->receiver_id = auth()->user()->id;;
+
+                                $Student_Payment_Income->save();
+                                //Insert Student payment in Income table end
                             }else{
                                 return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
                             }
@@ -583,6 +688,19 @@ class StudentPaymentController extends Controller
                                 $Student_Payment->payment_remark = $request->payment_remark;
                             }
                             $Student_Payment->save();
+
+                            //Insert Student payment in Income table 
+                            $Student_Payment_Income = new Income;
+                            $Student_Payment_Income->gl_code_id = 500;
+                            $Student_Payment_Income->amount = $request->Pay_Amount;
+                            if($payment_remark != null){
+                                $Student_Payment_Income->remark = $request->payment_remark;
+                            }
+                            $Student_Payment_Income->income_date = $request->payment_date;
+                            $Student_Payment_Income->receiver_id = auth()->user()->id;;
+
+                            $Student_Payment_Income->save();
+                            //Insert Student payment in Income table end
                         
                         }else{
                             return response()->json([ 'error' => 'You Are Pay More Than Your Payment Amount']);
@@ -591,7 +709,7 @@ class StudentPaymentController extends Controller
                     }
         
                   echo  $this->SetMessage('Payment Successfull' , 'success');
-                  return response()->json([ 'success' => 'Payment Successfull']);
+                  return response()->json([ 'success' => $Student_Payment->id]);
         
                 }else{
                     return response()->json([ 'error' => 'Select One Student']);
@@ -645,6 +763,38 @@ class StudentPaymentController extends Controller
         return view('Backend.Payment.student_payment.edit')->with('student', $student)
                                                            ->with('student_academic_info', $student_academic_info);                                                       
         }
+    }
+
+    public function receipt(Request $request){
+        
+        $id = $request->id;
+
+        if(isset($id)){
+
+            $Student_Payments = StudentPayment::where('id' , $id)->first();
+        
+            $student = User::where('id', $Student_Payments->user_id)->first();
+            $student_academic_info = User_Academic_Info::select('user_designation','user_institute_address','user_institute_name')
+                                                                   ->where('user_id', $Student_Payments->user_id)
+                                                                   ->first();
+         
+             
+            $Total_Paid_Amount =  $Student_Payments->payment_amount;
+            
+
+            $Student_Enrolled_Courses = Student_Course_Enrollment::where('user_id', $Student_Payments->user_id)->get(); 
+            $Total_Enroll_Course_Fee = 0;
+            foreach ($Student_Enrolled_Courses as $Student_Enrolled_Course) {
+              //  $Student_Enroll_Course_Fee = Course::select('course_fee')->where('id' , $Student_Enrolled_Course->course_id)->first();
+                $Total_Enroll_Course_Fee = $Total_Enroll_Course_Fee + $Student_Enrolled_Course->negotiated_amount;
+            }
+    
+            return view('Backend.Payment.money_receipt.student_payment_money_receipt')->with('student', $student)
+                                                               ->with('student_academic_info', $student_academic_info)
+                                                               ->with('Student_Payment', $Student_Payments)
+                                                               ->with('Total_Enroll_Course_Fee', $Total_Enroll_Course_Fee)
+                                                               ->with('Total_Paid_Amount', $Total_Paid_Amount);                                                       
+            }
     }
 
 }

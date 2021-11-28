@@ -563,8 +563,8 @@ $("#Pay_Submit").click(function(){
                                         $.growl.error({message: data.error});
                                     }else if(data.success){
                                     
-                                        $.growl.notice({message: data.success});
-                                     window.location.href = "/students-payment-list";
+                                       // $.growl.notice({message: data.success});
+                                        window.location.href = "/student-payment-receipt" + data.success;
                                     }
                                 }         
                 });
@@ -610,8 +610,8 @@ $("#Pay_Submit").click(function(){
                                             $.growl.error({message: data.error});
                                         }else if(data.success){
                                         
-                                            $.growl.notice({message: data.success});
-                                            window.location.href = "/students-payment-list";
+                                           // $.growl.notice({message: data.success});
+                                           window.location.href = "/student-payment-receipt" + data.success;
                                         }
                                     }         
                     });
@@ -656,8 +656,8 @@ $("#Pay_Submit").click(function(){
                                                 $.growl.error({message: data.error});
                                             }else if(data.success){
                                             
-                                                $.growl.notice({message: data.success});
-                                                window.location.href = "/students-payment-list";
+                                               // $.growl.notice({message: data.success});
+                                               window.location.href = "/student-payment-receipt-" + data.success;
                                             }
                                         }         
                         });    

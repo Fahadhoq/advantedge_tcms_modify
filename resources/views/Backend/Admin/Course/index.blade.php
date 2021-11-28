@@ -110,12 +110,10 @@
 
                                                             <a href="{{ route('course.edit' , $course->id) }}" class="btn btn-warning btn-sm" title="Edit course"><i class="fa fa-edit"></i></a>
                                                            
-                                                            @can('delete')
                                                             <button class="btn btn-danger btn-sm delete" data-id="{{$course->id}}" value="{{$course->id}}"><i
                                                             class="fa fa-trash"></i></button>         
                                                             <!-- <a href="" id="{{$course->id}}" class="btn btn-danger btn-sm remove" title="delete course" onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash"></i></a> -->
-                                                            @endcan
-                                                       
+                                                         
                                                         </td> 
                                                     </tr>
                                                 @endforeach    

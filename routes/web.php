@@ -16,6 +16,8 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\Admin\ExpenseGLCodeController;
 use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\IncomeGLCodeController;
+use App\Http\Controllers\IncomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -179,8 +181,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/student-payment-student-course-detials-show-{text}', [StudentPaymentController::class, 'student_course_detials_show']);
     Route::post('/student-payment-store', [StudentPaymentController::class, 'payment_store']);   
     Route::get('/student-payment-view-{student_id}', [StudentPaymentController::class, 'student_payment_view'])->name('StudentPayment.view');
+    Route::get('/student-payment-receipt-{id}', [StudentPaymentController::class, 'receipt']); 
     Route::get('/student-payment-{id}', [StudentPaymentController::class, 'edit'])->name('student_payment.edit');
     Route::post('/student-payment-{id}', [StudentPaymentController::class, 'update']);    
+    
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -217,6 +221,32 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/expense-money-receipt-delete-{id}', [ExpenseController::class, 'image_delete']);
     Route::post('/expense-delete-{id}', [ExpenseController::class, 'delete'])->name('expense.delete'); 
     Route::post('/expense-index-filter-{id}', [ExpenseController::class, 'expense_index_filter']);   
+});
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/income_gl_code', [IncomeGLCodeController::class, 'index'])->name('income_gl_code.index');
+    Route::get('/income_gl_code-create', [IncomeGLCodeController::class, 'create'])->name('income_gl_code.create');
+    Route::post('/income_gl_code-create', [IncomeGLCodeController::class, 'store']);
+    Route::post('/income_gl_code-show-{id}', [IncomeGLCodeController::class, 'show'])->name('income_gl_code.view');
+    Route::get('/income_gl_code-edit-{id}', [IncomeGLCodeController::class, 'edit'])->name('income_gl_code.edit');
+    Route::post('/income_gl_code-edit-{id}', [IncomeGLCodeController::class, 'update']);
+// jquery edit
+    Route::post('/income_gl_code-JqueryEdit-{id}', [IncomeGLCodeController::class, 'jquery_edit']);
+    Route::post('/income_gl_code-JqueryUpdate-{id}', [IncomeGLCodeController::class, 'jquery_update']);
+// jquery edit end
+    Route::post('/income_gl_code-delete-{id}', [IncomeGLCodeController::class, 'delete'])->name('income_gl_code.delete');    
+});
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/income', [IncomeController::class, 'index'])->name('income.index');
+    Route::get('/income-create', [IncomeController::class, 'create'])->name('income.create');
+    Route::post('/income-create', [IncomeController::class, 'store']);
+    Route::post('/income-show-{id}', [IncomeController::class, 'show'])->name('income.view');
+    Route::get('/income-edit-{id}', [IncomeController::class, 'edit'])->name('income.edit');
+    Route::post('/income-edit-{id}', [IncomeController::class, 'update']);
+    Route::post('/income-money-receipt-delete-{id}', [IncomeController::class, 'image_delete']);
+    Route::post('/income-delete-{id}', [IncomeController::class, 'delete'])->name('income.delete'); 
+    Route::post('/income-index-filter-{id}', [IncomeController::class, 'income_index_filter']);   
 });
 
 

@@ -82,7 +82,7 @@ class ExpenseGLCodeController extends Controller
               'name' => [
                   'required',
                   'regex:/^[A-Za-z0-9 ]+$/',
-                  'unique:permissions,name,'.$id,
+                  'unique:expense_gl_codes,name,'.$id,
               ],
           ]);
   
@@ -137,7 +137,7 @@ class ExpenseGLCodeController extends Controller
                          <td style=text-align:center>
                                                           
                               <!-- jquery view -->
-                                 <a name="view" value="view" id="'. $ExpenseGLCode->id. '" class="btn btn-info btn-sm view_Permission" title="View GL Code"><i class="fa fa-eye"></i></a>
+                                 <a name="view" value="view" id="'. $ExpenseGLCode->id. '" class="btn btn-info btn-sm view_Expense_GL_Code" title="View GL Code"><i class="fa fa-eye"></i></a>
                               <!-- jquery view end-->
                                                           
                               <!-- jquery edit -->  
