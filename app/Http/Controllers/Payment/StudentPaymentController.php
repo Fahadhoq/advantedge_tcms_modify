@@ -771,18 +771,24 @@ class StudentPaymentController extends Controller
 
         if(isset($id)){
 
-            $Student_Payments = StudentPayment::where('id' , $id)->first();
+            $Student_Payment = StudentPayment::where('id' , $id)->first();
         
-            $student = User::where('id', $Student_Payments->user_id)->first();
+            $student = User::where('id', $Student_Payment->user_id)->first();
             $student_academic_info = User_Academic_Info::select('user_designation','user_institute_address','user_institute_name')
-                                                                   ->where('user_id', $Student_Payments->user_id)
+                                                                   ->where('user_id', $Student_Payment->user_id)
                                                                    ->first();
          
              
-            $Total_Paid_Amount =  $Student_Payments->payment_amount;
+            $Paid_Amount =  $Student_Payment->payment_amount;
+
+            $Student_Payments = StudentPayment::where('user_id',  $Student_Payment->user_id)->get(); 
+            $Total_Paid_Amount = 0;
+            foreach ($Student_Payments as $Student_Payment) {
+                    $Total_Paid_Amount = $Total_Paid_Amount + $Student_Payment->payment_amount;
+            }
             
 
-            $Student_Enrolled_Courses = Student_Course_Enrollment::where('user_id', $Student_Payments->user_id)->get(); 
+            $Student_Enrolled_Courses = Student_Course_Enrollment::where('user_id', $Student_Payment->user_id)->get(); 
             $Total_Enroll_Course_Fee = 0;
             foreach ($Student_Enrolled_Courses as $Student_Enrolled_Course) {
               //  $Student_Enroll_Course_Fee = Course::select('course_fee')->where('id' , $Student_Enrolled_Course->course_id)->first();
@@ -791,9 +797,10 @@ class StudentPaymentController extends Controller
     
             return view('Backend.Payment.money_receipt.student_payment_money_receipt')->with('student', $student)
                                                                ->with('student_academic_info', $student_academic_info)
-                                                               ->with('Student_Payment', $Student_Payments)
+                                                               ->with('Student_Payment', $Student_Payment)
                                                                ->with('Total_Enroll_Course_Fee', $Total_Enroll_Course_Fee)
-                                                               ->with('Total_Paid_Amount', $Total_Paid_Amount);                                                       
+                                                               ->with('Paid_Amount', $Paid_Amount)
+                                                               ->with('Total_Paid_Amount', $Total_Paid_Amount);                                                        
             }
     }
 

@@ -181,7 +181,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/student-payment-student-course-detials-show-{text}', [StudentPaymentController::class, 'student_course_detials_show']);
     Route::post('/student-payment-store', [StudentPaymentController::class, 'payment_store']);   
     Route::get('/student-payment-view-{student_id}', [StudentPaymentController::class, 'student_payment_view'])->name('StudentPayment.view');
-    Route::get('/student-payment-receipt-{id}', [StudentPaymentController::class, 'receipt']); 
+    Route::get('/student-payment-receipt-{id}', [StudentPaymentController::class, 'receipt'])->name('student_payment.receipt'); 
     Route::get('/student-payment-{id}', [StudentPaymentController::class, 'edit'])->name('student_payment.edit');
     Route::post('/student-payment-{id}', [StudentPaymentController::class, 'update']);    
     

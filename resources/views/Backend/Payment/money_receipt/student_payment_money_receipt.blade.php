@@ -3,57 +3,145 @@
 @section('css')
 
 <style> 
-.mark {
-  background-color: #d7ffe7 !important
-}
+.text-danger strong {
+    		color: #9f181c;
+		}
+		.receipt-main {
+			background: #ffffff none repeat scroll 0 0;
+			border-bottom: 12px solid #207cd4;
+			border-top: 12px solid #207cd4;
+			margin-top: 50px;
+			margin-bottom: 50px;
+			padding: 40px 30px !important;
+			position: relative;
+			box-shadow: 0 1px 21px #acacac;
+			color: #333333;
+			font-family: open sans;
+		}
+		.receipt-main p {
+			color: #333333;
+			font-family: open sans;
+			line-height: 1.42857;
+		}
+		.receipt-footer h1 {
+			font-size: 15px;
+			font-weight: 400 !important;
+			margin: 0 !important;
+		}
+		.receipt-main::after {
+			background: #17ea68 none repeat scroll 0 0;
+			content: "";
+			height: 5px;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: -13px;
+		}
+		.receipt-main thead {
+			background: #414143 none repeat scroll 0 0;
+		}
+		.receipt-main thead th {
+			color:#fff;
+		}
+        .company{
+            float: left;
+            width: 600px;
+            overflow:auto;
+           
+        }
+        .company h5 {
+			font-size: 16px;
+			font-weight: bold;
+			margin: 0px 100px 7px 0;
+		}
+		.company p {
+			font-size: 12px;
+			margin: 0px;
+		}
+		.company p i {
+			text-align: center;
+			width: 18px;
+		}
 
-.mark .gsearch{
-  font-size: 20px
-}
+		.receipt-right h5 {
+			font-size: 16px;
+			font-weight: bold;
+			margin: 0 0 7px 0;
+		}
+		.receipt-right p {
+			font-size: 12px;
+			margin: 0px;
+		}
+		.receipt-right p i {
+			text-align: center;
+			width: 18px;
+		}
+		.receipt-main td {
+			padding: 9px 20px !important;
+		}
+		.receipt-main th {
+			padding: 13px 20px !important;
+		}
+		.receipt-main td {
+			font-size: 13px;
+			font-weight: initial !important;
+		}
+		.receipt-main td p:last-child {
+			margin: 0;
+			padding: 0;
+		}	
+		.receipt-main td h2 {
+			font-size: 20px;
+			font-weight: 900;
+			margin: 0;
+			text-transform: uppercase;
+		}
+		.receipt-header-mid .receipt-left h1 {
+			font-weight: 100;
+			margin: 30px 0 0;
+			text-align: right;
+			text-transform: uppercase;
+		}
+		.receipt-header-mid {
+			margin: 24px 0;
+			overflow: hidden;
+		}
+		
+		#container {
+			background-color: #dcdcdc;
+		}
 
-.unmark {
-  background-color: #e8e8e8 !important
-}
+        .receipt_text{
+            float: left;
+            width: 650px;
+            overflow:auto;
+           
+        }
+        .receipt_text h1 {
+			font-size: 20px;
+			font-weight: bold;
+			margin: 50px 200px 0px 50px;
+		}
 
-.unmark .gsearch{
-  font-size: 10px
-}
 
-.marktext
-{
- font-weight:bold;
- background-color: antiquewhite;
-}
-th {
-    text-align:center
-}
-.selectRow
-{
-    background-color: #b2cdf7;
-    color:black;
-}
-.PaidRow{
-    background-color: #9ce5b4;
-    color:black;
-}
-.NonPaidRow{
-    background-color: #f95252;
-    color:black;
-}
-.course_table_head_tr{
-  background-color: #f0f4f7;
-  color:black;
-}
-.total_course_fee{
-    width: 50%;
-}
-.total_due_course_fee{
-    width: 50%;
-}
+        .striped-border { 
+            /* position: absolute; */
+            border: 1px dashed #000; width: 100%;  margin-top: 5%; margin-bottom: 5px;
+            z-index: 1;
 
-.all_course_payment_show{
-    width:100px; //moves your table 10pixels right
-}
+         }
+
+         .signature{
+            float: left;
+            width: 650px;
+            /* overflow:auto; */
+           
+        }
+        .signature h1 {
+			font-size: 20px;
+			font-weight: bold;
+			margin: 100px 100px 100px 100px;
+		}
 
 </style>
 
@@ -73,13 +161,13 @@ th {
                         <div class="page-title-box">
                             <div class="row align-items-center">
                                 <div class="col-sm-6">
-                                    <h4  class="page-title">STUDENT PAYMENT VIEW</h4>
+                                    <h4  class="page-title">STUDENT MONEY RECEIPT</h4>
                                 </div>
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-right">
                                         <li class="breadcrumb-item"><a href="javascript:void(0);">Training Center Management System</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript:void(0);">PAYMENT</a></li>
-                                        <li class="breadcrumb-item active">STUDENT PAYMENT VIEW</li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);"> MONEY RECEIPT</a></li>
+                                        <li class="breadcrumb-item active">STUDENT  MONEY RECEIPT</li>
                                     </ol>
                                 </div>
                             </div> <!-- end row -->
@@ -87,10 +175,10 @@ th {
                         <!-- end page-title -->
 
    
-                        <div class="row">
+                 <div class="row">
                            
 
-<!-- div 1 -->                                 
+                     <!-- div 1 -->                                 
                         <div id="div1" class="col-lg-12">
                                 <div class="card m-b-30">
                                     <div class="card-body">
@@ -101,125 +189,176 @@ th {
                                     @include('layouts.partials.message-show')
                                     <!-- message show end -->
                                     
-                           
-                            <form action="" method="post" id="StudentCourseEnrollmentForm">
-                                 @csrf
 
                             <!-- 2nd row     -->
                            <div class="row">
 
-                           <!-- 1st part              -->
-                                <div class="col-lg-4">
-                                    <div class="p-20">
-                                       
-                                    <div class="col-sm-12 col-lg-12 table_lable">
-                                         <label class="page-title">Student Info </label> 
+                           <!-- money receipt  start -->
+                            
+
+                <div class="container">
+                    <div class="row">
+                        
+                        <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+                            <div class="row">
+                                <div class="receipt-header">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="receipt-left">
+                                            <img class="img-responsive" alt="iamgurdeeposahan"  src="{{ 'storage/Logo/AdvantEdge_Logo.PNG' }}" style="width: 180px; border-radius: 43px;">
+                                        </div>
                                     </div>
-                               
-                                      <div class="table-responsive ">
-                                        <table class="table table-bordered">
-                                        
-                                                <tr>
-                                                    <th class="course_table_head_tr">ID</th>
-                                                    <td id="student_id" value="{{$student->id}}" align= "center">{{$student->id}}</td>    
-                                                </tr>
-                                                <tr>
-                                                    <th class="course_table_head_tr">Image</th>
-                                                    <td align= "center"> <a href="#"> <img src='storage/'{{$student->profile_photo_path}} width="100px" height="80px"></a> </td>   
-                                                </tr>
-                                                <tr>
-                                                    <th class="course_table_head_tr">Name</th>
-                                                    <td align= "center">{{$student->name}}</td>   
-                                                </tr>
-                                                <tr>
-                                                    <th class="course_table_head_tr">Phone Number</th>
-                                                    <td align= "center">{{$student->phone}}</td>  
-                                                </tr>
-                                                <tr>
-                                                    <th class="course_table_head_tr">Email</th>
-                                                    <td align= "center">{{$student->email}}</td> 
-                                                </tr>
-                                               
-                                        </table>
-                                      </div>  
-                                    
-
-                                   </br></br>
-
-
-                                    
-
+                                    <div class="col-xs-6 col-sm-6 col-md-6 text-left">
+                                        <div class="company receipt">
+                                            <h5>Advantedge Solutions Ltd</h5>
+                                            <p>+8801771811844 <i class="fa fa-phone"></i></p>
+                                            <p>advantedge@advantedge-solutions.net <i class="fa fa-envelope-o"></i></p>
+                                            <p>Mohakhali, Dhaka. <i class="fa fa-location-arrow"></i></p>
+                                        </div>
                                     </div>
-                                    <!-- p-20 -->
                                 </div>
-                                        <!-- col-lg-6    -->
-                                    <!-- 1st part end     -->
-                                   
-
-                                    <!-- 2nd part              -->
-                                        <div class="col-lg-8">
-                                                <div class="p-20">
-                                                       <label>Course Payment List </label>
-
-                                            <div class="table-responsive">
-                                                    <table id="datatable-buttons"  class="table table-bordered ">           
-                                                     <thead class="thead-default ">
-                                                        <tr>
-                                                            <th style=text-align:center> Invoice Number</th>
-                                                            <th style=text-align:center> Payment Amount</th>
-                                                            <th style=text-align:center> Payment Type </th>
-                                                            <th style=text-align:center> Payment Mobile Number </th>
-                                                            <th style=text-align:center> Payment Transaction Number </th>
-                                                            <th style=text-align:center> Cheque Transit Number </th>
-                                                            <th style=text-align:center> Remark </th>
-                                                            <th style=text-align:center> Recived BY</th> 
-                                                            <th style=text-align:center> Payment Date </th>
-                                                        </tr>
-                                                     </thead>
-        
-                                          <!-- all_course_payment_show div -->
-                                                <tbody >
-                                               
-                                                   <tr>
-                                                        
-                                                        <!-- payment info -->
-                                                        <td style=text-align:center scope="row">{{$Student_Payment->id}}</td>
-                                                        <td style=text-align:center scope="row">{{$Student_Payment->payment_amount}}</td>
-                                                        <td style=text-align:center scope="row">  @if($Student_Payment->payment_type == 1) Cashe
+                            </div>
+                            
+                            <div class="row">
+                                <div class="receipt-header receipt-header-mid">
+                                    <div class="col-xs-8 col-sm-8 col-md-8 text-left">
+                                        <div class="receipt-right">
+                                            <h5>{{$student->name}} <small>  |   ID : {{$student->id}}</small></h5>
+                                            <p><b>Mobile :</b>{{$student->phone}}</p>
+                                            <p><b>Email :</b> {{$student->email}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-4">
+                                        <div class="receipt_text">
+                                            <h1>Invoice# {{$Student_Payment->id}}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-md-9">Payment Type</td>
+                                            <td class="col-md-3"><i class="fa fa-inr"></i>@if($Student_Payment->payment_type == 1) Cashe
                                                                                                   @elseif($Student_Payment->payment_type == 2) BKash
                                                                                                   @elseif($Student_Payment->payment_type == 3) Rocket
                                                                                                   @elseif($Student_Payment->payment_type == 4) Cheque
                                                                                                   @elseif($Student_Payment->payment_type == 5) Other
                                                                                                   @endif
-                                                        </td>
-                                                        <td style=text-align:center scope="row">{{$Student_Payment->payment_mobile_number}}</td>
-                                                        <td style=text-align:center scope="row">{{$Student_Payment->payment_transaction_number}}</td>
-                                                        <td style=text-align:center scope="row">{{$Student_Payment->cheque_transit_number}}</td>
-                                                        <td style=text-align:center scope="row">{{$Student_Payment->payment_remark}}</td>
-                                                        <td style=text-align:center scope="row">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-9">Payment Mobile Number</td>
+                                            <td class="col-md-3"><i class="fa fa-inr"></i> {{$Student_Payment->payment_mobile_number}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-9">Payment Transaction Number</td>
+                                            <td class="col-md-3"><i class="fa fa-inr"></i>{{$Student_Payment->payment_transaction_number}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-9">Cheque Transit Number</td>
+                                            <td class="col-md-3"><i class="fa fa-inr"></i>{{$Student_Payment->cheque_transit_number}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-9">Remark</td>
+                                            <td class="col-md-3"><i class="fa fa-inr"></i> {{$Student_Payment->payment_remark}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-9">Recived BY</td>
+                                            <td class="col-md-3"><i class="fa fa-inr"></i>
                                                           @php 
                                                                  $User = App\Models\User::select('name')->where('id' , $Student_Payment->receiver)->first();
                                                                  echo $User->name;
-                                                          @endphp   
-                                                        </td>
-                                                        <td style=text-align:center scope="row">{{$Student_Payment->payment_date}}</td>
-                                                        <!-- payment info end -->   
-                                                    </tr> 
-                                                </tbody>
-                                                <!-- all_course_payment_show div end -->
-
-
-                                        </table>
+                                                          @endphp 
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-9">Payment Date</td>
+                                            <td class="col-md-3"><i class="fa fa-inr"></i> {{$Student_Payment->payment_date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-right">
+                                            <p>
+                                                <strong>Total Amount: </strong>
+                                            </p>
+                                            <p>
+                                                <strong>Payable Amount: </strong>
+                                            </p>
+                                            <p>
+                                                <strong>Total Paid: </strong>
+                                            </p>
+                                            <p>
+                                                <strong>Balance Due: </strong>
+                                            </p>
+                                            </td>
+                                            <td>
+                                            <p>
+                                                <strong><i class="fa fa-inr"></i>
+                                                            {{$Total_Enroll_Course_Fee}}
+                                                </strong>
+                                            </p>
+                                            <p>
+                                                <strong><i class="fa fa-inr"></i> {{$Paid_Amount}}</strong>
+                                            </p>
+                                            <p>
+                                                <strong><i class="fa fa-inr"></i> {{$Total_Paid_Amount}}</strong>
+                                            </p>
+                                            <p>
+                                                <strong><i class="fa fa-inr"></i>@php $Balance_Due = $Total_Enroll_Course_Fee - $Total_Paid_Amount; @endphp {{$Balance_Due}}</strong>
+                                            </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="receipt-header receipt-header-mid receipt-footer">
+                                    <div class="col-xs-8 col-sm-8 col-md-8 text-left">
+                                        <div class="receipt-right">
+                                            <p><b>Date :</b> @php echo date("Y/m/d"); @endphp</p>
+                                            <h5 style="color: rgb(140, 140, 140);">Thank you for your business!</h5>
+                                        </div>
                                     </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-4">
+                                        <div class="signature ">
+                                            <hr class="striped-border">
+                                            <h1>Signature</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>    
+                    </div>
+                </div>
 
-                                            </div>
-                                            <!-- col-lg-6 -->
-                                        </div> 
-                                        <!-- p-20 -->
-                                    <!-- 2nd part end     -->    
 
-                                 </div>  
+                           <!-- money receipt  end -->
+    
+
+                            </div>  
                             <!-- 2nd row end                -->  
+
+                            <div style=text-align:center class="col-xl-12">
+                                         <!-- submit button    -->
+                                         <button id="submit" type="submit" class="btn btn-primary">Download</button>
+                                        <!-- button end -->
+                                        
+                                        </form> 
+                                        <!-- from end -->
+
+                                        <!-- cancle from -->
+                                        <a href="{{ route( 'dashboard' ) }}" class="btn btn-danger"> {{ __('Dashboard') }}</a>
+                                        <!-- cancle from end -->
+                            <div> 
    
 
                                     </div>
@@ -228,7 +367,7 @@ th {
 
                         
 
-                        </div> <!-- end row -->      
+                    </div> <!-- end row -->      
 
                         
                     </div>
@@ -243,9 +382,16 @@ th {
 @endsection        
 
 @section('jquery')
-<script src="{{URL::to('assets/js/admin/Student_Enrollment/JsLocalSearch.js')}}" type="text/javascript"></script>
+<!-- <script src="{{URL::to('assets/js/admin/Student_Enrollment/JsLocalSearch.js')}}" type="text/javascript"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>  -->
+
+<!------ money receipt  start  ----------> 
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ money receipt  end  ----------> 
+
 @endsection
 
 @section('script')
