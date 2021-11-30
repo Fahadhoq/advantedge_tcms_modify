@@ -9,7 +9,7 @@
                         <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ route('dashboard') }}" class="waves-effect">
-                                <i class="icon-accelerator"></i><span class="badge badge-success badge-pill float-right">9+</span> <span> Dashboard </span>
+                                <i class="icon-accelerator"></i><span class="badge badge-success badge-pill float-right"></span> <span> Dashboard </span>
                             </a>
                         </li>
 
@@ -44,6 +44,29 @@
                             </ul>
                         </li>
                         <!-- User Type end -->
+
+                        <!-- user start -->
+                        <li>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-pencil-ruler"></i> <span> USER <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
+                            <ul class="submenu">
+                                <li><a href="{{ route('user.index') }}"> {{ __('Show All Users') }}</a></li>
+                                <li><a href="{{ route('user.create') }}"> {{ __('Create User') }}</a></li>
+                                
+                            </ul>
+                        </li>
+                        <!-- user end -->
+                        @endrole
+                       
+                         <!-- student Registration start -->
+                         <li>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-pencil-ruler"></i> <span> STUDENT/CUSTOMER REGISTRATION <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
+                            <ul class="submenu">
+                                <li><a href="{{ route('student.index') }}"> {{ __('Show All Students') }}</a></li>
+                                <li><a href="{{ route('student.create') }}"> {{ __('Create Student/Customer') }}</a></li>
+                                
+                            </ul>
+                        </li>
+                        <!-- student Registration end -->
 
                        <!-- offer Course start-->
                         <li>
@@ -83,30 +106,7 @@
                             </ul>
                         </li>
                        <!-- offer Course end -->
-
-                        <!-- user start -->
-                        <li>
-                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-pencil-ruler"></i> <span> USER <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
-                            <ul class="submenu">
-                                <li><a href="{{ route('user.index') }}"> {{ __('Show All Users') }}</a></li>
-                                <li><a href="{{ route('user.create') }}"> {{ __('Create User') }}</a></li>
-                                
-                            </ul>
-                        </li>
-                        <!-- user end -->
-                       
-                        @endrole
-
-                         <!-- student Registration start -->
-                         <li>
-                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-pencil-ruler"></i> <span> STUDENT/CUSTOMER  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
-                            <ul class="submenu">
-                                <li><a href="{{ route('student.index') }}"> {{ __('Show All Students') }}</a></li>
-                                <li><a href="{{ route('student.create') }}"> {{ __('Create Student/Customer') }}</a></li>
-                                
-                            </ul>
-                        </li>
-                        <!-- student Registration end -->
+                   
 
                         <!-- Student Course Enrollment start -->
                         <li>
@@ -169,6 +169,7 @@
                                 <li>
                                     <a href="javascript:void(0);"> EXPENCE  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                                     <ul class="submenu">
+                                        @role('admin')
                                         <li>
                                             <a href="javascript:void(0);"> GL CODE  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                                             <ul class="submenu">
@@ -176,6 +177,7 @@
                                                 <li><a href="{{ route('expense_gl_code.index') }}">All GL Code</a></li>
                                             </ul>
                                         </li>
+                                        @endrole
                                         <li><a href="{{ route('expense.create') }}"> Expense</a></li>
                                         <li><a href="{{ route('expense.index') }}">All Expense</a></li> 
                                     </ul>
@@ -186,13 +188,15 @@
                                 <li>
                                     <a href="javascript:void(0);"> INCOME   <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                                     <ul class="submenu">
-                                    <li>
+                                        @role('admin')
+                                        <li>
                                             <a href="javascript:void(0);"> GL CODE  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                                             <ul class="submenu">
                                                 <li><a href="{{ route('income_gl_code.create') }}"> Create GL Code</a></li>
                                                 <li><a href="{{ route('income_gl_code.index') }}">All GL Code</a></li>
                                             </ul>
                                         </li>
+                                        @endrole
                                         <li><a href="{{ route('income.create') }}"> Income</a></li>
                                         <li><a href="{{ route('income.index') }}">All Incomes</a></li>
                                     </ul>
@@ -204,32 +208,9 @@
                         <!-- account end -->
 
                         
-                        <li class="menu-title">Components</li>
 
-                        <li>
-                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-pencil-ruler"></i> <span> UI Elements <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span> </a>
-                            <ul class="submenu">
-                                <li><a href="ui-alerts.html">Alerts</a></li>
-                                <li><a href="ui-badge.html">Badge</a></li>
-                                <li><a href="ui-buttons.html">Buttons</a></li>
-                                <li><a href="ui-grid.html">Grid</a></li>
-                            </ul>
-                        </li>
 
                         
-                        <li>
-                            <a href="javascript:void(0);" class="waves-effect"><i class="icon-share"></i><span> Multi Level <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
-                            <ul class="submenu">
-                                <li><a href="javascript:void(0);"> Menu 1</a></li>
-                                <li>
-                                    <a href="javascript:void(0);">Menu 2  <span class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
-                                    <ul class="submenu">
-                                        <li><a href="javascript:void(0);">Menu 2.1</a></li>
-                                        <li><a href="javascript:void(0);">Menu 2.1</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
 
                     </ul>
 

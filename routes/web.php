@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\DashboardController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Admin\ExpenseGLCodeController;
 use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\IncomeGLCodeController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\MoneyReceiptPdfController;
 
 /*
 |--------------------------------------------------------------------------
@@ -183,9 +185,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/student-payment-view-{student_id}', [StudentPaymentController::class, 'student_payment_view'])->name('StudentPayment.view');
     Route::get('/student-payment-receipt-{id}', [StudentPaymentController::class, 'receipt'])->name('student_payment.receipt'); 
     Route::get('/student-payment-{id}', [StudentPaymentController::class, 'edit'])->name('student_payment.edit');
-    Route::post('/student-payment-{id}', [StudentPaymentController::class, 'update']);    
-    
+    Route::post('/student-payment-{id}', [StudentPaymentController::class, 'update']); 
+  
 });
+
+
+Route::get('/student-receipt-downlad-{id}', [MoneyReceiptPdfController::class, 'receipt_download'])->name('student_payment.receipt_download');      
+
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/account-daily-expense', [DailyExpenseController::class, 'index'])->name('daily_expense.index');

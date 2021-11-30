@@ -349,7 +349,7 @@
 
                             <div style=text-align:center class="col-xl-12">
                                          <!-- submit button    -->
-                                         <button id="submit" type="submit" class="btn btn-primary">Download</button>
+                                         <a href="{{ route( 'student_payment.receipt_download' , $Student_Payment->id) }}" class="btn btn-success"> {{ __('Download') }}</a>
                                         <!-- button end -->
                                         
                                         </form> 
